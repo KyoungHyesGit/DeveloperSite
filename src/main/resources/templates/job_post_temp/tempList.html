@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Post List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vender_ID</th>
+                <th>IP</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Create Date</th>
+                <th>Update Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="postTemp : ${tempList.content}">
+                <td th:text="${postTemp.seq}"></td>
+                <td th:text="${postTemp.venderNumber}"></td>
+                <td th:text="${postTemp.ip}"></td>
+                <td th:text="${postTemp.title}"></td>
+                <td th:text="${postTemp.content}"></td>
+                <td th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(post.endDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${tempList.totalPages > 1}">
+        <ul class="pagination">
+            <li th:if="${tempList.hasPrevious}" class="page-item">
+                <a th:href="@{/job_post_temp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${tempList.hasPrevious}" class="page-item">
+                <a th:href="@{/job_post_temp/tempList(page=${tempList.number - 1}, size=${tempList.size})}" class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                <a th:href="@{/job_post_temp/tempList(page=${i}, size=${tempList.size})}" class="page-link" th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${tempList.hasNext}" class="page-item">
+                <a th:href="@{/job_post_temp/tempList(page=${tempList.number + 1}, size=${tempList.size})}" class="page-link">Next</a>
+            </li>
+            <li th:if="${tempList.hasNext}" class="page-item">
+                <a th:href="@{/job_post_temp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}" class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
