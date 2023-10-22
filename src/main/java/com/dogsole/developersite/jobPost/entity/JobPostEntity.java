@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @DynamicUpdate
-@Table(name = "JOB_POST_TEMP")
-public class JobPostTempEntity {
+@Table(name = "JOB_POST")
+public class JobPostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "job_post_temp_id")
+    @Column(name = "job_post_id")
     private Long id;
     @Column(name = "Ip")
     private String ip;
@@ -50,12 +50,16 @@ public class JobPostTempEntity {
     @Column(name = "job_post_temp_endtime")
     private LocalDate endTime;
     @Column(name = "CREATE_DT")
-    private LocalDateTime createDt = LocalDateTime.now();
+    private LocalDateTime createDt;
     @Column(name = "UPDATE_DT")
-    private LocalDateTime updateDt =  LocalDateTime.now();;
+    private LocalDateTime updateDt;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VENDER_ID")
     private VenderEntity venderEntity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_post_temp_id")
+    private JobPostTempEntity jobPostTempEntity;
 
 }

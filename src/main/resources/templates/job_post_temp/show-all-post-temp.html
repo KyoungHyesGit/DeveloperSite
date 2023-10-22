@@ -10,25 +10,29 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Vender_ID</th>
                 <th>IP</th>
                 <th>Title</th>
-                <th>Content</th>
+                <th>detail</th>
+                <th>work</th>
+                <th>req</th>
+                <th>salary</th>
                 <th>Create Date</th>
                 <th>Update Date</th>
                 <th>End Date</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="postTemp : ${tempList.content}">
-                <td th:text="${postTemp.seq}"></td>
-                <td th:text="${postTemp.venderNumber}"></td>
+            <tr th:each="postTemp : ${tempList}">
+                <td th:text="${postTemp.id}"></td>
                 <td th:text="${postTemp.ip}"></td>
                 <td th:text="${postTemp.title}"></td>
-                <td th:text="${postTemp.content}"></td>
+                <td th:text="${postTemp.detail}"></td>
+                <td th:text="${postTemp.work}"></td>
+                <td th:text="${postTemp.req}"></td>
+                <td th:text="${postTemp.salary}"></td>
                 <td th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${#dates.format(post.endDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td><span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span></td>
             </tr>
         </tbody>
     </table>
@@ -51,5 +55,7 @@
             </li>
         </ul>
     </div>
+<a href="/jobPostTemp/add">임시 등록글 등록</a>
+
 </body>
 </html>
