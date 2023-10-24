@@ -14,13 +14,9 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>임시 공고 등록</h1>
+    <h1>임시 공고 수정</h1>
     <body>
-    <form action="#" th:action="@{/jobPostTemp/add}" th:object="${jobPostTempReqDTO}" method="post" >
-        <!-- TODO 유저로 뽑기 -->
-        <label for="vender_id">임시 회사 아이디 넣기 *</label>
-        <input type="text" th:field="*{venderReqDTO.id}" id="vender_id">
-        <br/>
+    <form action="#" th:action="@{/jobPostTemp/edit/{id}(id=${jobPostTemp.id})}" th:object="${jobPostTemp}" method="post" >
         <label for="title">TITLE *</label>
         <input type="text" th:field="*{title}" id="title">
         <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
@@ -32,17 +28,15 @@
         <label>직종</label>
         <div th:each="postWork : ${postWorkList}">
             <input type="checkbox" th:field="*{work}" th:value="${postWork.value}" th:id="'work-' + ${postWork.value}"
-                   th:checked="${jobPostTempReqDTO.work != null and jobPostTempReqDTO.work.contains(postWork.value)}" />
+                   th:checked="${jobPostTemp.work != null and jobPostTemp.work.contains(postWork.value)}" />
             <label th:for="'work-' + ${postWork.value}" th:text="${postWork.label}"></label>
         </div>
         <br/>
         <label>요구조건</label>
-        <input type="hidden"  th:field="*{req}" >
         <div th:each="postReq : ${postReqList}">
-            <input type="checkbox" th:value="${postReq.value}" th:id="'req-' + ${postReq.value}"
-                   th:checked="${(jobPostTempReqDTO.req != null)and(jobPostTempReqDTO.req.contains(postReq.value))}" />
+            <input type="checkbox" th:field="*{req}" th:value="${postReq.value}" th:id="'req-' + ${postReq.value}"
+                   th:checked="${jobPostTemp.req != null and jobPostTemp.req.contains(postReq.value)}" />
             <label th:for="'req-' + ${postReq.value}" th:text="${postReq.label}"></label>
-            <hr>
         </div>
 
         <span th:if="${#fields.hasErrors('req')}" th:errors="*{req}"></span>
