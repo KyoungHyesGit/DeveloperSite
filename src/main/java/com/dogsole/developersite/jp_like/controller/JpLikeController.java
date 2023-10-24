@@ -30,10 +30,19 @@ public class JpLikeController {
         // 추가된 찜을 표시하는 페이지로 리디렉션
         return "redirect:/jpLike/jpLikeList";
     }
-    @GetMapping("/jpLikeList")
-    public String getByUserId(@PathVariable Long id, Model model){
-        JpLikeResDTO likeList = jpLikeService.getByUserId(id);
-        model.addAttribute("likeList",likeList);
-        return "likeList";
-    }
+//    @PostMapping("/toggleLike")
+//    public String toggleLike(@RequestParam Long userId, @RequestParam Long venderId, @RequestParam Long jobPostId, @RequestParam Long jobPostTempId, Model model) {
+//        // JpLikeService를 사용하여 찜 추가 또는 삭제
+//        jpLikeService.toggleJpLike(userId, venderId, jobPostId,jobPostTempId);
+//
+//        // 찜을 추가 또는 삭제한 후 사용자의 찜 목록 페이지로 리디렉션
+//        return "redirect:/jpLike/jpLikeList/" + userId;
+//    }
+//
+//    @GetMapping("/jpLikeList/{id}")
+//    public String getByUserId(@PathVariable Long id, Model model) {
+//        JpLikeResDTO likeList = jpLikeService.getByUserId(id);
+//        model.addAttribute("likeList", likeList);
+//        return "likeList";
+//    }
 }
