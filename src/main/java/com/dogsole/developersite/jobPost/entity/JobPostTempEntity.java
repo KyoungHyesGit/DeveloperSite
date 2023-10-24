@@ -1,5 +1,7 @@
 package com.dogsole.developersite.jobPost.entity;
 
+import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
+import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -57,5 +59,18 @@ public class JobPostTempEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "VENDER_ID")
     private VenderEntity venderEntity;
+
+    public void setDTOsValToEntity(JobPostTempReqFormDTO jobPostTempReqDTO){
+        this.title = jobPostTempReqDTO.getTitle();
+        this.detail = jobPostTempReqDTO.getDetail();
+        this.work = jobPostTempReqDTO.getWork();
+        this.req = jobPostTempReqDTO.getReq();
+        this.salary = jobPostTempReqDTO.getSalary();
+        this.zipcode = jobPostTempReqDTO.getZipcode();
+        this.streetAddr = jobPostTempReqDTO.getStreetAddr();
+        this.detailAddr = jobPostTempReqDTO.getDetailAddr();
+        this.extraAddr = jobPostTempReqDTO.getExtraAddr();
+        this.endTime = jobPostTempReqDTO.getEndTime();
+    }
 
 }

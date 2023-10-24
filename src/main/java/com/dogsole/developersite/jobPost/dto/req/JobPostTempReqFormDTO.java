@@ -1,22 +1,21 @@
 package com.dogsole.developersite.jobPost.dto.req;
 
-import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.vender.dto.req.VenderReqDTO;
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 @Builder
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class JobPostTempReqDTO {
+public class JobPostTempReqFormDTO {
+    private Long id;
     private String ip;
     @NotBlank(message = "제목은 필수")
     private String title;

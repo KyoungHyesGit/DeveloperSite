@@ -19,6 +19,8 @@
                 <th>Create Date</th>
                 <th>Update Date</th>
                 <th>End Date</th>
+                <th>수정</th>
+                <th>삭제</th>
             </tr>
         </thead>
         <tbody>
@@ -33,25 +35,27 @@
                 <td th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td><span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span></td>
+                <td><a th:href="@{/jobPostTemp/edit/{id}(id=${postTemp.id})}">수정</a></td>
+                <td><a th:href="@{/jobPostTemp/delete/{id}(id=${postTemp.id})}">삭제</a></td>
             </tr>
         </tbody>
     </table>
     <div th:if="${tempList.totalPages > 1}">
         <ul class="pagination">
             <li th:if="${tempList.hasPrevious}" class="page-item">
-                <a th:href="@{/job_post_temp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
+                <a th:href="@{/jobPostTemp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
             </li>
             <li th:if="${tempList.hasPrevious}" class="page-item">
-                <a th:href="@{/job_post_temp/tempList(page=${tempList.number - 1}, size=${tempList.size})}" class="page-link">Previous</a>
+                <a th:href="@{/jobPostTemp/tempList(page=${tempList.number - 1}, size=${tempList.size})}" class="page-link">Previous</a>
             </li>
             <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                <a th:href="@{/job_post_temp/tempList(page=${i}, size=${tempList.size})}" class="page-link" th:text="${i + 1}"></a>
+                <a th:href="@{/jobPostTemp/tempList(page=${i}, size=${tempList.size})}" class="page-link" th:text="${i + 1}"></a>
             </li>
             <li th:if="${tempList.hasNext}" class="page-item">
-                <a th:href="@{/job_post_temp/tempList(page=${tempList.number + 1}, size=${tempList.size})}" class="page-link">Next</a>
+                <a th:href="@{/jobPostTemp/tempList(page=${tempList.number + 1}, size=${tempList.size})}" class="page-link">Next</a>
             </li>
             <li th:if="${tempList.hasNext}" class="page-item">
-                <a th:href="@{/job_post_temp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}" class="page-link">Last</a>
+                <a th:href="@{/jobPostTemp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}" class="page-link">Last</a>
             </li>
         </ul>
     </div>
