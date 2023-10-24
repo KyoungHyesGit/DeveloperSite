@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface JpLikeRepository extends JpaRepository<JpLikeEntity, Long> {
     Optional<JpLikeEntity> findByUserEntity_id(Long userEntity_id);
-//    Optional<JpLikeEntity> findByUserEntity_user_id(@Param("user_id") Long userId);
+    Optional<JpLikeEntity> findByUserEntityIdAndJobPostEntityId(Long userId, Long jobPostId);
+
 }

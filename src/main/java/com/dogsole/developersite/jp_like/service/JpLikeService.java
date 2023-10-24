@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -54,10 +55,11 @@ public class JpLikeService {
 
         return jpLikeEntity;
     }
-//    public boolean isJpLikedByUser(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
-//        return jpLikeRepository.existsByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_Id(userId, venderId, jobPostId,jobPostTempId);
-//    }
-//
+    public boolean isJpLikedByUser(Long userId, Long jobPostId) {
+        Optional<JpLikeEntity> like = jpLikeRepository.findByUserEntityIdAndJobPostEntityId(userId, jobPostId);
+        return like.isPresent();
+    }
+
 //    public void toggleJpLike(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
 //        if (isJpLikedByUser(userId, venderId, jobPostId,jobPostTempId)) {
 //            // 이미 찜한 경우, 찜을 삭제
@@ -88,7 +90,7 @@ public class JpLikeService {
 //    }
 //
 //    private void unlikeJp(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
-//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_Id(userId, venderId, jobPostId)
+//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_IdAndJobPostTempEntity_Id(userId, venderId, jobPostId)
 //                .orElseThrow(() -> new BusinessException("찜을 찾을 수 없음", HttpStatus.NOT_FOUND));
 //        jpLikeRepository.delete(jpLikeEntity);
 //    }
