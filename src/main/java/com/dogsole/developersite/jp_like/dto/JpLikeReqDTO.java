@@ -1,6 +1,8 @@
 package com.dogsole.developersite.jp_like.dto;
 
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
+import com.dogsole.developersite.jobPost.entity.JobPostEntity;
+import com.dogsole.developersite.vender.dto.res.VenderResDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +17,7 @@ public class JpLikeReqDTO {
     private Long id;
 
     private VenderResDTO venderResDTO;
-    private UserEntity userEntity;
+//    private UserEntity userEntity;
     private JobPostEntity jobPostEntity;
     private JobPostTempResDTO jobPostTempReqDTO;
     private LocalDateTime like_date = LocalDateTime.now();
