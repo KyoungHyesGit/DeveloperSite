@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <a href="/kgh">김경혜</a>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<th:block layout:fragment="content">
+    <div class="container mt-5">
+        <!--    <div class="mt-3">-->
+        <!--      <a href="/app-logout" class="btn btn-danger">Logout</a>-->
+        <!--    </div>-->
+
+        <h2>김경혜</h2>
+
+    </div>
+</th:block>
 </html>
