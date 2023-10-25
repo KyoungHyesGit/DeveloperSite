@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
+    <title>가입테스트</title>
+    <script>
+
+        //가입 시 이메일 중복 확인 함수
+        function checkEmailDuplication() {
+            var userEmail = document.getElementById('u_email').value;
+            //db의 값에 있는 컬럼들과 비교해야함.
+            var isEmailDuplicated = (userEmail === '중복@중복');
+
+            var button = document.getElementById('signupButton');
+
+            if (isEmailDuplicated) {
+                alert('이미 가입된 이메일입니다.');
+                signupButton.disabled = true;
+                document.getElementById('join_form').onsubmit = function() {
+                    alert('이메일 중복 확인을 해주세요.');
+                    return false;
+                };
+            } else {
+                alert('사용 가능한 이메일입니다.');
+                button.disabled = false;
+                document.getElementById('join_form').onsubmit = null; // 폼 제출 기능 활성화
+
+            }
+        }
+
+        //가입 시 빈칸 확인 함수
+        function form_check() {
+            var userName = document.getElementById('u_name').value;
+            var userEmail = document.getElementById('u_email').value;
+            var passwd = document.getElementById('pwd').value;
+            var repwd = document.getElementById('repwd').value;
+            var phone = document.getElementById('mobile').value;
+            var agreeCheckbox = document.getElementById('agree');
+
+            if (userName === '') {
+                alert('이름을 입력하세요.');
+                return false;
+            }
+
+            if (userEmail === '') {
+                alert('이메일을 입력하세요.');
+                return false;
+            }
+
+            if (passwd === '') {
+                alert('비밀번호를 입력하세요.');
+                return false;
+            }
+
+            if (passwd !== repwd) {
+                alert('비밀번호를 다시 확인하세요.');
+                return false;
+            }
+
+            if (phone === '') {
+                alert('전화번호를 입력하세요.');
+                return false;
+            }
+
+            if (!agreeCheckbox.checked) {
+                alert('약관 동의는 필수입니다.');
+                return false;
+            }
+
+            //이메일 중복 체크 함수
+
+            // 모든 유효성 검사를 통과한 경우, 폼이 제출됩니다.
+            alert(userName+"님 회원가입 완료!\n사용 email: "+userEmail);
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+<style type="text/css">
+    form {
+        width: 600px;
+        margin: auto;
+    }
+
+    form legend {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    form p span {
+        font-size: 13px;
+        color: rgb(0, 60, 255);
+        font-style: italic;
+    }
+
+    form .final_btn {
+        text-align: center;
+    }
+</style>
+
+<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="jaoin_form" onsubmit="return form_check()">
+    <fieldset>
+        <legend>회원가입</legend>
+        <p>
+            <label for="u_name">이름</label>
+            <input type="text" name="userName" id="u_name">
+            <br>
+            <span class="err_name"></span>
+        </p>
+        <p>
+            <label for="u_email">이메일</label>
+            <input type="text" name="userEmail" id="u_email">
+            <button type="button" onclick="checkEmailDuplication()">이메일 중복확인</button>
+            <br>
+            <span class="err_id">* ex) aaa@aaa.com</span>
+        </p>
+        <p>
+            <label for="pwd">비밀번호</label>
+            <input type="text" name="passwd" id="pwd">
+            <br>
+        </p>
+        <p>
+            <label for="repwd">비밀번호 확인</label>
+            <input type="text" name="repwd" id="repwd">
+            <br>
+            <span class="err_repwd"></span>
+        </p>
+        <p>
+            <label for="birth">생년월일</label>
+            <input type="text" name="birth" id="birth">
+            <br>
+            <span class="err_birth">* ex)19700101 - 8자리로 입력</span>
+        </p>
+
+        <p>
+            <label for="mobile">전화번호</label>
+            <input type="text" name="phone" id="mobile">
+            <br>
+            <span class="err_mobile">* '-'없이 숫자만 입력</span>
+        </p>
+        <p>
+            <input type="checkbox" name="privacyState" id="agree" value="1">
+            <label for="agree">약관 동의</label>
+            <br>
+            <span class="err_agree">* 필수</span>
+        </p>
+        <p class="final_btn">
+            <button type="button" class="btn">이전으로</button>
+            <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
+        </p>
+    </fieldset>
+</form>
+
+</body>
+</html>
