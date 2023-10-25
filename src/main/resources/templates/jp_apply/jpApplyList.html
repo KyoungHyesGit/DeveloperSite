@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<style>
+    /* 테이블 스타일 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    /* 테이블 헤더 스타일 */
+    thead {
+        background-color: #333;
+        color: #fff;
+    }
+
+    th {
+        padding: 10px;
+        text-align: left;
+    }
+
+    /* 테이블 셀 스타일 */
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    /* 짝수 행 스타일 */
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* 홀수 행 스타일 */
+    tbody tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
+</style>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<th:block layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>회사명</th>
+            <th>공고 제목</th>
+            <th>지원 날</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applyList : ${applyList}">
+            <td th:text="${applyList.id}"></td>
+            <td th:text="${applyList.venderEntity.name}"></td>
+            <td th:text="${applyList.jobPostEntity.title}"></td>
+            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</html>
