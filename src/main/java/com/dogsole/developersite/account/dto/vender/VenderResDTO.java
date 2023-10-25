@@ -23,4 +23,6 @@ public class VenderResDTO {
     private LocalDateTime createDt;
 
     private LocalDateTime updateDt;
+
+    private String photo;
 }

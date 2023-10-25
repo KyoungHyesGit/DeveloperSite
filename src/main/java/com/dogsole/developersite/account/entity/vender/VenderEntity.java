@@ -2,12 +2,15 @@ package com.dogsole.developersite.account.entity.vender;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-
+@Getter
+@Setter
 @Entity(name="vender")
 public class VenderEntity {
 
@@ -31,5 +34,11 @@ public class VenderEntity {
 
     @Column(name = "update_dt")
     @CreationTimestamp
-    private LocalDateTime updateDt =LocalDateTime.now();
+    private LocalDateTime updateDt;
+
+    @Column(name ="photo")
+    private String photo;
+
+    @Column(name="state")
+    private String state;
 }
