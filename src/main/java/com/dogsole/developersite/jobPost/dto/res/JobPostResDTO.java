@@ -33,7 +33,9 @@ public class JobPostResDTO {
     private String reqState;
     private LocalDate endTime;
     private LocalDateTime createDt = LocalDateTime.now();
-    private LocalDateTime updateDt =  LocalDateTime.now();;
+
+    private LocalDateTime updateDt =  LocalDateTime.now();
+
 
     private VenderResDTO venderResDTO;
 

@@ -25,6 +25,7 @@ public class VenderEntity {
     private String name;
     @Column(name = "vender_passwd")
     private String passwd;
+
     @Column(name = "photo")
     private String photo;
 

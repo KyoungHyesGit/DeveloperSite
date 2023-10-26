@@ -14,6 +14,7 @@ public class VenderReqDTO {
     private String email;
     private String name;
     private String passwd;
+
     private String photo;
 
     private LocalDateTime createDt;

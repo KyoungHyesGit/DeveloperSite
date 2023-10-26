@@ -12,7 +12,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class DefaultExceptionAdvice {
-	private final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionAdvice.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionAdvice.class);
+
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<Object> handleException(BusinessException e) {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -21,6 +22,6 @@ public class DefaultExceptionAdvice {
         //body + status code + header
         return new ResponseEntity<>(result, e.getHttpStatus());
     }
-    
+
 
 }

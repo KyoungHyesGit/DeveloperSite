@@ -1,7 +1,10 @@
 package com.dogsole.developersite.common.exception;
 
 import org.springframework.http.HttpStatus;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
+@Getter
 public class SystemException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     private String message;
@@ -30,6 +33,7 @@ public class SystemException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
+
     public String getMessage() {
         return this.message;
     }
@@ -41,4 +45,5 @@ public class SystemException extends RuntimeException {
     public Throwable getThrowable() {
         return this.throwable;
     }
+
 }

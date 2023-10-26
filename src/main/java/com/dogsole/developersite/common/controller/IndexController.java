@@ -1,4 +1,4 @@
-package com.dogsole.developersite.common;
+package com.dogsole.developersite.common.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
