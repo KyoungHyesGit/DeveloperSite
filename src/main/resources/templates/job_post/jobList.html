@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Job 전체공고</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Photo</th>
+                <th>Vender_Name</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="post, postStat : ${jobList}">
+                <td th:text="${postStat.count}"></td>
+<!--                <td th:text="${post.venderResDTO.photo}"></td>-->
+                <td><img th:src="@{/img/vender/} + ${post.venderResDTO.photo}" alt="회사로고이미지"/></td>
+                <td th:text="${post.venderResDTO.name}"></td>
+                <td th:text="${post.title}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
