@@ -27,5 +27,11 @@ public class JobPostController {
         return "/job_post/jobList";
     }
 
+    @GetMapping("/jobDetail/{id}")
+    public String JobDetail(@PathVariable Long id, Model model){
+        JobPostResDTO jobDetail = jobPostService.getJobDetail(id);
+        model.addAttribute("jobDetail", jobDetail);
+        return "/job_post/jobDetail";
+    }
 
 }

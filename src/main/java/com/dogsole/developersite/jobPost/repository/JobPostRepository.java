@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     // 전체공고목록
     Page<JobPostEntity> findAll(Pageable pageable);
-    // 공고 상세페이지
-    Optional<JobPostEntity> findById(Long id);
+
 
 }
