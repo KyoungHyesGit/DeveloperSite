@@ -30,4 +30,6 @@ public class UserResDTO {
     private LocalDateTime createdAt;
 
     private String state;
+
+    private String photo;
 }

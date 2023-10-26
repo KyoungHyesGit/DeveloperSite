@@ -38,5 +38,5 @@ public class UserReqDTO {
 
     private String state;
 
-
+    private String photo;
 }

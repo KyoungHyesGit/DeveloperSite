@@ -26,4 +26,6 @@ public class VenderReqDTO {
     private LocalDateTime createDt;
 
     private LocalDateTime updateDt;
+
+    private String photo;
 }
