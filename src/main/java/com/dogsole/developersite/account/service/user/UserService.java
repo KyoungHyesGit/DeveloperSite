@@ -67,6 +67,8 @@ public class UserService {
         }
         return false;
     }
+
+
     //회원 탈퇴------------------------------------------------------------------------------------
     public void userLeave(String user_email) {
         //저장소에서 탈퇴하는 유저의 객체를 entity형으로 꺼냄
