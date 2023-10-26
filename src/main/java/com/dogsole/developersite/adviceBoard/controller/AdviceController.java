@@ -60,7 +60,7 @@ public class AdviceController {
 
     @GetMapping("/list")
     public String list(Model model,
-                       @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                       @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                        String searchKeyword
     ) {
         Page<AdviceBoard> list = null;

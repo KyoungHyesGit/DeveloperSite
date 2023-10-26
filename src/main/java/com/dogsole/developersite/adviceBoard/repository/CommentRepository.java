@@ -18,7 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Page<Comment> findByContentContaining(String searchKeyword, Pageable pageable);
 
 //    void deleteBySeq(Long seq);
-//
+
 //    UserEntity findUserByUserId(Long id);
 
 

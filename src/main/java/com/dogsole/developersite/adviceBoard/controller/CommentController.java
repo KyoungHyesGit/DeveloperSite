@@ -118,6 +118,7 @@ public class CommentController {
         return "editComment";
     }
 
+
 //    @PostMapping("/updateComment/{id}")
 //    public String updateComment(@PathVariable Long id, @ModelAttribute CommentReqDTO comment) {
 //        commentService.updateComment(id, comment);

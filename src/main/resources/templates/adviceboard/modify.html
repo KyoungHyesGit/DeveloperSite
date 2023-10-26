@@ -8,9 +8,10 @@
 <body>
 
 <div class="layout">
-    <form th:action="@{/adviceboard/update/{id}(id = ${adviceboard.id})}" method="post">
-        <input name="title" type="text" th:value="${adviceboard.title}"> <br>
-        <textarea name="content" th:text="${adviceboard.content}"></textarea> <br>
+    <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
+        <h3>제목</h3><input name="title" type="text" th:value="${adviceboard.title}"> <br>
+        <h3>작성자</h3><input name="writer" type="text" th:value="${adviceboard.writer}"> <br>
+        <h3>내용</h3><textarea name="content" th:text="${adviceboard.content}"></textarea> <br>
         <button type="submit">수정</button>
     </form>
 
