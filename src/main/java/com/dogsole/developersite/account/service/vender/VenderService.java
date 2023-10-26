@@ -5,8 +5,10 @@ import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.repository.vender.VenderRepository;
+import com.dogsole.developersite.security.config.SecurityConfig;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class VenderService {
     private final VenderRepository venderRepository;
     private final ModelMapper modelMapper;
+    private final SecurityConfig securityConfig;
 
     //회사회원 전체 조회-------------------------------------------
     @Transactional(readOnly = true)
@@ -47,6 +50,12 @@ public class VenderService {
         if((venderRepository.existsByVenderEmail(venderReqDTO.getVenderEmail()))){
             return false;
         }
+
+        //스프링 시큐리티로 비밀번호 암호화처리
+        PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
+        String encodePasswd = passwordEncoder.encode(venderReqDTO.getVenderPasswd());
+        venderReqDTO.setVenderPasswd(encodePasswd);
+
         //중복아닐시
         //reqDTO(요청)객체 Entity형으로 전환
         VenderEntity venderEntity = modelMapper.map(venderReqDTO, VenderEntity.class);

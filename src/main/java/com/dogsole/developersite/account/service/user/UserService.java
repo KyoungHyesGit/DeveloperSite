@@ -4,10 +4,12 @@ import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.account.dto.user.UserResDTO;
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.repository.user.UserRepository;
+import com.dogsole.developersite.security.config.SecurityConfig;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final SecurityConfig securityConfig;
     //비즈니스로직 작성 차례
 
     //유저 전체 조회------------------------------------------------------------------
@@ -48,6 +51,11 @@ public class UserService {
         if((userRepository.existsByUserEmail(userReqDTO.getUserEmail()))){
             return false;
         }
+        //스프링 시큐리티로 비밀번호 암호화처리
+        PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
+        String encodePasswd = passwordEncoder.encode(userReqDTO.getPasswd());
+        userReqDTO.setPasswd(encodePasswd);
+
         //해당 이메일이 중복되지 않는다면
         //reqDTO(요청)객체를 Entity형으로 전환
         UserEntity userEntity = modelMapper.map(userReqDTO, UserEntity.class);
