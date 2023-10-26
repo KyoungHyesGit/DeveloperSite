@@ -1,0 +1,44 @@
+package com.dogsole.developersite.adviceBoard.entity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@ToString
+@DynamicUpdate
+@Table(name = "adviceboard")
+public class AdviceBoard {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String writer;
+
+    @Column(nullable = false)
+    private String content;
+
+    @Column(nullable = false)
+    private String kind;
+
+    @Column
+    @CreationTimestamp
+    private LocalDateTime regDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "adviceboards", fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<Comment> comments;
+}

@@ -1,5 +1,6 @@
 package com.dogsole.developersite.adviceBoard.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AdviceBoardResDTO {
+public class CommentReqDTO {
+
     private Long id;
-    private String title;
     private String writer;
     private String content;
-    private String kind;
-    private LocalDateTime regDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+    private Long adviceboardId;
 }
-
-

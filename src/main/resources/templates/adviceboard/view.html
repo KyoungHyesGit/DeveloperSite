@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <title>AdviceDetailView</title>
+        <!--상세페이지-->
+    </head>
+    <style>
+        .layout {
+            width: 500px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+
+        .layout input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .layout textarea {
+            width: 100%;
+            margin-top: 10px;
+            min-height: 300px;
+        }
+    </style>
+    <body>
+        <p th:text="${adviceboard.title}">제목입니다.</p>
+        <p th:text="${adviceboard.writer}">작성자입니다.</p>
+        <p th:text="${adviceboard.content}">내용이 들어간 부분입니다.</p>
+        <a th:href="@{/adviceboard/delete/{id}(id=${adviceboard.id})}">글 삭제</a>
+        <a th:href="@{/adviceboard/modify/{id}(id=${adviceboard.id})}">글 수정</a>
+
+        <!-- 댓글 목록 부분 -->
+        <h3>Comments</h3>
+        <div class="comments">
+            <!-- 각 댓글 표시 -->
+            <div class="comment" th:each="comment, stat : ${adviceboard.comments}">
+                <span class="comment-writer" th:text="${comment.writer}">댓글 작성자</span>
+                <p class="comment-text" th:text="${comment.content}">댓글 내용</p>
+                <span class="comment-date" th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm a')}">작성 날짜</span>
+                <span class="comment-date" th:text="${#temporals.format(comment.updatedDate, 'yyyy-MM-dd HH:mm a')}">수정 날짜</span>
+                <!-- 수정 버튼 -->
+                <a href="#none" th:onclick="|javascript:showUpdateForm('${stat.index}')|" class="edit-comment-button">수정</a>
+                <!-- 삭제 버튼 -->
+                <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}" class="delete-comment-button">삭제</a>
+            </div>
+
+            <!-- 댓글 작성 폼 -->
+            <div class="comment-form">
+                <h3>댓글 작성</h3>
+                <form th:action="@{/comments/addComment}" th:object="${commentReqDTO}" method="post">
+                    <!-- 댓글 작성 후, 다시 해당 게시물로 리다이렉트할 수 있도록 adviceboardId를 전달 -->
+                    <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                    <input type="text" th:field="*{writer}" placeholder="작성자" required />
+                    <textarea th:field="*{content}" placeholder="댓글 내용" required></textarea>
+                    <button type="submit">작성</button>
+                </form>
+            </div>
+
+            <!-- 댓글 수정 폼 -->
+            <div class="comment-form" id="updateForm" style="display: none">
+                <h3>댓글 수정</h3>
+                <form th:action="@{/comments/updateComment}" method="post">
+                    <!-- 숨겨진 입력 필드로 수정할 댓글의 seq를 전달 -->
+                    <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                    <input type="hidden" name="id" id="id"/>
+                    <input type="text" name="writer" id="updateWriter" placeholder="작성자"/>
+                    <textarea name="content" id="updateText" placeholder="댓글 내용"></textarea>
+                    <button type="submit">수정</button>
+                </form>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            var uFormFlag = "";
+            var list = [[${adviceboard.comments}]]; // 목록리스트
+            function showUpdateForm(idx) {
+                var writer = "";
+                var text = "";
+                var id = "";
+                if(uFormFlag != idx) {
+                    writer = list[idx].writer;
+                    text = list[idx].content;
+                    id = list[idx].id;
+                    uFormFlag = idx;
+                    $("#updateForm").show();
+                } else {
+                    uFormFlag = "";
+                    $("#updateForm").hide();
+                }
+                $("#id").val(id);
+                $("#updateWriter").val(writer);
+                $("#updateText").val(text);
+            }
+        </script>
+    </body>
+</html>

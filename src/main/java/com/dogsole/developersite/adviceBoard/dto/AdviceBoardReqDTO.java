@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AdviceBoardResDTO {
+public class AdviceBoardReqDTO {
     private Long id;
     private String title;
     private String writer;
