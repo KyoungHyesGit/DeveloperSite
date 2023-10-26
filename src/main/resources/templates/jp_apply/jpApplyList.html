@@ -5,9 +5,11 @@
 <style>
     /* 테이블 스타일 */
     table {
-        width: 100%;
+        width: 60%;
         border-collapse: collapse;
-        margin: 20px 0;
+        margin: 50px 0;
+        margin-left:auto;
+        margin-right:auto;
     }
 
     /* 테이블 헤더 스타일 */
@@ -56,7 +58,7 @@
             <td th:text="${applyList.id}"></td>
             <td th:text="${applyList.venderEntity.name}"></td>
             <td th:text="${applyList.jobPostEntity.title}"></td>
-            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
         </tr>
         </tbody>
     </table>

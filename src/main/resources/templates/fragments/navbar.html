@@ -3,9 +3,8 @@
 <th:block th:fragment="navbarFragment">
     <nav>
         <div class="container">
-            <div class="menu">
-
-                <ul>
+            <div>
+                <ul style="display: flex">
                     <li>
                         <a class="navbar-brand" href="#">
                             <img th:src="@{/img/title_header.png}" alt="logo" style="width: 150px;"/>
@@ -17,26 +16,27 @@
                     <li>|</li>
                     <li><a href="#">커뮤니티</a></li>
                     <li>
-                        <button>로그인</button>
-                    </li>
-                    <li>
                         <div class="search">
                             <input type="text" placeholder="검색어 입력">
                             <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
                         </div>
                     </li>
+                    <li>
+                        <a href="#">로그인</a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             기업서비스
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li><a class="dropdown-item" href="#">로그인</a></li>
                             <li><a class="dropdown-item" href="#">공고등록</a></li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
+
         </div>
     </nav>
 </th:block>
