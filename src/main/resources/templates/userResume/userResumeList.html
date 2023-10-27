@@ -48,18 +48,16 @@
         <thead>
         <tr>
             <th>번호</th>
-            <th>회사명</th>
-            <th>공고 제목</th>
-            <th>찜한 날</th>
+            <th>이력서 제목</th>
+            <th>사진</th>
         </tr>
         </thead>
         <tbody>
-
-        <tr th:each="likeList : ${likeList}">
-            <td th:text="${likeList.id}"></td>
-            <td th:text="${likeList.venderEntity.name}"></td>
-            <td th:text="${likeList.jobPostEntity.title}"></td>
-            <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
+        <tr th:each="resume : ${userResumes}">
+            <td th:text="${resume.id}"></td>
+            <td th:text="${resume.resume_title_1}"></td>
+            <td th:text="${resume.photo}"></td>
+<!--            <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>-->
         </tr>
         </tbody>
     </table>
