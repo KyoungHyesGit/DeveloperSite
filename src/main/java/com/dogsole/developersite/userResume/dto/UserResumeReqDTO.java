@@ -31,4 +31,5 @@ public class UserResumeReqDTO {
     private String resume_content_1;
     private MultipartFile photo;
     private String photoUrl;
+
 }

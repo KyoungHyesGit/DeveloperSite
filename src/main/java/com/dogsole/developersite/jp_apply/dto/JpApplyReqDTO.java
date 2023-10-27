@@ -2,6 +2,7 @@ package com.dogsole.developersite.jp_apply.dto;
 
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
+import com.dogsole.developersite.userResume.entity.UserResumeEntity;
 import com.dogsole.developersite.vender.dto.res.VenderResDTO;
 import lombok.*;
 
@@ -19,7 +20,7 @@ public class JpApplyReqDTO {
     private VenderResDTO venderResDTO;
 //    private UserEntity userEntity;
     private JobPostEntity jobPostEntity;
-    private JobPostTempResDTO jobPostTempReqDTO;
+    private UserResumeEntity userResumeEntity;
     private LocalDateTime like_date = LocalDateTime.now();
 
 }
