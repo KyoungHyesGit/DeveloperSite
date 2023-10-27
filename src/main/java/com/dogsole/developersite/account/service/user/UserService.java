@@ -4,7 +4,12 @@ import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.account.dto.user.UserResDTO;
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.repository.user.UserRepository;
+import com.dogsole.developersite.jwt.dto.TokenReqDTO;
+import com.dogsole.developersite.jwt.entity.TokenEntity;
+import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
+import com.dogsole.developersite.jwt.repository.TokenRepository;
 import com.dogsole.developersite.security.config.SecurityConfig;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
@@ -13,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +27,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
-    private final SecurityConfig securityConfig;
+    private final ModelMapper modelMapper; //객체 변환
+    private final SecurityConfig securityConfig; //암호화
+    private final JwtTokenProvider jwtTokenProvider; //토큰 공급
+    private final TokenRepository tokenRepository;
     //비즈니스로직 작성 차례
 
     //유저 전체 조회------------------------------------------------------------------
@@ -71,6 +79,29 @@ public class UserService {
         if((userRepository.existsByUserEmail(userReqDTO.getUserEmail()))
                 &&userRepository.existsByPasswd(userReqDTO.getPasswd())){
             //로그인 성공 alert 띄우기
+            //로그인 성공 후 토큰 발급 처리.--------------------------------------------
+            //로그인 한 유저 객체의 id 값 얻기
+            UserEntity userEntity = userRepository.findByUserEmail(userReqDTO.getUserEmail()).orElseThrow();
+            String userId = userEntity.getUserId()+"";
+
+            String token = jwtTokenProvider.createToken(userId); //토큰 생성
+
+            Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+ token); //해당 토큰의 claims 객체 생성
+
+
+            Date tokenIss = claims.getIssuedAt(); //클레임객체에서 토큰 발행일 뜯기
+            Date tokenExp = claims.getExpiration(); //클레임객체에서 토큰 만료일 뜯기
+
+            System.out.print("////토큰 발행일자//////"+tokenIss); //토큰발행일 테스트OK
+            System.out.print("///토큰////////"+token); //토큰 값 발행 테스트 OK
+            System.out.print("///유저아이디/"+userId+"\n");//유저 ID 값 테스트 OK
+
+            //토큰 테이블에는 토큰과 토큰발행일, 토큰만료일이 담김
+            TokenEntity tokenEntity = new TokenEntity(token, tokenIss, tokenExp);
+            //DB에 토큰저장하기
+            tokenRepository.save(tokenEntity);
+            //토큰저장이안대 씨발 10/27/11시38분
+
             return true;
         }
         return false;

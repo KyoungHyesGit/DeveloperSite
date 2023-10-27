@@ -20,7 +20,9 @@ public class TokenController {
   //토큰 생성 컨트롤러---------------------------------------
     @GetMapping(value = "/tokenCreate/{userId}") //토큰 요청경로.
     public TokenResponse createToken(@PathVariable("userId") String userId) throws Exception {
+
         String token = jwtTokenProvider.createToken(userId); // 토큰 생성
+
         Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+ token); // 토큰 검증
 
         //클레임객체에서 토큰의 값들을 분해해서 응답토큰에 저장함
@@ -34,8 +36,7 @@ public class TokenController {
         return tokenResponse;
     }
 
-    //토큰 인증 컨트롤러-------------------------------------------------------------
-
+    //토큰 인증 컨트롤러(검증성공)-------------------------------------------------------------
     @GetMapping(value = "/checkToken")
     public TokenResponseNoData checkToken(@RequestHeader(value = "Authorization") String token) throws Exception {
         Claims claims = jwtTokenProvider.parseJwtToken(token);

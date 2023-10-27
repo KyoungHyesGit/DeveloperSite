@@ -87,6 +87,13 @@ public class SignupController {
         return new ModelAndView("account/userList","users",userResDTOList);
     }
 
+    //유저의 로그아웃 (할예정....)0------------------------------
+    @PostMapping("/logout")
+    public String userLogout(){
+
+        return "";
+    }
+
     //회원탈퇴 처리 (예정)-----------------------------------------------------------------------------
     @GetMapping("/delete/{id}")
     public UserReqDTO userLeave(UserReqDTO userReqDTO, String id){

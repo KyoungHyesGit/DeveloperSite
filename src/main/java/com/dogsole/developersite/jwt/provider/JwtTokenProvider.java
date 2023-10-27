@@ -41,9 +41,10 @@ public class JwtTokenProvider {
     }
 
     //jwt 토큰의 유효성 체크 메서드--------------------------------
-    //JWT를 파싱하고 해당 토큰의 Claims를 추출하는 메서드
+    //JWT를 파싱하고 해당 토큰의 Claims를 추출하는 메서드 (claims는 토큰의 내용을 객체로표현 : 더쉽게 검증하고 조작할 수 있음)
     public Claims parseJwtToken(String token) { //매개변수로 token을 받아 토큰의 내용을 나타내는 Claims객체로 반환
-        token = BearerRemove(token); // Bearer 제거 (보통 jwt사용 시 Bearer 뒤 실제 토큰이 오는경우가 있음)
+        token = BearerRemove(token); // Bearer 제거 (보통 jwt사용 시 Bearer 뒤 실제 토큰이 오는 경우가 있음)
+
         return Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes()))
                 .parseClaimsJws(token)

@@ -77,7 +77,7 @@ public class SecurityConfig {
     }                                       //BCryptPasswordEncoder는 스프링시큐리티에서 널리 사용되는 비번 해시함수
                                             //사용예제
                                             // PasswordEncoder passwordEncoder = passwordEncoder();
-                                            //        String hashedPassword = passwordEncoder.encode(rawPassword);
+                                            // String hashedPassword = passwordEncoder.encode(rawPassword);
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider(); //사용자의 인증을 처리하는 인터페이스.
