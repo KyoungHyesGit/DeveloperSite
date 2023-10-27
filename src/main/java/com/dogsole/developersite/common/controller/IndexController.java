@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
-    @GetMapping("/kgh")
+    @GetMapping("/")
     public String gotoKgh() {
-        return "/imsi/kgh";
+        return "redirect:/job_post/jobList";
     }
 }
