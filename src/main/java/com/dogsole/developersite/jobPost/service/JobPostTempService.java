@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class JobPostTempService {
     private final JobPostTempRepository jobPostTempRepository;
     private final ModelMapper modelMapper;
+
+    public Page<JobPostTempResDTO> getVendersPosts(Long venderId, Pageable pageable) {
+        return jobPostTempRepository.findByVenderEntity_Id(venderId,pageable).map(jobPostTempEntity -> modelMapper.map(jobPostTempEntity, JobPostTempResDTO.class));
+    }
     public Page<JobPostTempResDTO> getAllPosts(Pageable pageable) {
         return jobPostTempRepository.findAll(pageable).map(jobPostTempEntity -> modelMapper.map(jobPostTempEntity, JobPostTempResDTO.class));
     }
@@ -44,6 +48,14 @@ public class JobPostTempService {
         jobPostTempEntity.setDTOsValToEntity(tempReqDTO);
 
         System.out.println(jobPostTempEntity);
+
+        return modelMapper.map(jobPostTempEntity, JobPostTempResDTO.class);
+    }
+
+    public JobPostTempResDTO deleteJobPostTemp(Long id){
+        JobPostTempEntity jobPostTempEntity = jobPostTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
+        jobPostTempEntity.setState("D"); // D Delete
+        jobPostTempEntity.setReqState("R");
 
         return modelMapper.map(jobPostTempEntity, JobPostTempResDTO.class);
     }
