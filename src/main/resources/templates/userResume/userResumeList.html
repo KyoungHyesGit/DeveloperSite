@@ -44,20 +44,25 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
+    <h2>내 이력서</h2>
     <table>
         <thead>
         <tr>
             <th>번호</th>
-            <th>이력서 제목</th>
             <th>사진</th>
+            <th>이력서 제목</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="resume : ${userResumes}">
             <td th:text="${resume.id}"></td>
-            <td th:text="${resume.resume_title_1}"></td>
-            <td th:text="${resume.photo}"></td>
-<!--            <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>-->
+            <td>
+                <img th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
+            </td>
+            <td>
+                <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"  th:text="${resume.resume_title_1}"></a>
+            </td>
+
         </tr>
         </tbody>
     </table>

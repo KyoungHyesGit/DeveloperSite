@@ -6,10 +6,10 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <form action="/userResume/createResume" method="POST">
+    <form action="/userResume/createResume"  method="POST" enctype="multipart/form-data">
         <!-- 이력서 정보 입력 필드 -->
-        <label for="addrNum">우편번호:</label>
-        <input type="text" id="addrNum" name="addrNum" required>
+        <label for="addr_num">우편번호:</label>
+        <input type="text" id="addr_num" name="addr_num" required>
         <br/>
         <label for="addr_basic">도로명주소:</label>
         <input type="text" id="addr_basic" name="addr_basic" required>

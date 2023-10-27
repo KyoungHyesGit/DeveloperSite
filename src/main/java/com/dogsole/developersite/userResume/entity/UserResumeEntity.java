@@ -63,5 +63,7 @@ public class UserResumeEntity {
     private String resume_content_1;
     @Column(name = "photo",nullable = true)
     private String photo;
+    @Column(name = "photoUrl",nullable = true)
+    private String photoUrl;
 
 }

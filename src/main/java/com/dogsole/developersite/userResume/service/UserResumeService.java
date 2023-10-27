@@ -8,8 +8,11 @@ import com.dogsole.developersite.vender.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,30 +28,46 @@ public class UserResumeService {
                 .map(userResume -> modelMapper.map(userResume, UserResumeResDTO.class))
                 .collect(Collectors.toList());
     }
-    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO) {
-        UserResumeEntity userResumeEntity = new UserResumeEntity();
+    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO, MultipartFile file,Long userId) throws Exception{
+        UserResumeEntity userResumeEntity = modelMapper.map(userResumeReqDTO, UserResumeEntity.class);
 
-        // 폼 데이터를 엔터티로 매핑
-        userResumeEntity.setAddr_num(userResumeReqDTO.getAddrNum());
-        userResumeEntity.setAddr_basic(userResumeReqDTO.getAddrBasic());
-        userResumeEntity.setAddr_detail(userResumeReqDTO.getAddrDetail());
-        userResumeEntity.setSkill(userResumeReqDTO.getSkill());
-        userResumeEntity.setFinal_education(userResumeReqDTO.getFinalEducation());
-        userResumeEntity.setState_resume(userResumeReqDTO.getStateResume());
-        userResumeEntity.setState_contact(userResumeReqDTO.getStateContact());
-        userResumeEntity.setCertification(userResumeReqDTO.getCertification());
-        userResumeEntity.setWork_exp(userResumeReqDTO.getWorkExp());
-        userResumeEntity.setOverseas_exp(userResumeReqDTO.getOverseasExp());
-        userResumeEntity.setLanguage_skill(userResumeReqDTO.getLanguageSkill());
-        userResumeEntity.setPortfolio(userResumeReqDTO.getPortfolio());
-        userResumeEntity.setGit_addr(userResumeReqDTO.getGitAddr());
-        userResumeEntity.setMilitary_service(userResumeReqDTO.getMilitaryService());
-        userResumeEntity.setResume_title_1(userResumeReqDTO.getResumeTitle1());
-        userResumeEntity.setResume_content_1(userResumeReqDTO.getResumeContent1());
-        userResumeEntity.setPhoto(userResumeReqDTO.getPhoto());
+        //사진 업로드
+        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\resumeImage";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid+"_"+file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+        userResumeEntity.setPhoto(fileName);
+        userResumeEntity.setPhotoUrl("/resumeImage/"+fileName);
+
+        userId=1L;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userId);
+        userResumeEntity.setUserEntity(userEntity);
 
         return userResumeRepository.save(userResumeEntity);
     }
+    //이력서 상세
+    public UserResumeResDTO getUserResumeByid(Long id){
+        return modelMapper.map(userResumeRepository.findUserResumeEntityById(id),UserResumeResDTO.class);
+    }
+    // 이력서 삭제 메서드
+    public void deleteResumeById(Long id) {
+        // 이력서 ID로 이력서를 찾아냅니다.
+        UserResumeEntity resume = userResumeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 이력서를 찾을 수 없습니다: " + id));
 
+        // 이력서를 삭제합니다.
+        userResumeRepository.delete(resume);
+    }
+    public Long getUserIdByResumeId(Long resumeId) {
+        // 이력서 ID를 사용하여 user_id를 가져오는 메서드
+        UserResumeEntity userResume = userResumeRepository.findById(resumeId).orElse(null);
+        if (userResume != null) {
+            return userResume.getUserEntity().getId();
+        } else {
+            return null; // 이력서를 찾지 못한 경우 예외 처리
+        }
+    }
 
 }
