@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="UTF-8">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,9 @@
             <input type="submit" id="btn" value="로그인"><br>
             <button type="button" onclick="location.href='http://localhost/account/signuppage'">회원가입</button>
         </form>
-
+        <hr>
+        <a href="/oauth2/authorization/google">구글 로그인</a>
+        <br><br>
     </div>
 </body>
 <script>

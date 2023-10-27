@@ -1,6 +1,7 @@
-package com.dogsole.developersite.account.vo;
+package com.dogsole.developersite.security.userInfo;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

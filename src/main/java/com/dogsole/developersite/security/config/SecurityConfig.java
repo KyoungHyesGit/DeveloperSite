@@ -1,15 +1,11 @@
 package com.dogsole.developersite.security.config;
 
-import com.dogsole.developersite.account.service.UserInfoUserDetailsService;
+import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.security.filter.JwtAuthFilter;
-import com.dogsole.developersite.security.service.JwtService;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -71,7 +67,27 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
                 )
-                .formLogin(login -> login
+                .oauth2Login(oauth2Login -> {
+                    oauth2Login
+                            .loginPage("/account/loginpage")
+                            .defaultSuccessUrl("/").successHandler((request, response, authentication) -> {
+                                System.out.println("성공?");
+                                if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                                    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                                    String userEmail = userDetails.getUsername();
+                                    String myToken = jwtTokenProvider.createToken(userEmail);
+
+                                    Cookie cookie = new Cookie("myTokenCookie", myToken);
+                                    cookie.setMaxAge(1800);
+                                    cookie.setPath("/") ;
+                                    cookie.setDomain("");
+                                    response.addCookie(cookie);
+                                    System.out.println("쿠키 설정됨: " + myToken);
+                                    response.sendRedirect("/"); // 리다이렉트
+
+                                }
+                            });
+                }).formLogin(login -> login
                         .loginPage("/account/loginpage")
                         .loginProcessingUrl("/account/login") // 이 부분을 확인하십시오.
                         .usernameParameter("userEmail")

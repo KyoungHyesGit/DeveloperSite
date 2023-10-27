@@ -1,8 +1,7 @@
 package com.dogsole.developersite.security.filter;
 
-import com.dogsole.developersite.account.service.UserInfoUserDetailsService;
+import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
-import com.dogsole.developersite.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
