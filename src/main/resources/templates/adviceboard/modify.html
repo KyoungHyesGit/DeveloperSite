@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments/navbar :: navbarFragment"></head>
+<meta charset="UTF-8">
+<title>ModifyAdvice</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="layout container">
+    <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
+        <h3>제목</h3>
+        <input name="title" type="text" th:value="${adviceboard.title}" class="form-control">
+        <br>
+        <h3>작성자</h3>
+        <input name="writer" type="text" th:value="${adviceboard.writer}" class="form-control">
+        <br>
+        <h3>내용</h3>
+        <textarea name="content" th:text="${adviceboard.content}" class="form-control"></textarea>
+        <br>
+        <button type="submit" class="btn btn-primary">수정</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footerFragment"></div>
+</body>
+</html>
