@@ -1,19 +1,28 @@
 package com.dogsole.developersite.jobPost.controller;
 
+import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostTempService;
+import com.dogsole.developersite.security.service.JwtService;
 import com.dogsole.developersite.vender.dto.req.VenderReqDTO;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -30,6 +39,16 @@ public class JobPostTempController {
 
     private final JobPostTempService jobPostTempService;
     private final LovService lovService;
+
+    @GetMapping("/vendersTempList/{id}")
+    public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                     @RequestParam(name = "size", required = false, defaultValue = "2") int size ,
+                                     @PathVariable Long id) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<JobPostTempResDTO> tempList = jobPostTempService.getVendersPosts(id, pageable);
+        model.addAttribute("tempList", tempList);
+        return "/job_post_temp/show-venders-post-temp";
+    }
 
     @GetMapping("/tempList")
     public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
@@ -100,5 +119,12 @@ public class JobPostTempController {
         jobPostTempService.updateJobPostTemp(id, jobPostTemp);
         return "redirect:/jobPostTemp/tempList";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteJobPostTemp(@PathVariable Long id){
+        jobPostTempService.deleteJobPostTemp(id);
+        // TODO 사용자 정보에서 벤터 id빼서 홈으로 가기
+        return "redirect:/jobPostTemp/vendersTempList/1";    }
+
 
 }
