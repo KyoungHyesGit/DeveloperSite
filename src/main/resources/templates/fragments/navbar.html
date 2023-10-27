@@ -4,39 +4,39 @@
     <nav>
         <div class="container">
             <div>
-                <ul style="display: flex">
+
+                <ul style="display: flex" class="menu">
                     <li>
-                        <a class="navbar-brand" href="#">
-                            <img th:src="@{/img/title_header.png}" alt="logo" style="width: 150px;"/>
+                        <a class="navbar-brand" th:href="@{/job_post/jobList}">
+                            <img th:src="@{/img/logo/title_header.png}" alt="logo" style="width: 150px;"/>
                         </a>
                     </li>
-                    <li><a href="#">공고보기</a></li>
+                    <li><a href="#" class="menuBtn">공고보기</a></li>
                     <li>|</li>
-                    <li><a href="#">기업정보보기</a></li>
+                    <li><a href="#" class="menuBtn">기업정보보기</a></li>
                     <li>|</li>
-                    <li><a href="#">커뮤니티</a></li>
+                    <li><a href="#" class="menuBtn">커뮤니티</a></li>
                     <li>
                         <div class="search">
-                            <input type="text" placeholder="검색어 입력">
-                            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            <input type="text" placeholder="검색">
                         </div>
                     </li>
                     <li>
                         <a href="#">로그인</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             기업서비스
                         </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">로그인</a></li>
                             <li><a class="dropdown-item" href="#">공고등록</a></li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
-
         </div>
     </nav>
 </th:block>

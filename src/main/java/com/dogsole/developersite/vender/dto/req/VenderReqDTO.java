@@ -15,6 +15,9 @@ public class VenderReqDTO {
     private String name;
     private String passwd;
 
+
+    private String photo;
+
     private LocalDateTime createDt;
     private LocalDateTime updateDt;
 }

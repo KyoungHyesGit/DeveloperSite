@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+    <meta charset="UTF-8">
+    <th:block layout:fragment="content">
+    <div class="job_post" th:if="${jobDetail != null}">
+        <!-- 타이틀 -->
+        <div class="dt_ont">
+            <div>
+                <h2 th:text="${jobDetail.venderResDTO.name}"></h2>
+                <p>등록한 공고 개수</p>
+            </div>
+            <h1 th:text="${jobDetail.title}"></h1>
+        </div>
+        <div class="dt_two">
+            <button>관심공고</button>
+
+            <!-- 경로지정해줘야함 -->
+            <a sec:authorize="isAuthenticated()" class="btn btn-light">지원하기</a>
+        <hr>
+        <!-- 요구사항 -->
+        <table>
+            <tr>
+                <th>직종</th>
+                <td th:text="${jobDetail.work}"></td>
+                <th>주소</th>
+                <td th:text="${jobDetail.detailAddr}"></td>
+            </tr>
+            <tr>
+                <th>자격요건</th>
+                <td th:text="${jobDetail.req}"></td>
+                <th>시작일</th>
+                <td th:text="${#temporals.format(jobDetail.createDt, 'yyyy.MM.dd HH:mm')}"></td>
+            </tr>
+            <tr>
+                <th>급여</th>
+                <td th:text="${jobDetail.salary}"></td>
+                <th>마감일</th>
+                <td th:text="${#temporals.format(jobDetail.endTime, 'yyyy.MM.dd HH:mm')}"></td>
+            </tr>
+        </table>
+        <hr>
+        <!-- 내용 -->
+        <div class="content">
+            <!-- 내용 추가 -->
+            <div th:text="${jobDetail.detail}"></div>
+        </div>
+    </div>
+    </th:block>
+</html>

@@ -4,18 +4,50 @@ ul, li{
 a{
     text-decoration: none;
     color: #333;
+<<<<<<< HEAD
     margin:10px;
     padding: 0;
+=======
+>>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 }
 body{
     margin: 0;
     padding: 0;
 }
 /*navbar*/
+<<<<<<< HEAD
+=======
+.menu{
+    margin: 0;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu li{
+    line-height: 55px;
+}
+.menu li:nth-child(7){
+    margin-top: 5px;
+    line-height: 0;
+}
+.menu li:nth-child(3),
+.menu li:nth-child(5){
+    color: #eee;
+}
+.menuBtn{
+    font-weight: 700;
+    color: #444;
+    margin: 0 10px;
+}
+.menuBtn:hover{
+    color: #1187CF;
+}
+>>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 
 .search {
     position: relative;
     width: 300px;
+<<<<<<< HEAD
 }
 
 .search input {
@@ -23,6 +55,22 @@ body{
     border: 1px solid #bbb;
     border-radius: 8px;
     padding: 10px 12px;
+=======
+    border: 1px solid #eee;
+    border-radius: 46px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+}
+.search i{
+    color: #333;
+    padding-left: 5px;
+}
+
+.search input {
+    width: 240px;
+    height: 26px;
+    border: none;
+>>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
     font-size: 14px;
 }
 
@@ -33,6 +81,10 @@ body{
     right: 12px;
     margin: 0;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 /*footer*/
 footer{
     isplay: block;

@@ -41,5 +41,4 @@ public class JobPostTempReqDTO {
     private LocalDateTime updateDt;
 
     private VenderReqDTO venderReqDTO;
-
 }
