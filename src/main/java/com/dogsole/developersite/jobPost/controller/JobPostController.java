@@ -1,5 +1,7 @@
 package com.dogsole.developersite.jobPost.controller;
 
+import com.dogsole.developersite.common.dto.res.LovResDTO;
+import com.dogsole.developersite.common.service.LovService;
 import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequestMapping("/job_post")
 public class JobPostController {
     private final JobPostService jobPostService;
+    private final LovService lovService;
 
     @GetMapping("/jobList")
     public String allJobPost(Model model, @PageableDefault(size = 10) Pageable pageable){
@@ -30,7 +33,13 @@ public class JobPostController {
     @GetMapping("/jobDetail/{id}")
     public String JobDetail(@PathVariable Long id, Model model){
         JobPostResDTO jobDetail = jobPostService.getJobDetail(id);
+        List<LovResDTO> postReqList = lovService.getLovByKind("post_req");
+        List<LovResDTO> postWorkList = lovService.getLovByKind("post_work");
+
         model.addAttribute("jobDetail", jobDetail);
+        model.addAttribute("postReqList",postReqList);
+        model.addAttribute("postWorkList",postWorkList);
+
         return "/job_post/jobDetail";
     }
 
