@@ -1,6 +1,7 @@
 package com.dogsole.developersite.security.filter;
 
 import com.dogsole.developersite.account.service.UserInfoUserDetailsService;
+import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UserInfoUserDetailsService userDetailsService;
@@ -32,12 +33,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String username = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            username = jwtService.extractUsername(token);
+            username = jwtTokenProvider.extractUsername(token);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtService.validateToken(token, userDetails)) {
+            if (jwtTokenProvider.parseJwtToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

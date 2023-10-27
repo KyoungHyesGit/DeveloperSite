@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    //초기화 시키기.
+    $(document).ready(function(){
+      //alert('kakao');
+      Kakao.init('4ac3a4a5abf7720a50b28b3ffeb6b566');
+      Kakao.isInitialized();
+      kakaoLogout();
+    }); </script>
+<script>
+
+  function kakaoLogin() {
+    Kakao.Auth.login({
+      success: function (response) {
+        //사용자 정보 가져오기
+        Kakao.API.request({
+          url: '/v2/user/me', //계정 정보를 가져오는 request url
+          success: function (response) {
+            let user = response.kakao_account //카카오 계정 정보
+            //console.log(user)
+            user.host = 'kakao' //다른 로그인 서비스와 구분하기 위해서 개인적으로 추가했음
+            // 해당 페이지에서 객체를 만들고 곧바로 user 정보를 사용할 수 도 있고,
+
+            if(user.email_needs_agreement==false){
+              //alert('true');
+              //alert(obj.email);
+              const emails = user.email;
+              console.log(emails);
+
+              // myFormSubmit();
+            }else{
+              //alert('false');
+              // kakaoLogout();
+            }
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+
+  kakaoLogin();
+</script>
+</head>
+<body>
+
+</body>
+</html>
