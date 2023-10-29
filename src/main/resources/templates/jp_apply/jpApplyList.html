@@ -50,7 +50,8 @@
             <th>번호</th>
             <th>회사명</th>
             <th>공고 제목</th>
-            <th>지원 날</th>
+            <th>지원일</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -59,10 +60,17 @@
             <td th:text="${applyList.venderEntity.name}"></td>
             <td th:text="${applyList.jobPostEntity.title}"></td>
             <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
+            <td><a th:href="'/jpApply/deleteApply?jpApplyId=' + ${applyList.id}" onclick="return confirmCancellation();">지원취소</a></td>
+
         </tr>
         </tbody>
     </table>
 </th:block>
 </body>
+<script>
+    function confirmCancellation() {
+        return confirm("정말로 지원을 취소하시겠습니까?");
+    }
+</script>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

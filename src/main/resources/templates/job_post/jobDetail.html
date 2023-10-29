@@ -21,8 +21,7 @@
 
             <!-- 경로지정해줘야함 -->
             <a sec:authorize="isAuthenticated()" class="btn btn-light"
-               th:href="@{'/userResume/selectResume?venderId=' + ${jobDetail.venderResDTO.id} + '&jobPostId=' + ${jobDetail.id}}">지원하기</a>
-            <a th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.id}, jobPostId=${jobDetail.id})}">선택</a>
+               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.id}, jobPostId=${jobDetail.id})}">지원하기</a>
 
 
 

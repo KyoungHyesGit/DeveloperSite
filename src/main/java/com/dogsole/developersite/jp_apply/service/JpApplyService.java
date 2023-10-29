@@ -39,7 +39,6 @@ public class JpApplyService {
     }
 
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
-       // if (isJpApplydByUser(userId, jobPostId)) {
             JpApplyEntity jpApplyEntity = new JpApplyEntity();
 
             UserEntity userEntity = new UserEntity();
@@ -60,16 +59,12 @@ public class JpApplyService {
             jpApplyRepository.save(jpApplyEntity);
 
             return true; // 저장 성공
-//        } else {
-//            // 지원 안될 경우
-//            return false; // 저장 실패
-//        }
     }
 
     //지원삭제
-    public void delApllyJp(Long userId, Long venderId, Long jobPostId) {
-        JpApplyEntity jpApplyEntity = jpApplyRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_Id(userId, venderId, jobPostId)
-                .orElseThrow(() -> new BusinessException("찜을 찾을 수 없음", HttpStatus.NOT_FOUND));
+    public void delApllyJp( Long jpApplyId) {
+        JpApplyEntity jpApplyEntity = jpApplyRepository.findById(jpApplyId)
+                .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
         jpApplyRepository.delete(jpApplyEntity);
     }
 }
