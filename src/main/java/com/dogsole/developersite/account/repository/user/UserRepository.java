@@ -2,6 +2,9 @@ package com.dogsole.developersite.account.repository.user;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
@@ -19,4 +22,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     //비밀번호 확인 메서드(로그인)
     public boolean existsByPasswd(String user_passwd);
+
+    @Query("SELECT DATE_FORMAT(u.createdAt, '%Y-%m-%d') AS LABEL, COUNT(*) AS Y FROM user u WHERE u.createdAt IS NOT NULL GROUP BY LABEL")
+    List<Object[]> countUsersByCreatedAt();
+
+    @Query("SELECT SUBSTRING(u.birth, 1, 4) AS LABEL, COUNT(*) AS Y FROM user u WHERE u.birth IS NOT NULL GROUP BY LABEL")
+    List<Object[]> countUsersByBirthYear();
 }

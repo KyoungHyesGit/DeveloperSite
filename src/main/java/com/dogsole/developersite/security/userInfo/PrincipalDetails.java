@@ -12,6 +12,7 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
 
+    private Long id;
     private String name;
     private String password;
     private List<GrantedAuthority> authorities;
@@ -19,6 +20,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public PrincipalDetails(UserEntity userEntity) {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
+        id=userEntity.getUserId();
 //        authorities= Arrays.stream(userEntity.getRoles().split(","))
 //                .map(SimpleGrantedAuthority::new)
 //                .collect(Collectors.toList());
@@ -42,6 +44,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public String getUsername() {
         return name;
+    }
+
+    public Long getUserId() {
+        return id;
     }
 
     @Override

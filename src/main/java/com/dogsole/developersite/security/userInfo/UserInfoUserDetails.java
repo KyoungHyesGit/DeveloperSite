@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class UserInfoUserDetails implements UserDetails {
 
 
+    private Long id;
     private String name;
     private String password;
     private List<GrantedAuthority> authorities;
@@ -21,6 +22,7 @@ public class UserInfoUserDetails implements UserDetails {
     public UserInfoUserDetails(UserEntity userEntity) {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
+        id=userEntity.getUserId();
 //        authorities= Arrays.stream(userEntity.getRoles().split(","))
 //                .map(SimpleGrantedAuthority::new)
 //                .collect(Collectors.toList());
@@ -39,6 +41,10 @@ public class UserInfoUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return name;
+    }
+
+    public Long getUserId() {
+        return id;
     }
 
     @Override

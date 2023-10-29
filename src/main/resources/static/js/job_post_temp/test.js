@@ -12,5 +12,5 @@ function getCookie(name) {
     return null; // 해당 쿠키가 없을 경우
 }
 
-var myCookieValue = getCookie('myTokenCookie');
-console.log("myCookieValue"+myCookieValue);
+var loginUserIdValue = getCookie('loginUserId');
+console.log("loginUserIdValue:"+loginUserIdValue);

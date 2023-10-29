@@ -3,6 +3,8 @@ package com.dogsole.developersite.security.config;
 import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.security.filter.JwtAuthFilter;
+import com.dogsole.developersite.security.userInfo.PrincipalDetails;
+import com.dogsole.developersite.security.userInfo.UserInfoUserDetails;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/account/**"),
                                 new AntPathRequestMatcher("/checkToken"),
+                                new AntPathRequestMatcher("/api/statistics/**"),
                                 new AntPathRequestMatcher("/tokenCreate/**"),
                                 new AntPathRequestMatcher("/checkToken/**")
                         ).permitAll()
@@ -70,10 +73,11 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login -> {
                     oauth2Login
                             .loginPage("/account/loginpage")
-                            .defaultSuccessUrl("/").successHandler((request, response, authentication) -> {
+                            .defaultSuccessUrl("/")
+                            .successHandler((request, response, authentication) -> {
                                 System.out.println("성공?");
                                 if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-                                    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                                    PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
                                     String userEmail = userDetails.getUsername();
                                     String myToken = jwtTokenProvider.createToken(userEmail);
 
@@ -81,10 +85,17 @@ public class SecurityConfig {
                                     cookie.setMaxAge(1800);
                                     cookie.setPath("/") ;
                                     cookie.setDomain("");
+
+                                    Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
+                                    loginUserId.setMaxAge(1800);
+                                    loginUserId.setPath("/") ;
+                                    loginUserId.setDomain("");
+
                                     response.addCookie(cookie);
+                                    response.addCookie(loginUserId);
+
                                     System.out.println("쿠키 설정됨: " + myToken);
                                     response.sendRedirect("/"); // 리다이렉트
-
                                 }
                             });
                 }).formLogin(login -> login
@@ -95,7 +106,7 @@ public class SecurityConfig {
                         .successHandler((request, response, authentication) -> {
                             System.out.println("성공?");
                             if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-                                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                                UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
                                 String userEmail = userDetails.getUsername();
                                 String myToken = jwtTokenProvider.createToken(userEmail);
 
@@ -103,14 +114,19 @@ public class SecurityConfig {
                                 cookie.setMaxAge(1800);
                                 cookie.setPath("/") ;
                                 cookie.setDomain("");
+
+                                Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
+                                loginUserId.setMaxAge(1800);
+                                loginUserId.setPath("/") ;
+                                loginUserId.setDomain("");
+
                                 response.addCookie(cookie);
+                                response.addCookie(loginUserId);
+
                                 System.out.println("쿠키 설정됨: " + myToken);
                                response.sendRedirect("/"); // 리다이렉트
 
                             }
-                        })
-                        .failureHandler((request, response, authentication) -> {
-                            System.out.println("실패?");
                         })
                         .permitAll()
                 )

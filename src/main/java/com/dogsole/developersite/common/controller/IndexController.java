@@ -1,16 +1,13 @@
 package com.dogsole.developersite.common.controller;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import com.dogsole.developersite.statistics.service.StatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
-    @GetMapping("/kgh")
-    public String gotoKgh() {
-        return "/imsi/kgh";
-    }
+    @Autowired
+    private StatisticsService statisticsService;
+
+
 }

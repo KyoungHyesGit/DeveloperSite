@@ -1,7 +1,6 @@
 package com.dogsole.developersite.jobPost.entity;
 
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
-import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,7 +50,7 @@ public class JobPostEntity {
     @Column(name = "job_post_temp_reqstate")
     private String reqState;
     @Column(name = "job_post_temp_endtime")
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     @Column(name = "CREATE_DT")
     private LocalDateTime createDt = LocalDateTime.now();
     @Column(name = "UPDATE_DT")
