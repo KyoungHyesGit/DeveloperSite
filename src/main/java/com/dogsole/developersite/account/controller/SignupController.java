@@ -7,17 +7,11 @@ import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
-import com.dogsole.developersite.security.service.JwtService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +27,6 @@ public class SignupController {
 
     private final UserService userService;
     private final VenderService venderService;
-    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     //일반유저의 회원가입 처리 ---------------------------------------------------------------------------

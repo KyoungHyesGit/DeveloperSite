@@ -72,7 +72,7 @@ public class JobPostTempController {
 
         jobPostTempService.createJobTempPost(jobPostTempReqDTO);
 
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -104,9 +104,10 @@ public class JobPostTempController {
         }
         jobPostTemp.setIp(request.getRemoteAddr());
         jobPostTemp.setState("수정");
+        jobPostTemp.setReqState("");
 
         jobPostTempService.updateJobPostTemp(id, jobPostTemp);
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
 
     @PostMapping("/delete/{id}")

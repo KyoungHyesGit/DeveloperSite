@@ -11,11 +11,8 @@ public class IndexController {
     private StatisticsService statisticsService;
 
     @GetMapping("/")
-//    public String gotoKgh() {
-//        return "redirect:/job_post/jobList";
-//    }
     public String gotoKgh() {
-        return "redirect:/jobPostTemp/tempList";
-
+        return "redirect:/job_post/jobList";
     }
+
 }

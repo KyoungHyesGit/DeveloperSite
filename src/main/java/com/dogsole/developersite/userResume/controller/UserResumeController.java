@@ -69,13 +69,12 @@ public class UserResumeController {
         return "redirect:/userResume/"+userId;
     }
     @GetMapping("/selectResume/{id}")
-    public String selectResume(Long userId, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId,
+    public String selectResume(@PathVariable Long id, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId,
                                 Model model){
         //userId 임시 지정
-        userId=1L;
-        List<UserResumeResDTO> userResumes = userResumeService.getUserResumesByUserId(userId);
+        List<UserResumeResDTO> userResumes = userResumeService.getUserResumesByUserId(id);
         model.addAttribute("userResumes", userResumes);
-        model.addAttribute("userId", userId);
+        model.addAttribute("userId", id);
         model.addAttribute("venderId", venderId);
         model.addAttribute("jobPostId", jobPostId);
         return "/userResume/userResumeSelection";

@@ -60,7 +60,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/account/**"),
                                 new AntPathRequestMatcher("/checkToken"),
-                                new AntPathRequestMatcher("/api/statistics/**"),
+                                new AntPathRequestMatcher("/adviceboard/list"),
+                                new AntPathRequestMatcher("/job_post/**"),
                                 new AntPathRequestMatcher("/tokenCreate/**"),
                                 new AntPathRequestMatcher("/checkToken/**")
                         ).permitAll()

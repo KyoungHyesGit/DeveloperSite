@@ -63,6 +63,8 @@ public class JobPostTempEntity {
     public void setDTOsValToEntity(JobPostTempReqFormDTO jobPostTempReqDTO){
         this.title = jobPostTempReqDTO.getTitle();
         this.detail = jobPostTempReqDTO.getDetail();
+        this.reqState = jobPostTempReqDTO.getReqState();
+        this.state = jobPostTempReqDTO.getState();
         this.work = jobPostTempReqDTO.getWork().stream().collect(Collectors.joining(","));
         this.req = jobPostTempReqDTO.getReq().stream().collect(Collectors.joining(","));
         this.salary = jobPostTempReqDTO.getSalary();
@@ -76,6 +78,8 @@ public class JobPostTempEntity {
     public void setDTOsValToEntity(JobPostTempReqDTO jobPostTempReqDTO){
         this.title = jobPostTempReqDTO.getTitle();
         this.detail = jobPostTempReqDTO.getDetail();
+        this.reqState = jobPostTempReqDTO.getReqState();
+        this.state = jobPostTempReqDTO.getState();
         this.work = jobPostTempReqDTO.getWork().stream().collect(Collectors.joining(","));
         this.req = jobPostTempReqDTO.getReq().stream().collect(Collectors.joining(","));
         this.salary = jobPostTempReqDTO.getSalary();

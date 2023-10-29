@@ -19,7 +19,7 @@
     <form action="#" th:action="@{/jobPostTemp/add}" th:object="${jobPostTempReqDTO}" method="post" >
         <!-- TODO 유저로 뽑기 -->
         <label for="vender_id">임시 회사 아이디 넣기 *</label>
-        <input type="text" th:field="*{venderReqDTO.id}" id="vender_id">
+        <input type="text" th:field="*{venderReqDTO.venderId}" id="vender_id">
         <br/>
         <label for="title">TITLE *</label>
         <input type="text" th:field="*{title}" id="title">

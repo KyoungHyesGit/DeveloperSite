@@ -72,5 +72,6 @@ public class JobPostEntity {
         this.detailAddr = jobPostTempEntity.getDetailAddr();
         this.extraAddr = jobPostTempEntity.getExtraAddr();
         this.endTime = jobPostTempEntity.getEndTime();
+        this.venderEntity = jobPostTempEntity.getVenderEntity();
     }
 }

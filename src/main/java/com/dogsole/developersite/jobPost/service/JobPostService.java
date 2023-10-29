@@ -39,6 +39,7 @@ public class JobPostService {
     public Page<JobPostResDTO> getAllPost(Pageable pageable) {
         Page<JobPostEntity> jobPostEntities = jobPostRepository.findAll(pageable);
         return jobPostEntities.map(jobPostEntity -> {
+
             JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
 
             // VenderResDTO를 설정
