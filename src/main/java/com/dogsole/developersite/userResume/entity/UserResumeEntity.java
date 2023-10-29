@@ -1,13 +1,11 @@
 package com.dogsole.developersite.userResume.entity;
 
-import com.dogsole.developersite.vender.entity.UserEntity;
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

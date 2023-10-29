@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface UserResumeRepository extends JpaRepository<UserResumeEntity,Long> {
     Optional<UserResumeEntity> findUserResumeEntityById(Long id);
     // 특정 user_id에 대한 resume 목록 가져오기
-    List<UserResumeEntity> findByUserEntityId(Long userId);
+    List<UserResumeEntity> findByUserEntityUserId(Long userId);
 }

@@ -17,7 +17,8 @@
             <h1 th:text="${jobDetail.title}"></h1>
         </div>
         <div class="dt_two">
-            <button>관심공고</button>
+            <a class="btn btn-light"
+               th:href="@{/jpLike/addLike1(userId=1, jobPostId=${jobDetail.id})}">관심등록</a>
 
             <!-- 경로지정해줘야함 -->
             <a sec:authorize="isAuthenticated()" class="btn btn-light"

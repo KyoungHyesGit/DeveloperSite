@@ -1,12 +1,13 @@
 package com.dogsole.developersite.jp_like.service;
 
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
+import com.dogsole.developersite.jp_apply.dto.JpApplyResDTO;
 import com.dogsole.developersite.jp_like.dto.JpLikeResDTO;
 import com.dogsole.developersite.jp_like.entity.JpLikeEntity;
 import com.dogsole.developersite.jp_like.repository.JpLikeRepository;
-import com.dogsole.developersite.vender.entity.UserEntity;
 import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,86 +16,47 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class JpLikeService {
     private final JpLikeRepository jpLikeRepository;
     private final ModelMapper modelMapper;
-
-    public JpLikeResDTO getByUserId(Long id) {
-        return modelMapper.map(jpLikeRepository.findByUserEntityId(id), JpLikeResDTO.class);
+    //내찜리스트
+    public List<JpLikeResDTO> getByUserId(Long id){
+        return jpLikeRepository.findByUserEntityUserId(id).stream()
+                .map(jpLikeEntity -> modelMapper.map(jpLikeEntity, JpLikeResDTO.class))
+                .collect(Collectors.toList());
     }
-
-    public JpLikeEntity addLike(Long userId, Long venderId, Long jobPostId) {
-        // 새로운 JpLikeEntity 객체 생성
+    // 찜하기
+    public JpLikeEntity likeJob(Long userId, Long jobPostId ) {
         JpLikeEntity jpLikeEntity = new JpLikeEntity();
-
-        // 각 객체를 임의의 값으로 설정
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L); // 사용자 ID를 임의로 설정
-        VenderEntity venderEntity = new VenderEntity();
-        venderEntity.setId(1L); // 판매자 ID를 임의로 설정
-        JobPostEntity jobPostEntity = new JobPostEntity();
-        jobPostEntity.setId(1L); // 채용 공고 ID를 임의로 설정
-        JobPostTempEntity jobPostTempEntity = new JobPostTempEntity();
-        jobPostTempEntity.setId(1L); // JobPostTempEntity의 ID를 임의로 설정
-
-        if (userEntity != null && venderEntity != null && jobPostEntity != null && jobPostTempEntity != null) {
-            jpLikeEntity.setUserEntity(userEntity);
-            jpLikeEntity.setVenderEntity(venderEntity);
-            jpLikeEntity.setJobPostEntity(jobPostEntity);
-            jpLikeEntity.setJobPostTempEntity(jobPostTempEntity);
-            // 저장
-            jpLikeEntity = jpLikeRepository.save(jpLikeEntity);
-        } else {
-            // Entity를 찾을 수 없는 경우 예외 처리
-            throw new EntityNotFoundException("Entity를 찾을 수 없습니다.");
-        }
-
-        return jpLikeEntity;
-    }
-    //찜했는지 확인 T/F
-    public boolean isJpLikedByUser(Long userId, Long jobPostId) {
-        Optional<JpLikeEntity> like = jpLikeRepository.findByUserEntityIdAndJobPostEntityId(userId, jobPostId);
-        return like.isPresent();
-    }
-
-    public void toggleJpLike(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
-        if (isJpLikedByUser(userId,jobPostId)) {
-            // 이미 찜한 경우, 찜을 삭제
-            unlikeJp(userId, venderId, jobPostId,jobPostTempId);
-        } else {
-            // 아직 찜하지 않은 경우, 찜을 추가
-            likeJp(userId, venderId, jobPostId,jobPostTempId);
-        }
-    }
-
-    private void likeJp(Long userId, Long venderId, Long jobPostId , Long jobPostTempId) {
-        JpLikeEntity jpLikeEntity = new JpLikeEntity();
-
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(userId);
-        VenderEntity venderEntity = new VenderEntity();
-        venderEntity.setId(venderId);
-        JobPostEntity jobPostEntity = new JobPostEntity();
-        jobPostEntity.setId(jobPostId);
-        JobPostTempEntity jobPostTempEntity = new JobPostTempEntity();
-        jobPostTempEntity.setId(jobPostTempId);
-
+        UserEntity userEntity = modelMapper.map(userId, UserEntity.class);
+        JobPostEntity jobPostEntity = modelMapper.map(jobPostId, JobPostEntity.class);
         jpLikeEntity.setUserEntity(userEntity);
-        jpLikeEntity.setVenderEntity(venderEntity);
         jpLikeEntity.setJobPostEntity(jobPostEntity);
-        jpLikeEntity.setJobPostTempEntity(jobPostTempEntity);
-        jpLikeEntity.setLike_date(LocalDateTime.now());
 
-        jpLikeRepository.save(jpLikeEntity);
+        return jpLikeRepository.save(jpLikeEntity);
     }
 
-    private void unlikeJp(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
-        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_IdAndJobPostTempEntity_Id(userId, venderId, jobPostId,jobPostTempId)
-                .orElseThrow(() -> new BusinessException("찜을 찾을 수 없음", HttpStatus.NOT_FOUND));
-        jpLikeRepository.delete(jpLikeEntity);
-    }
+
+//    public void unlikeJob(UserEntity user, JobPostEntity jobPost) {
+//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntityAndJobPostEntity(user, jobPost);
+//        if (jpLikeEntity != null) {
+//            jpLikeRepository.delete(jpLikeEntity);
+//        }
+//    }
+//
+//    public boolean isJobLikedByUser(UserEntity user, JobPostEntity jobPost) {
+//        return jpLikeRepository.existsByUserEntityAndJobPostEntity(user, jobPost);
+//    }
+//
+//    private void unlikeJp(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
+//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_IdAndJobPostTempEntity_Id(userId, venderId, jobPostId,jobPostTempId)
+//                .orElseThrow(() -> new BusinessException("찜을 찾을 수 없음", HttpStatus.NOT_FOUND));
+//        jpLikeRepository.delete(jpLikeEntity);
+//    }
 }

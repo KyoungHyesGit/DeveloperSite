@@ -36,7 +36,7 @@ public class UserResumeController {
     @PostMapping("/createResume")
     public String createResume(@ModelAttribute UserResumeReqDTO userResumeReqDTO,@RequestParam("photo") MultipartFile photo,Long userId) throws Exception {
         UserResumeEntity userResumeEntity = userResumeService.saveUserResume(userResumeReqDTO,photo,userId);
-        return "redirect:/userResume/" + userResumeEntity.getUserEntity().getId();
+        return "redirect:/userResume/" + userResumeEntity.getUserEntity().getUserId();
     }
     //이력서 디테일폼으로 아동
     @GetMapping("/showDetailForm/{id}")

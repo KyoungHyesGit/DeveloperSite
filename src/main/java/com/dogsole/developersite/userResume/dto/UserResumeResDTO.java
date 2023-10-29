@@ -1,6 +1,6 @@
 package com.dogsole.developersite.userResume.dto;
 
-import com.dogsole.developersite.vender.entity.UserEntity;
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 

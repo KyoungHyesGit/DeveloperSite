@@ -1,9 +1,8 @@
 package com.dogsole.developersite.jp_apply.entity;
 
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
-import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
-import com.dogsole.developersite.vender.entity.UserEntity;
 import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

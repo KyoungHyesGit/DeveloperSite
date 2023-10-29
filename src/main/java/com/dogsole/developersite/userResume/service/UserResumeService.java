@@ -1,10 +1,10 @@
 package com.dogsole.developersite.userResume.service;
 
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.userResume.dto.UserResumeReqDTO;
 import com.dogsole.developersite.userResume.dto.UserResumeResDTO;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
 import com.dogsole.developersite.userResume.repository.UserResumeRepository;
-import com.dogsole.developersite.vender.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class UserResumeService {
 
     //user별 이력서 목록
     public List<UserResumeResDTO> getUserResumesByUserId(Long id) {
-        List<UserResumeEntity> userResumes = userResumeRepository.findByUserEntityId(id);
+        List<UserResumeEntity> userResumes = userResumeRepository.findByUserEntityUserId(id);
         return userResumes.stream()
                 .map(userResume -> modelMapper.map(userResume, UserResumeResDTO.class))
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class UserResumeService {
 
         userId=1L;
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(userId);
+        userEntity.setUserId(userId);
         userResumeEntity.setUserEntity(userEntity);
 
         return userResumeRepository.save(userResumeEntity);
@@ -64,7 +64,7 @@ public class UserResumeService {
         // 이력서 ID를 사용하여 user_id를 가져오는 메서드
         UserResumeEntity userResume = userResumeRepository.findById(resumeId).orElse(null);
         if (userResume != null) {
-            return userResume.getUserEntity().getId();
+            return userResume.getUserEntity().getUserId();
         } else {
             return null; // 이력서를 찾지 못한 경우 예외 처리
         }

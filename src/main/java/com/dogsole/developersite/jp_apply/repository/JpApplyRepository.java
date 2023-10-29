@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface JpApplyRepository extends JpaRepository<JpApplyEntity,Long> {
 
-    List<JpApplyEntity> findByUserEntityId(Long userId);
-    Optional<JpApplyEntity> findByUserEntityIdAndJobPostEntityId(Long userId, Long jobPostId);
+    List<JpApplyEntity> findByUserEntityUserId(Long userId);
+    Optional<JpApplyEntity> findByUserEntityUserIdAndJobPostEntityId(Long userId, Long jobPostId);
 
 
 }

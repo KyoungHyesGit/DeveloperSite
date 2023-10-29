@@ -1,8 +1,7 @@
 package com.dogsole.developersite.jp_like.entity;
 
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
-import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
-import com.dogsole.developersite.vender.entity.UserEntity;
 import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,10 +34,6 @@ public class JpLikeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_post_id")
     private JobPostEntity jobPostEntity;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_post_temp_id")
-    private JobPostTempEntity jobPostTempEntity;
 
     @Column(name = "like_date")
     private LocalDateTime like_date = LocalDateTime.now();;
