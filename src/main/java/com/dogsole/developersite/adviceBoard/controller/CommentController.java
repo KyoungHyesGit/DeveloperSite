@@ -74,6 +74,7 @@ public class CommentController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /*
     @GetMapping("/comments")
     public String showAddComments(Long id, Model model) {
         List<CommentResDTO> comments = commentService.getComment(id);
@@ -81,6 +82,7 @@ public class CommentController {
         model.addAttribute("comment", new CommentReqDTO());
         return "redirect:/adviceboard/view";
     }
+     */
 
     @PostMapping("/addComment")
     public String addComment(@ModelAttribute @Valid CommentReqDTO commentReqDTO, RedirectAttributes attributes) {
