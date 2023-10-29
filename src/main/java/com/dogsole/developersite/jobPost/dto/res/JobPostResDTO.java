@@ -1,7 +1,6 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -33,10 +32,12 @@ public class JobPostResDTO {
     private String reqState;
     private LocalDate endTime;
     private LocalDateTime createDt = LocalDateTime.now();
-    private LocalDateTime updateDt =  LocalDateTime.now();;
+
+
+    private LocalDateTime updateDt = LocalDateTime.now();
+
 
     private VenderResDTO venderResDTO;
 
     private JobPostTempResDTO jobPostTempReqDTO;
-
 }

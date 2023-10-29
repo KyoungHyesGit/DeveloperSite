@@ -44,17 +44,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
        return new UserInfoUserDetailsService();
     }
-
     //HttpSecurity 를 사용해 보안필터체인 구성을 정의
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .cors().disable()
-                .httpBasic().disable()
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+        http.csrf().disable().cors().disable()
                 .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll() //아래는 인증없이 허용되는 URL지정
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
                         .requestMatchers(
                                 new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/css/**"),
@@ -160,5 +156,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager(); //사용자 인증을 관리.(사용자 자격 증명)
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.dogsole.developersite.account.repository.user;
 
+
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT SUBSTRING(u.birth, 1, 4) AS LABEL, COUNT(*) AS Y FROM user u WHERE u.birth IS NOT NULL GROUP BY LABEL")
     List<Object[]> countUsersByBirthYear();
+
 }

@@ -1,8 +1,8 @@
 package com.dogsole.developersite.jobPost.entity;
 
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

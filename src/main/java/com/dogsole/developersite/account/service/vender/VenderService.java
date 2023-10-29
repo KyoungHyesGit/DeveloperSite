@@ -1,11 +1,10 @@
 package com.dogsole.developersite.account.service.vender;
 
-import com.dogsole.developersite.account.dto.user.UserReqDTO;
+
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.repository.vender.VenderRepository;
-import com.dogsole.developersite.jwt.dto.TokenReqDTO;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
@@ -28,7 +27,8 @@ import java.util.stream.Collectors;
 public class VenderService {
     private final VenderRepository venderRepository;
     private final ModelMapper modelMapper;
-    private final SecurityConfig securityConfig;
+
+    private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenRepository tokenRepository;
 
@@ -60,7 +60,6 @@ public class VenderService {
         }
 
         //스프링 시큐리티로 비밀번호 암호화처리
-        PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
         String encodePasswd = passwordEncoder.encode(venderReqDTO.getVenderPasswd());
         venderReqDTO.setVenderPasswd(encodePasswd);
 

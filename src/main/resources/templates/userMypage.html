@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<th:block layout:fragment="content">
+    <h1>마이페이지</h1>
+
+    <!-- 사용자 정보 수정 버튼 -->
+    <a th:href="@{/#}">
+        <button>회원 정보 수정</button>
+    </a>
+
+    <!-- 탈퇴 버튼 -->
+    <a th:href="@{/#}">
+        <button>회원 탈퇴</button>
+    </a>
+
+    <!-- 이력서 관리 버튼 -->
+    <a th:href="@{/#}">
+        <button>내 이력서 관리</button>
+    </a>
+
+    <!-- 지원 현황 버튼 -->
+    <a th:href="@{'/jpApply/jpApplyList/' + id}">
+        <button>내 지원 현황</button>
+    </a>
+
+    <!-- 찜 목록 버튼 -->
+    <a th:href="@{'/jpLike/jpLikeList/' + id}">
+        <button>내 찜 목록</button>
+    </a>
+</th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</html>

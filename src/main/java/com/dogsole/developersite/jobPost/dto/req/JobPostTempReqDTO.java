@@ -1,6 +1,6 @@
 package com.dogsole.developersite.jobPost.dto.req;
 
-import com.dogsole.developersite.vender.dto.req.VenderReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -65,5 +65,4 @@ public class JobPostTempReqDTO {
     private LocalDateTime updateDt;
 
     private VenderReqDTO venderReqDTO;
-
 }
