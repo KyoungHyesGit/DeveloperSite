@@ -28,7 +28,12 @@ public class JobPostService {
         // 임시테이블에서 본 테이블로 복사
         JobPostTempEntity jobPostTempEntity = jobPostTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
 
-        JobPostEntity jobPostEntity = new JobPostEntity();
+
+        JobPostEntity jobPostEntity = jobPostRepository.findByTempId(id);
+
+        if(jobPostEntity==null){
+            jobPostEntity = new JobPostEntity();
+        }
         jobPostEntity.setTempToReal(jobPostTempEntity);
         jobPostRepository.save(jobPostEntity);
 

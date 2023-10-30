@@ -9,4 +9,6 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     // 전체공고목록
     Page<JobPostEntity> findAll(Pageable pageable);
 
+    JobPostEntity findByTempId(Long tempId);
+
 }
