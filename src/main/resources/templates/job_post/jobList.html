@@ -5,15 +5,6 @@
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
 
-<<<<<<< HEAD
-    <div th:each="jobList : ${jobList}">
-        <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-            <img th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
-            <p th:text="${jobList.venderResDTO.venderName}"></p>
-            <p th:text="${jobList.title}"></p>
-        </a>
-    </div>
-=======
     <div class="container job_container">
         <div class="job_item" th:each="jobList : ${jobList}">
             <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
@@ -24,7 +15,6 @@
                 <p th:text="${jobList.title}"></p>
             </a>
         </div>
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
 
     </div>
 </th:block>

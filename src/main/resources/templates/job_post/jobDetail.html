@@ -17,8 +17,8 @@
             <h1 th:text="${jobDetail.title}"></h1>
         </div>
         <div class="dt_two">
-<!--            <a class="btn btn-light"-->
-<!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
+            <!--            <a class="btn btn-light"-->
+            <!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
 
             <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
                     th:data-job-post-id="${jobDetail.id}" class="like-button">찜등록</button>
@@ -80,16 +80,11 @@
             </script>
 
             <!-- 경로지정해줘야함 -->
-<<<<<<< HEAD
-            <a sec:authorize="isAuthenticated()" class="btn btn-light"
-               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>
-=======
 <!--            <a sec:authorize="isAuthenticated()" class="btn btn-light"-->
-<!--               th:href="@{'/userResume/selectResume?venderId=' + ${jobDetail.venderResDTO.venderId} + '&jobPostId=' + ${jobDetail.id}}">지원하기</a>-->
-            <a th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>
+<!--               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>-->
+            <a sec:authorize="isAuthenticated()" class="btn btn-light"
+               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>
 
-
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
 
 
             <hr>
@@ -123,8 +118,5 @@
         </div>
     </div>
 </th:block>
-<<<<<<< HEAD
-=======
 
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
 </html>
