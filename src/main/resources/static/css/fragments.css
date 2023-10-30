@@ -4,7 +4,11 @@
     font-weight: 400;
     font-style: normal;
 }
-
+@media (max-width:1200px){
+    body{
+        background-color: green;
+    }
+}
 ul, li{
     list-style: none;
 }
@@ -83,18 +87,16 @@ footer{
     width: 100%;
     min-width: 960px;
     height: 297px;
+    background-color: #eee;
 }
-.ftBtn{
-    border-top: 2px solid #eee;
-    border-bottom: 2px solid #eee;
-}
+
 .ftBtn ul{
     margin: 10px auto;
     width: 1260px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
-    padding: 0;
+    padding: 10px;
 }
 .ftBtn ul li a{
     display: inline-flex;
