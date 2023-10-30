@@ -38,6 +38,8 @@ public class AdviceBoardReqDTO {
         this.views++;
     }
 
+    private String category;
+
 }
 
 

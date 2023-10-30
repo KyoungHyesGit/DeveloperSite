@@ -97,4 +97,8 @@ public class AdviceBoardService {
     public Page<AdviceBoard> listByViewsAsc(Pageable pageable) {
         return adviceBoardRepository.findAllByOrderByViewsAsc(pageable);
     }
+
+    public Page<AdviceBoard> listByCategory(String category, Pageable pageable) {
+        return adviceBoardRepository.findByCategory(category, pageable);
+    }
 }

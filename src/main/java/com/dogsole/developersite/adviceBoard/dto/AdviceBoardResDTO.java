@@ -28,6 +28,8 @@ public class AdviceBoardResDTO {
     public void incrementViews() {
         this.views++;
     }
+
+    private String category;
 }
 
 

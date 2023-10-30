@@ -2,7 +2,6 @@ package com.dogsole.developersite.jobPost.dto.req;
 
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;

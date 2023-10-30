@@ -1,5 +1,6 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
+
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;

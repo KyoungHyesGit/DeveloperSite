@@ -53,4 +53,6 @@ public class AdviceBoard {
     public void incrementViews() {
         this.views++;
     }
+
+    private String category;
 }
