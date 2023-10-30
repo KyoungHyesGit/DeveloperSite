@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -27,19 +28,15 @@ public class JpLikeController {
         return "jp_like/jpLikeList";
     }
     // 찜하기
-//    @GetMapping("/addLike")
-//    public String addLike1( Long userId, @RequestParam("jobPostId") Long jobPostId,@RequestParam("venderId") Long venderId, Model model) {
-//        userId=1L;
-//        System.out.println();
-//        System.out.println("jobPostId :"+jobPostId);
-//        System.out.println("venderId :"+venderId);
-//        jpLikeService.likeJob(userId,venderId,jobPostId);
-//
-//        model.addAttribute("successMessage", "찜 등록이 성공적으로 완료되었습니다.");
-//
-//        // 추가된 찜을 표시하는 페이지로 리디렉션
-//        return "redirect:/job_post/jobDetail/"+jobPostId;
-//    }
+    @GetMapping("/addLike1")
+    public String addLike1(Long userId, @RequestParam("jobPostId") Long jobPostId, @RequestParam("venderId") Long venderId) {
+        userId=1L;
+        System.out.println("jobPostId :"+jobPostId);
+        System.out.println("venderId :"+venderId);
+        jpLikeService.likeJob(userId,venderId,jobPostId);
+        // 추가된 찜을 표시하는 페이지로 리디렉션
+        return "redirect:/job_post/jobDetail/"+jobPostId;
+    }
 
     //찜 or 취소
 

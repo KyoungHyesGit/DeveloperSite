@@ -19,49 +19,63 @@
         <div class="dt_two">
 <!--            <a class="btn btn-light"-->
 <!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
+
             <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
                     th:data-job-post-id="${jobDetail.id}" class="like-button">찜등록</button>
 
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const likeButtons = document.querySelectorAll('.like-button');
+                $(document).ready(function() {
+                    var $button = $('.like-button');
+                    var venderId = $button.data('vender-id');
+                    var jobPostId = $button.data('job-post-id');
+                    var userId = 1; // 사용자 ID
 
-                    likeButtons.forEach(function (button) {
-                        button.addEventListener('click', function () {
-                            const userId=1;
-                            const venderId = button.getAttribute("data-vender-id");
-                            const jobPostId = button.getAttribute("data-job-post-id");
-                            addJpLike(userId,venderId,jobPostId);
-                        });
+                    // 페이지 로드 시 찜 상태 확인
+                    $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                        if (status === "success" && data === true) {
+                            // 이미 찜되어 있다면 버튼 색상을 노란색으로 변경
+                            $button.css('background-color', 'yellow');
+                        }
                     });
 
-                    function addJpLike(userId,venderId,jobPostId) {
-                        // Send an AJAX request to update the reqState for the specified post
-                        const url = '/api/addLike?userId='+userId+'&venderId=' + venderId + '&jobPostId=' + jobPostId;
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ userId: userId, venderId:venderId ,jobPostId:jobPostId}),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.error) {
-                                    console.error('Error adding jp_like:', data.error);
-                                } else if (data.message === 'success') {
-                                    // 찜 등록
-                                    // 아이콘의 색상 변경
-                                    button.classList.add('liked');
-                                } else {
-                                    console.error('Unknown response:', data);
+                    $button.click(function() {
+                        // 이미 찜되어 있는지 확인
+                        $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                            if (status === "success" && data === true) {
+                                // 이미 찜되어 있다면 찜 취소할 것인지 확인
+                                if (confirm("찜을 취소하시겠습니까?")) {
+                                    // 사용자가 확인하면 찜 데이터 삭제
+                                    $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                        if (status === "success" && data.message === "success") {
+                                            // 찜 삭제가 성공했으므로 버튼 색상 변경
+                                            $button.css('background-color', '');
+                                            alert("찜이 취소되었습니다.");
+                                        } else if (status === "success" && data.error) {
+                                            alert("오류: " + data.error);
+                                        }
+                                    });
                                 }
-                            })
-                            .catch(error => {
-                                console.error('Error adding jp_like:', error);
-                            });
-                    }
-
+                            } else {
+                                // 아직 찜되어 있지 않다면 찜 등록
+                                if (confirm("찜을 등록하시겠습니까?")) {
+                                    $.post("/api/addLike", {
+                                        userId: userId,
+                                        venderId: venderId,
+                                        jobPostId: jobPostId
+                                    }, function (data, status) {
+                                        if (status === "success" && data.message === "success") {
+                                            // 찜 등록이 성공했으므로 버튼 색상 변경
+                                            $button.css('background-color', 'yellow');
+                                            alert("찜 등록이 성공했습니다.");
+                                        } else if (status === "success" && data.error) {
+                                            alert("오류: " + data.error);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    });
                 });
             </script>
 

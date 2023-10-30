@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface JpLikeRepository extends JpaRepository<JpLikeEntity, Long> {
     List<JpLikeEntity> findByUserEntityUserId(Long userId);
 
-    Optional<JpLikeEntity> findByUserEntityUserIdAndJobPostEntityId(Long userId, Long jobPostId);
+    JpLikeEntity findByUserEntityUserIdAndJobPostEntityId(Long userId, Long jobPostId);
 
 }

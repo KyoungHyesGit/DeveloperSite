@@ -2,6 +2,7 @@ package com.dogsole.developersite.jp_like.service;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
+import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jp_like.dto.JpLikeResDTO;
 import com.dogsole.developersite.jp_like.entity.JpLikeEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,22 +44,21 @@ public class JpLikeService {
 
         return jpLikeRepository.save(jpLikeEntity);
     }
+//찜 체크
+    public boolean isJobLiked(Long userId, Long jobPostId) {
+        // 데이터베이스에서 해당 유저와 작업 게시물에 대한 찜 레코드를 조회
+        JpLikeEntity like = jpLikeRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
 
+        // 해당 레코드가 존재하면 true를 반환, 그렇지 않으면 false를 반환
+        return like != null;
+    }
+    public void removeLike(Long userId, Long jobPostId) {
+        // userId, venderId, jobPostId를 이용하여 해당 찜 데이터를 조회
+        JpLikeEntity likeEntity = jpLikeRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
 
-//    public void unlikeJob(UserEntity user, JobPostEntity jobPost) {
-//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntityAndJobPostEntity(user, jobPost);
-//        if (jpLikeEntity != null) {
-//            jpLikeRepository.delete(jpLikeEntity);
-//        }
-//    }
-//
-//    public boolean isJobLikedByUser(UserEntity user, JobPostEntity jobPost) {
-//        return jpLikeRepository.existsByUserEntityAndJobPostEntity(user, jobPost);
-//    }
-//
-//    private void unlikeJp(Long userId, Long venderId, Long jobPostId, Long jobPostTempId) {
-//        JpLikeEntity jpLikeEntity = jpLikeRepository.findByUserEntity_IdAndVenderEntity_IdAndJobPostEntity_IdAndJobPostTempEntity_Id(userId, venderId, jobPostId,jobPostTempId)
-//                .orElseThrow(() -> new BusinessException("찜을 찾을 수 없음", HttpStatus.NOT_FOUND));
-//        jpLikeRepository.delete(jpLikeEntity);
-//    }
+        if (likeEntity != null) {
+            // 찜 데이터가 존재하면 삭제
+            jpLikeRepository.delete(likeEntity);
+        }
+    }
 }
