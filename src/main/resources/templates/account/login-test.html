@@ -6,6 +6,29 @@
     <title>Title</title>
 </head>
 <body>
+
+
+<!--가입성공 메세지-->
+<script th:if="${successMessage}">
+    alert("회원가입 완료!");
+    // var userName = document.getElementById('u_name').value;
+    // var userEmail = document.getElementById('u_email').value;
+    // alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);
+</script>
+
+<!--로그인 실패 메세지-->
+<script th:if="${loginx}">
+
+    alert("로그인 실패!\n이메일, 비밀번호를 다시 확인하세요!");
+
+</script>
+
+<!--로그아웃 메세지-->
+<script th:if="${logout}">
+
+    alert("로그아웃 되었습니다");
+
+</script>
 <h1>일반회원 로그인</h1>
     <div> <!--th:object="${}"-->
         <form action="/account/login" method="post">
