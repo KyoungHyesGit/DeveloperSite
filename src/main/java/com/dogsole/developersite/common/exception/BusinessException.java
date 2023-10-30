@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class BusinessException extends RuntimeException {
 
-
-
     private static final long serialVersionUID = 1L;
     private String message;
     private HttpStatus httpStatus;
@@ -21,13 +19,4 @@ public class BusinessException extends RuntimeException {
         this.message = message;
         this.httpStatus = httpStatus;
     }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
 }

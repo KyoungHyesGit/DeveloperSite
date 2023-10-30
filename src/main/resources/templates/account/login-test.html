@@ -1,21 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="UTF-8">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+
+
+<!--가입성공 메세지-->
+<script th:if="${successMessage}">
+    alert("회원가입 완료!");
+    // var userName = document.getElementById('u_name').value;
+    // var userEmail = document.getElementById('u_email').value;
+    // alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);
+</script>
+
+<!--로그인 실패 메세지-->
+<script th:if="${loginx}">
+
+    alert("로그인 실패!\n이메일, 비밀번호를 다시 확인하세요!");
+
+</script>
+
+<!--로그아웃 메세지-->
+<script th:if="${logout}">
+
+    alert("로그아웃 되었습니다");
+
+</script>
 <h1>일반회원 로그인</h1>
     <div> <!--th:object="${}"-->
         <form action="/account/login" method="post">
-            <input type="text" name="userEmail" placeholder="이메일@aaa" class="in">
+            <input type="text" name="userEmail" placeholder="이메일@aaa" class="in" id="userEmail">
             <input type="password" name="passwd" placeholder="비밀번호" class="in">
             <input type="submit" id="btn" value="로그인"><br>
             <button type="button" onclick="location.href='http://localhost/account/signuppage'">회원가입</button>
         </form>
-
+        <hr>
+        <a href="/oauth2/authorization/google">구글 로그인</a>
+        <br><br>
     </div>
 </body>
+<script>
 
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    // 위의 함수를 호출하여 쿠키를 설정
+    setCookie("myTokenCookie", myToken, 30); // 30은 쿠키의 유효 기간을 나타냅니다. 필요에 따라 조절할 수 있습니다.
+</script>
 </html>

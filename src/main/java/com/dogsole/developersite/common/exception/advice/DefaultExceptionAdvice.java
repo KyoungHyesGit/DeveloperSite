@@ -12,16 +12,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class DefaultExceptionAdvice {
-    private final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionAdvice.class);
-
-    @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<Object> handleException(BusinessException e) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("message", "[안내] " + e.getMessage());
-        result.put("httpStatus", e.getHttpStatus().value());
-        //body + status code + header
-        return new ResponseEntity<>(result, e.getHttpStatus());
-    }
-
-
+private final Logger LOGGER = LoggerFactory.getLogger(DefaultExceptionAdvice.class);
+@ExceptionHandler(BusinessException.class)
+protected ResponseEntity<Object> handleException(BusinessException e) {
+Map<String, Object> result = new HashMap<String, Object>();
+result.put("message", "[안내] " + e.getMessage());
+result.put("httpStatus", e.getHttpStatus().value());
+return new ResponseEntity<>(result, e.getHttpStatus());
+}
 }

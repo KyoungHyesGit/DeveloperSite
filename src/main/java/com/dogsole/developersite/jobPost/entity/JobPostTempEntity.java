@@ -1,16 +1,16 @@
 package com.dogsole.developersite.jobPost.entity;
 
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
-import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Entity
 @Setter
@@ -50,7 +50,7 @@ public class JobPostTempEntity {
     @Column(name = "job_post_temp_reqstate")
     private String reqState;
     @Column(name = "job_post_temp_endtime")
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     @Column(name = "CREATE_DT")
     private LocalDateTime createDt = LocalDateTime.now();
     @Column(name = "UPDATE_DT")
@@ -63,8 +63,10 @@ public class JobPostTempEntity {
     public void setDTOsValToEntity(JobPostTempReqFormDTO jobPostTempReqDTO){
         this.title = jobPostTempReqDTO.getTitle();
         this.detail = jobPostTempReqDTO.getDetail();
-        this.work = jobPostTempReqDTO.getWork();
-        this.req = jobPostTempReqDTO.getReq();
+        this.reqState = jobPostTempReqDTO.getReqState();
+        this.state = jobPostTempReqDTO.getState();
+        this.work = jobPostTempReqDTO.getWork().stream().collect(Collectors.joining(","));
+        this.req = jobPostTempReqDTO.getReq().stream().collect(Collectors.joining(","));
         this.salary = jobPostTempReqDTO.getSalary();
         this.zipcode = jobPostTempReqDTO.getZipcode();
         this.streetAddr = jobPostTempReqDTO.getStreetAddr();
@@ -73,4 +75,18 @@ public class JobPostTempEntity {
         this.endTime = jobPostTempReqDTO.getEndTime();
     }
 
+    public void setDTOsValToEntity(JobPostTempReqDTO jobPostTempReqDTO){
+        this.title = jobPostTempReqDTO.getTitle();
+        this.detail = jobPostTempReqDTO.getDetail();
+        this.reqState = jobPostTempReqDTO.getReqState();
+        this.state = jobPostTempReqDTO.getState();
+        this.work = jobPostTempReqDTO.getWork().stream().collect(Collectors.joining(","));
+        this.req = jobPostTempReqDTO.getReq().stream().collect(Collectors.joining(","));
+        this.salary = jobPostTempReqDTO.getSalary();
+        this.zipcode = jobPostTempReqDTO.getZipcode();
+        this.streetAddr = jobPostTempReqDTO.getStreetAddr();
+        this.detailAddr = jobPostTempReqDTO.getDetailAddr();
+        this.extraAddr = jobPostTempReqDTO.getExtraAddr();
+        this.endTime = jobPostTempReqDTO.getEndTime();
+    }
 }

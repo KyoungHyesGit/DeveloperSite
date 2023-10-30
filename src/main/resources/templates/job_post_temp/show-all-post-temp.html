@@ -10,6 +10,8 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>STATE</th>
+                <th>reqState</th>
                 <th>IP</th>
                 <th>Title</th>
                 <th>detail</th>
@@ -19,13 +21,14 @@
                 <th>Create Date</th>
                 <th>Update Date</th>
                 <th>End Date</th>
-                <th>수정</th>
                 <th>삭제</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="postTemp : ${tempList}">
+        <tr th:each="postTemp : ${tempList}" id="row_${postTemp.id}">
                 <td th:text="${postTemp.id}"></td>
+                <td th:text="${postTemp.state}"></td>
+                <td th:id="'reqState_' + ${postTemp.id}" th:text="${postTemp.reqState}" data-postid="${postTemp.id}"></td>
                 <td th:text="${postTemp.ip}"></td>
                 <td th:text="${postTemp.title}"></td>
                 <td th:text="${postTemp.detail}"></td>
@@ -35,8 +38,9 @@
                 <td th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td><span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span></td>
-                <td><a th:href="@{/jobPostTemp/edit/{id}(id=${postTemp.id})}">수정</a></td>
-                <td><a th:href="@{/jobPostTemp/delete/{id}(id=${postTemp.id})}">삭제</a></td>
+                <td>
+                    <button th:id="'allowButton_' + ${postTemp.id}" th:attr="data-id=${postTemp.id}" class="allow-button">허가</button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -59,7 +63,53 @@
             </li>
         </ul>
     </div>
-<a href="/jobPostTemp/add">임시 등록글 등록</a>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allowButtons = document.querySelectorAll('.allow-button');
+
+        allowButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const postId = button.getAttribute('data-id');
+                updateReqState(postId);
+            });
+        });
+
+        function updateReqState(postId) {
+            // Send an AJAX request to update the reqState for the specified post
+            const url = '/api/jobPostTemp/allow/' + postId;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postId: postId }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error updating reqState:', data.error);
+                    } else if (data.message === 'success') {
+                        const row = document.getElementById('row_' + postId);
+                        // Example: Update the 'state' column
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'A';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating reqState:', error);
+                });
+        }
+
+    });
+</script>
+<script type="text/javascript" th:src="@{/js/job_post_temp/test.js}"></script>
+
 </html>

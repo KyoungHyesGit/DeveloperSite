@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 2</title>
+</head>
+<body>
+
+<script th:inline="javascript">
+    window.onload =  function() {
+        var pontos = [[${pontos}]];
+        drawChart(pontos,'line');
+    }
+
+    function drawChart(pontos,myType) {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Line Sample"
+            },
+            axisY:{
+                includeZero: false
+            },
+            data: [{
+                type: myType,
+                dataPoints: []
+            }]
+        });
+        chart.render();
+
+        chart.options.data[0].dataPoints = pontos;
+        console.log(pontos);
+        chart.render();
+
+    }
+    function fetchDataFromServer(myUrl,myType) {
+        $.ajax({
+            type: "GET",
+            url: myUrl,
+            success: function(data) {
+                drawChart(data,myType)
+            },
+            error: function() {
+                // 오류 발생 시 처리
+                console.log("Error fetching data from the server.");
+            }
+        });
+    }
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<button onclick="fetchDataFromServer('/api/statistics/count-by-created-at','line')">CREATEDE_AT</button>
+<button onclick="fetchDataFromServer('/api/statistics/count-by-birth-year','bar')">BIRTH</button>
+<button onclick="fetchDataFromServer('/api/statistics/count-by-birth-year','pie')">BIRTH_ROUND</button>
+
+
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+</body>
+</html>

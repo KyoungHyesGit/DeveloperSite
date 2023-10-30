@@ -7,6 +7,13 @@
     <title>Title</title>
 </head>
 <body>
+<!--로그인 성공 alert-->
+<script th:if="${loginok}">
+    alert("로그인 성공!");
+</script>
+
+
+
 <h1>회사 회원 리스트(로그인 성공시 예비메인)</h1>
 <button onclick="location.href='/account/loginpagev'">로그아웃</button>
 <table border="1">

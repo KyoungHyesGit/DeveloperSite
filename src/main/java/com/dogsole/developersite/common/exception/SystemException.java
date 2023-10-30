@@ -1,6 +1,5 @@
 package com.dogsole.developersite.common.exception;
 
-import org.springframework.http.HttpStatus;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -21,7 +20,7 @@ public class SystemException extends RuntimeException {
 
     public SystemException(String message, Throwable t) {
         this.message = message;
-        this.throwable = t;
+        this.throwable =t;
     }
 
     public SystemException(Throwable t) {
@@ -31,19 +30,6 @@ public class SystemException extends RuntimeException {
     public SystemException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
-    }
-
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public Throwable getThrowable() {
-        return this.throwable;
     }
 
 }

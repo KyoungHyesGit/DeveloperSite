@@ -7,7 +7,6 @@ import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

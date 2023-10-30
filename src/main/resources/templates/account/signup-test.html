@@ -2,33 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
-    <title>가입테스트</title>
+    <title>일반회원 회원가입</title>
     <script>
 
         //가입 시 이메일 중복 확인 함수
-        function checkEmailDuplication() {
-            var userEmail = document.getElementById('u_email').value;
-            //db의 값에 있는 컬럼들과 비교해야함.
-            var isEmailDuplicated = (userEmail === '중복@중복');
-
-            var button = document.getElementById('signupButton');
-
-            if (isEmailDuplicated) {
-                alert('이미 가입된 이메일입니다.');
-                signupButton.disabled = true;
-                document.getElementById('join_form').onsubmit = function() {
-                    alert('이메일 중복 확인을 해주세요.');
-                    return false;
-                };
-            } else {
-                alert('사용 가능한 이메일입니다.');
-                button.disabled = false;
-                document.getElementById('join_form').onsubmit = null; // 폼 제출 기능 활성화
-
-            }
-        }
-
         //가입 시 빈칸 확인 함수
         function form_check() {
             var userName = document.getElementById('u_name').value;
@@ -37,6 +16,12 @@
             var repwd = document.getElementById('repwd').value;
             var phone = document.getElementById('mobile').value;
             var agreeCheckbox = document.getElementById('agree');
+
+            //이 조건문 왜 안될까
+            if (passwd !== repwd) {
+                alert('비밀번호를 다시 확인하세요.');
+                return false;
+            }
 
             if (userName === '') {
                 alert('이름을 입력하세요.');
@@ -53,11 +38,6 @@
                 return false;
             }
 
-            if (passwd !== repwd) {
-                alert('비밀번호를 다시 확인하세요.');
-                return false;
-            }
-
             if (phone === '') {
                 alert('전화번호를 입력하세요.');
                 return false;
@@ -68,10 +48,6 @@
                 return false;
             }
 
-            //이메일 중복 체크 함수
-
-            // 모든 유효성 검사를 통과한 경우, 폼이 제출됩니다.
-            alert(userName+"님 회원가입 완료!\n사용 email: "+userEmail);
             return true;
         }
     </script>
@@ -99,8 +75,30 @@
         text-align: center;
     }
 </style>
+<!--가입성공 메세지-->
+<!--<script th:if="${successMessage}">-->
+<!--    alert("님 회원가입 완료!\n사용 이메일 : ");-->
+<!--    //var userName = document.getElementById('u_name').value;-->
+<!--    //var userEmail = document.getElementById('u_email').value;-->
+<!--    //alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);-->
+<!--</script>-->
 
-<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="jaoin_form" onsubmit="return form_check()">
+<!--가입실패 메세지1-->
+<script th:if="${errorMessage1}">
+
+    alert("가입 실패 : 올바르지 않은 값 삽입\nex)이메일, 생년월일, 전화번호 양식 및 비밀번호 확인");
+
+</script>
+
+<!--가입실패 메세지2-->
+<script th:if="${errorMessage2}">
+
+    alert("가입 실패 : 사용중인 이메일 입니다.\n 이메일 중복 확인 재시도");
+
+</script>
+
+
+<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="join_form" onsubmit="return form_check()">
     <fieldset>
         <legend>일반회원 회원가입</legend>
         <p>
@@ -111,19 +109,32 @@
         </p>
         <p>
             <label for="u_email">이메일</label>
-            <input type="text" name="userEmail" id="u_email">
-            <button type="button" onclick="checkEmailDuplication()">이메일 중복확인</button>
+            <input type="email" name="userEmail" id="u_email">
+            <button type="button" id="checkEmailButton">이메일 중복확인</button>
             <br>
             <span class="err_id">* ex) aaa@aaa.com</span>
         </p>
+        <div id="emailMessage"></div>
+        <!--이메일 중복체크 스크립트-->
+        <script>
+            $(document).ready(function() {
+                $('#checkEmailButton').click(function() {
+                    var email = $('#u_email').val();
+
+                    $.get('/api/account/checkEmail', { email: email }, function(response) {
+                        $('#emailMessage').text(response);
+                    });
+                });
+            });
+        </script>
         <p>
             <label for="pwd">비밀번호</label>
-            <input type="text" name="passwd" id="pwd">
+            <input type="password" name="passwd" id="pwd">
             <br>
         </p>
         <p>
             <label for="repwd">비밀번호 확인</label>
-            <input type="text" name="repwd" id="repwd">
+            <input type="password" name="repwd" id="repwd">
             <br>
             <span class="err_repwd"></span>
         </p>
@@ -148,7 +159,7 @@
         </p>
         <p class="final_btn">
             <a href= "http://localhost/account/loginpage" class="btn">취소</a>
-            <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
+            <button type="submit" id="signupButton" class="btn">회원가입</button>
         </p>
     </fieldset>
 </form>
