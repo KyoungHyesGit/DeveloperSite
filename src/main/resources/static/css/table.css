@@ -1,9 +1,15 @@
-table {
-    width: 60%;
-    border-collapse: collapse;
-    margin: 50px 0;
+.table_container {
+    width: 70%;
     margin-left:auto;
     margin-right:auto;
+    text-align: center; /* 수평 가운데 정렬 */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 50px 0;
+
 }
 
 /* 테이블 헤더 스타일 */
@@ -31,4 +37,8 @@ tbody tr:nth-child(even) {
 /* 홀수 행 스타일 */
 tbody tr:nth-child(odd) {
     background-color: #fff;
+}
+.create-resume-button {
+    float: right;
+    margin: 0 0 10px;
 }
