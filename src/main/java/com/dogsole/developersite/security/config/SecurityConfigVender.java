@@ -1,7 +1,9 @@
 //package com.dogsole.developersite.security.config;
 //
+//
 //import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 //import com.dogsole.developersite.security.filter.JwtAuthFilter;
+//import com.dogsole.developersite.security.filter.JwtVenderAuthFilter;
 //import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 //import com.dogsole.developersite.security.service.VenderInfoUserDetailsService;
 //import com.dogsole.developersite.security.userInfo.PrincipalDetails;
@@ -35,11 +37,9 @@
 //@EnableWebSecurity
 //@EnableMethodSecurity
 //public class SecurityConfigVender {
-//    @Autowired
-//    private JwtAuthFilter authFilter;
 //
 //    @Autowired
-//    private  JwtTokenProvider jwtTokenProvider;
+//    private JwtTokenProvider jwtTokenProvider;
 //
 //
 //    @Bean
@@ -53,7 +53,6 @@
 //    @Bean
 //    public SecurityFilterChain filterChainOrderVender(HttpSecurity http) throws Exception {
 //        http.csrf().disable().cors().disable()
-//                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
 //                .authorizeHttpRequests(request -> request
 //                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
 //                        .requestMatchers(

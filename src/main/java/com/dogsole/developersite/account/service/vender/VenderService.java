@@ -8,7 +8,7 @@ import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-import com.dogsole.developersite.security.config.SecurityConfig;
+//import com.dogsole.developersite.security.config.SecurityConfig;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -75,31 +75,38 @@ public class VenderService {
     }
     //회사회원 로그인처리------------------------------------------------------------------
     public boolean venderLogin(VenderReqDTO venderReqDTO){
-        if ((venderRepository.existsByVenderEmail(venderReqDTO.getVenderEmail()))
-                &&venderRepository.existsByVenderPasswd(venderReqDTO.getVenderPasswd())){
-            //기업 회원 로그인 성공
-            //JWT 토큰 발급 처리-------------------------------------------------------
-            //로그인 한 회사회원의 id값 얻기
-            VenderEntity venderEntity = venderRepository.findByVenderEmail(venderReqDTO.getVenderEmail()).orElseThrow();
-            String venderId = venderEntity.getVenderId()+"";
+        VenderEntity venderEntity = null;
+        try{
+            venderEntity = venderRepository.findByVenderEmail(venderReqDTO.getVenderEmail()).get();
+        }catch (Exception e){
 
-            String token = jwtTokenProvider.createToken(venderId); //토큰 생성
+        }
+        if (venderEntity!=null){
 
-            Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+token); //해당 토큰의 claims 객체 생성
+            if(passwordEncoder.matches(venderReqDTO.getVenderPasswd(),venderEntity.getVenderPasswd())){
+                //기업 회원 로그인 성공
+                //JWT 토큰 발급 처리-------------------------------------------------------
+                //로그인 한 회사회원의 id값 얻기
+                String venderId = venderEntity.getVenderId()+"";
 
-            Date tokenIss = claims.getIssuedAt(); //클레임객체에서 토큰 발행일 뜯기
-            Date tokenExp = claims.getExpiration(); //클레임객체에서 토큰 만료일 뜯기
+                String token = jwtTokenProvider.createToken(venderId); //토큰 생성
 
-            System.out.print("////토큰 발행일자//////"+tokenIss); //토큰발행일 테스트OK
-            System.out.print("///토큰////////"+token); //토큰 값 발행 테스트 OK
-            System.out.print("///유저아이디/"+venderId+"\n");//회사유저 ID 값 테스트 OK
+                Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+token); //해당 토큰의 claims 객체 생성
 
-            //위의 정보로 토큰 엔티티 생성
-            TokenEntity tokenEntity = new TokenEntity(token, tokenIss, tokenExp);
-            //db에 토큰 엔티티 저장
-            tokenRepository.save(tokenEntity);
+                Date tokenIss = claims.getIssuedAt(); //클레임객체에서 토큰 발행일 뜯기
+                Date tokenExp = claims.getExpiration(); //클레임객체에서 토큰 만료일 뜯기
 
-            return true;
+                System.out.print("////토큰 발행일자//////"+tokenIss); //토큰발행일 테스트OK
+                System.out.print("///토큰////////"+token); //토큰 값 발행 테스트 OK
+                System.out.print("///유저아이디/"+venderId+"\n");//회사유저 ID 값 테스트 OK
+
+                //위의 정보로 토큰 엔티티 생성
+                TokenEntity tokenEntity = new TokenEntity(token, tokenIss, tokenExp);
+                //db에 토큰 엔티티 저장
+                tokenRepository.save(tokenEntity);
+
+                return true;
+            }
         }
         return false;
     }

@@ -8,8 +8,12 @@ import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,7 @@ public class SignupController {
 
     private final UserService userService;
     private final VenderService venderService;
+    private final JwtTokenProvider jwtTokenProvider;
 
 //일반유저의 회원가입 처리 ---------------------------------------------------------------------------
 
@@ -180,23 +185,38 @@ public class SignupController {
 
     //회사회원 로그인 처리--------------------------------------------------------------------
     @PostMapping("/loginv")
-    public String venderLogin(VenderReqDTO venderReqDTO, Model model){
+    public String venderLogin(VenderReqDTO venderReqDTO, Model model, HttpServletResponse response) {
         boolean isLogin = venderService.venderLogin(venderReqDTO);
         System.out.println(venderReqDTO);
         System.out.println(isLogin);
-        if(isLogin){
-            //로그인 성공시 메인페이지로
-            model.addAttribute("loginok","로그인 성공!");
+        if (isLogin) {
+            // 로그인 성공시 메인페이지로
+            model.addAttribute("loginok", "로그인 성공!");
             System.out.println("기업로긴성공");
-            return "redirect:/account/showv";
+            String myToken = jwtTokenProvider.createToken(venderReqDTO.getVenderEmail());
 
-        }else{
-            //로글인 실패 alert띄우기.!!
-            model.addAttribute("loginx","로그인 실패!");
+            // 쿠키 생성
+            Cookie myTokenCookie = new Cookie("myTokenCookie", myToken);
+            myTokenCookie.setMaxAge(1800); // 쿠키 유효 시간 설정 (초 단위)
+            myTokenCookie.setPath("/"); // 쿠키 경로 설정
+            myTokenCookie.setDomain(""); // 쿠키 도메인 설정
+
+
+            // 쿠키를 응답에 추가
+            response.addCookie(myTokenCookie);
+
+            System.out.println("쿠키 설정됨: " + myToken);
+
+            // 리다이렉트
+            return "redirect:/"; // 리다이렉트할 경로를 지정
+        } else {
+            // 로그인 실패 alert 띄우기.
+            model.addAttribute("loginx", "로그인 실패!");
             System.out.println("기업로긴실패");
             return "/account/loginv";
         }
     }
+
 
     //로그인 성공 시 페이지이동 처리(예비) ------------------------------------------------------
     @GetMapping("/showv")
