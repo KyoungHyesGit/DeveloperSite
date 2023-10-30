@@ -27,7 +27,7 @@ public class JpApplyController {
 
         userId=1L;
         System.out.println(">>>>>"+jobPostId);
-            jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
+        jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;
     }
@@ -36,7 +36,7 @@ public class JpApplyController {
     @GetMapping("/deleteApply")
 //    public String deleteApply(@RequestParam Long userId, @RequestParam Long jobPostId, Model model) {
     //임시 유저아이디 지정
-        public String deleteApply( Long userId, @RequestParam("jpApplyId") Long jpApplyId, Model model) {
+    public String deleteApply( Long userId, @RequestParam("jpApplyId") Long jpApplyId, Model model) {
         userId=1L;
         System.out.println("삭제 컨트롤러");
         jpApplyService.delApllyJp(jpApplyId);

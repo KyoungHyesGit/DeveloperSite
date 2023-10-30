@@ -2,7 +2,6 @@ package com.dogsole.developersite.jp_like.service;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
-import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jp_like.dto.JpLikeResDTO;
 import com.dogsole.developersite.jp_like.entity.JpLikeEntity;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +42,7 @@ public class JpLikeService {
 
         return jpLikeRepository.save(jpLikeEntity);
     }
-//찜 체크
+    //찜 체크
     public boolean isJobLiked(Long userId, Long jobPostId) {
         // 데이터베이스에서 해당 유저와 작업 게시물에 대한 찜 레코드를 조회
         JpLikeEntity like = jpLikeRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);

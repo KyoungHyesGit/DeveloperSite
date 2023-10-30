@@ -29,6 +29,16 @@ public class JobPostTempController {
     private final JobPostTempService jobPostTempService;
     private final LovService lovService;
 
+    @GetMapping("/vendersTempList/{id}")
+    public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                     @RequestParam(name = "size", required = false, defaultValue = "2") int size ,
+                                     @PathVariable Long id) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<JobPostTempResDTO> tempList = jobPostTempService.getVendersPosts(id, pageable);
+        model.addAttribute("tempList", tempList);
+        return "/job_post_temp/show-venders-post-temp";
+    }
+
     @GetMapping("/tempList")
     public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                      @RequestParam(name = "size", required = false, defaultValue = "2") int size) {
@@ -62,7 +72,7 @@ public class JobPostTempController {
 
         jobPostTempService.createJobTempPost(jobPostTempReqDTO);
 
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -94,9 +104,17 @@ public class JobPostTempController {
         }
         jobPostTemp.setIp(request.getRemoteAddr());
         jobPostTemp.setState("수정");
+        jobPostTemp.setReqState("");
 
         jobPostTempService.updateJobPostTemp(id, jobPostTemp);
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteJobPostTemp(@PathVariable Long id){
+        jobPostTempService.deleteJobPostTemp(id);
+        // TODO 사용자 정보에서 벤터 id빼서 홈으로 가기
+        return "redirect:/jobPostTemp/vendersTempList/1";    }
+
 
 }

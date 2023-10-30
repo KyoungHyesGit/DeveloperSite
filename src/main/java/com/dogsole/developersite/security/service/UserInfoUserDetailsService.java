@@ -1,8 +1,8 @@
-package com.dogsole.developersite.account.service;
+package com.dogsole.developersite.security.service;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.repository.user.UserRepository;
-import com.dogsole.developersite.account.vo.UserInfoUserDetails;
+import com.dogsole.developersite.security.userInfo.UserInfoUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

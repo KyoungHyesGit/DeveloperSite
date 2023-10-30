@@ -5,7 +5,10 @@ import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
+import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.jobPost.repository.JobPostRepository;
+
+import com.dogsole.developersite.jobPost.repository.JobPostTempRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,18 +17,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class JobPostService {
+    private final JobPostTempRepository jobPostTempRepository;
     private final JobPostRepository jobPostRepository;
-    private  final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public void allowReq(Long id) {
+        // 임시테이블에서 본 테이블로 복사
+        JobPostTempEntity jobPostTempEntity = jobPostTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
+
+
+        JobPostEntity jobPostEntity = jobPostRepository.findByTempId(id);
+
+        if(jobPostEntity==null){
+            jobPostEntity = new JobPostEntity();
+        }
+        jobPostEntity.setTempToReal(jobPostTempEntity);
+        jobPostRepository.save(jobPostEntity);
+
+        jobPostTempEntity.setReqState("A"); // A Allow
+    }
 
     // 전체공고목록
     public Page<JobPostResDTO> getAllPost(Pageable pageable) {
         Page<JobPostEntity> jobPostEntities = jobPostRepository.findAll(pageable);
         return jobPostEntities.map(jobPostEntity -> {
+
             JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
 
             // VenderResDTO를 설정

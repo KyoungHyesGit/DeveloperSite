@@ -1,0 +1,99 @@
+.viewBody {
+    margin-left: 5rem;
+    margin-top: 2rem;
+}
+
+.bodyContent {
+    border: 1px solid #d6d6d6;
+    margin-top: 1rem;
+    border-radius: 5px;
+}
+
+.bodyLast {
+    margin-bottom: 5rem;
+}
+
+.marginTopLeft_1 {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 15px;
+}
+
+.borderRound {
+    border: 1px solid dimgrey;
+    background: #555555;
+    color: white;
+}
+
+.headTxt {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.profileTxt {
+    font-size: 12px;
+}
+
+.textAreaSize {
+    height: 100px;
+    resize: none;
+}
+
+.inputSize {
+    width: 100%;
+}
+
+.submitDiv {
+    margin-top: -6.5px !important;
+    border: 1px solid gray;
+    height: 48px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.submitBtn {
+    float: right;
+    border-bottom-right-radius: 5px;
+    background-color: #2d65f2;
+    color: white;
+    padding: 10px 30px 10px 30px;
+}
+
+.commentDiv {
+    margin-top: 2rem;
+    border-top: 1px solid #adadad;
+    padding-bottom: 0.5rem;
+}
+
+.commentContent {
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 14px;
+}
+
+.bottomInfo {
+    margin-top: 1.5rem;
+}
+
+.bottomTxt {
+    float: right;
+    font-size: 12px;
+}
+
+.paddingLeft5 {
+    padding-left: 5px;
+}
+
+.backBtn {
+    border: 0.1px solid gray;
+    background: white;
+    margin-top: 0.1rem;
+    padding: 3px 10px 3px 10px;
+    font-size: 14px;
+    color: #5c667b;
+}
+
+.commentBd {
+    width: 92%;
+    word-break: break-all;
+}

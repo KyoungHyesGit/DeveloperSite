@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
-    <title>가입테스트</title>
+    <title>일반회원 회원가입</title>
     <script>
 
         //가입 시 이메일 중복 확인 함수
+<<<<<<< HEAD
         function checkEmailDuplication() {
             var userEmail = document.getElementById('u_email').value;
             //db의 값에 있는 컬럼들과 비교해야함.
@@ -28,6 +30,8 @@
             }
         }
 
+=======
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         //가입 시 빈칸 확인 함수
         function form_check() {
             var userName = document.getElementById('u_name').value;
@@ -36,6 +40,12 @@
             var repwd = document.getElementById('repwd').value;
             var phone = document.getElementById('mobile').value;
             var agreeCheckbox = document.getElementById('agree');
+
+            //이 조건문 왜 안될까
+            if (passwd !== repwd) {
+                alert('비밀번호를 다시 확인하세요.');
+                return false;
+            }
 
             if (userName === '') {
                 alert('이름을 입력하세요.');
@@ -52,11 +62,6 @@
                 return false;
             }
 
-            if (passwd !== repwd) {
-                alert('비밀번호를 다시 확인하세요.');
-                return false;
-            }
-
             if (phone === '') {
                 alert('전화번호를 입력하세요.');
                 return false;
@@ -67,10 +72,13 @@
                 return false;
             }
 
+<<<<<<< HEAD
             //이메일 중복 체크 함수
 
             // 모든 유효성 검사를 통과한 경우, 폼이 제출됩니다.
             alert(userName + "님 회원가입 완료!\n사용 email: " + userEmail);
+=======
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             return true;
         }
     </script>
@@ -147,9 +155,35 @@
         text-align: center;
     }
 </style>
+<!--가입성공 메세지-->
+<!--<script th:if="${successMessage}">-->
+<!--    alert("님 회원가입 완료!\n사용 이메일 : ");-->
+<!--    //var userName = document.getElementById('u_name').value;-->
+<!--    //var userEmail = document.getElementById('u_email').value;-->
+<!--    //alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);-->
+<!--</script>-->
 
+<<<<<<< HEAD
 <form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="jaoin_form"
       onsubmit="return form_check()">
+=======
+<!--가입실패 메세지1-->
+<script th:if="${errorMessage1}">
+
+    alert("가입 실패 : 올바르지 않은 값 삽입\nex)이메일, 생년월일, 전화번호 양식 및 비밀번호 확인");
+
+</script>
+
+<!--가입실패 메세지2-->
+<script th:if="${errorMessage2}">
+
+    alert("가입 실패 : 사용중인 이메일 입니다.\n 이메일 중복 확인 재시도");
+
+</script>
+
+
+<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="join_form" onsubmit="return form_check()">
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
     <fieldset>
         <legend>일반회원 회원가입</legend>
         <p>
@@ -161,8 +195,12 @@
         <p>
             <label for="u_email">이메일</label>
             <input type="email" name="userEmail" id="u_email">
+<<<<<<< HEAD
             <button type="button" onclick="checkEmailDuplication()">이메일 중복확인</button>
             <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" disabled>인증번호 전송</button>
+=======
+            <button type="button" id="checkEmailButton">이메일 중복확인</button>
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             <br>
             <span class="err_id">* ex) aaa@aaa.com</span>
             <br>
@@ -177,14 +215,27 @@
             <input type="text" id="Confirm" name="Confirm" style="display: none" value=""/>
         </div>
         </p>
+        <div id="emailMessage"></div>
+        <!--이메일 중복체크 스크립트-->
+        <script>
+            $(document).ready(function() {
+                $('#checkEmailButton').click(function() {
+                    var email = $('#u_email').val();
+
+                    $.get('/api/account/checkEmail', { email: email }, function(response) {
+                        $('#emailMessage').text(response);
+                    });
+                });
+            });
+        </script>
         <p>
             <label for="pwd">비밀번호</label>
-            <input type="text" name="passwd" id="pwd">
+            <input type="password" name="passwd" id="pwd">
             <br>
         </p>
         <p>
             <label for="repwd">비밀번호 확인</label>
-            <input type="text" name="repwd" id="repwd">
+            <input type="password" name="repwd" id="repwd">
             <br>
             <span class="err_repwd"></span>
         </p>
@@ -208,8 +259,13 @@
             <span class="err_agree">* 필수</span>
         </p>
         <p class="final_btn">
+<<<<<<< HEAD
             <a href="http://localhost/account/loginpage" class="btn">취소</a>
             <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
+=======
+            <a href= "http://localhost/account/loginpage" class="btn">취소</a>
+            <button type="submit" id="signupButton" class="btn">회원가입</button>
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         </p>
     </fieldset>
 </form>

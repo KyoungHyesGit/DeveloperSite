@@ -39,14 +39,14 @@ public class JpApplyService {
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
         JpApplyEntity jpApplyEntity = new JpApplyEntity();
 
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId(userId);
-            VenderEntity venderEntity = new VenderEntity();
-           venderEntity.setVenderId(venderId);
-            JobPostEntity jobPostEntity = new JobPostEntity();
-            jobPostEntity.setId(jobPostId);
-            UserResumeEntity userResumeEntity = new UserResumeEntity();
-            userResumeEntity.setId(resumeId);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
+        VenderEntity venderEntity = new VenderEntity();
+        venderEntity.setVenderId(venderId);
+        JobPostEntity jobPostEntity = new JobPostEntity();
+        jobPostEntity.setId(jobPostId);
+        UserResumeEntity userResumeEntity = new UserResumeEntity();
+        userResumeEntity.setId(resumeId);
 
         jpApplyEntity.setUserEntity(userEntity);
         jpApplyEntity.setVenderEntity(venderEntity);

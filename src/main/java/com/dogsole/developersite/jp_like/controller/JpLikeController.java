@@ -1,18 +1,12 @@
 package com.dogsole.developersite.jp_like.controller;
 
 
-import com.dogsole.developersite.account.entity.user.UserEntity;
-import com.dogsole.developersite.account.service.user.UserService;
-import com.dogsole.developersite.jobPost.entity.JobPostEntity;
-import com.dogsole.developersite.jobPost.service.JobPostService;
 import com.dogsole.developersite.jp_like.dto.JpLikeResDTO;
 import com.dogsole.developersite.jp_like.service.JpLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 @Controller

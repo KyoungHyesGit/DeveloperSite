@@ -9,4 +9,9 @@ public class PageController {
 
         return "userMypage";
     }
+
+    @GetMapping("/adminPage")
+    public String adminPage(){
+        return "adminPage";
+    }
 }
