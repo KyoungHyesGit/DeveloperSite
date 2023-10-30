@@ -8,7 +8,7 @@ import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostTempService;
 import com.dogsole.developersite.security.service.JwtService;
-import com.dogsole.developersite.vender.dto.req.VenderReqDTO;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
