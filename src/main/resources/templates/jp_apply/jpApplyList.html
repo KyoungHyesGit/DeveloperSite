@@ -57,7 +57,7 @@
         <tbody>
         <tr th:each="applyList : ${applyList}">
             <td th:text="${applyList.id}"></td>
-            <td th:text="${applyList.venderEntity.name}"></td>
+            <td th:text="${applyList.venderEntity.venderName}"></td>
             <td th:text="${applyList.jobPostEntity.title}"></td>
             <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
             <td><a th:href="'/jpApply/deleteApply?jpApplyId=' + ${applyList.id}" onclick="return confirmCancellation();">지원취소</a></td>

@@ -68,12 +68,14 @@ public class UserResumeController {
 
         return "redirect:/userResume/"+userId;
     }
+    //지원하기 선택후 이력서 선택
     @GetMapping("/selectResume/{id}")
     public String selectResume(Long userId, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId,
                                 Model model){
         //userId 임시 지정
         userId=1L;
         List<UserResumeResDTO> userResumes = userResumeService.getUserResumesByUserId(userId);
+        System.out.println(jobPostId);
         model.addAttribute("userResumes", userResumes);
         model.addAttribute("userId", userId);
         model.addAttribute("venderId", venderId);

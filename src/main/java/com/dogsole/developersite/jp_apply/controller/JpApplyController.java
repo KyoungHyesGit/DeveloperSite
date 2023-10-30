@@ -26,7 +26,7 @@ public class JpApplyController {
     public String addApply( Long userId, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId, @RequestParam("resumeId") Long resumeId, Model model) {
 
         userId=1L;
-
+        System.out.println(">>>>>"+jobPostId);
             jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;

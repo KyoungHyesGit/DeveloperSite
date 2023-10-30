@@ -19,8 +19,6 @@ import java.util.List;
 @RequestMapping("/jpLike")
 public class JpLikeController {
     private final JpLikeService jpLikeService;
-    private final UserService userService;
-    private final JobPostService jobPostService;
     // 찜목록보기
     @GetMapping("/jpLikeList/{id}")
     public String getByUserId(@PathVariable Long id, Model model) {
@@ -28,16 +26,20 @@ public class JpLikeController {
         model.addAttribute("likeList", likeList);
         return "jp_like/jpLikeList";
     }
-    //들어 가나 테스트해봄
-    @GetMapping("/addLike1")
-    public String addLike1( Long userId, @RequestParam("jobPostId") Long jobPostId, Model model) {
-        userId=1L;
-        System.out.println(">>>>>>>>>>>>>>>"+jobPostId);
-        jpLikeService.likeJob(userId, jobPostId);
-
-        // 추가된 찜을 표시하는 페이지로 리디렉션
-        return "redirect:/job_post/jobDetail/"+jobPostId;
-    }
+    // 찜하기
+//    @GetMapping("/addLike")
+//    public String addLike1( Long userId, @RequestParam("jobPostId") Long jobPostId,@RequestParam("venderId") Long venderId, Model model) {
+//        userId=1L;
+//        System.out.println();
+//        System.out.println("jobPostId :"+jobPostId);
+//        System.out.println("venderId :"+venderId);
+//        jpLikeService.likeJob(userId,venderId,jobPostId);
+//
+//        model.addAttribute("successMessage", "찜 등록이 성공적으로 완료되었습니다.");
+//
+//        // 추가된 찜을 표시하는 페이지로 리디렉션
+//        return "redirect:/job_post/jobDetail/"+jobPostId;
+//    }
 
     //찜 or 취소
 

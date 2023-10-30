@@ -1,9 +1,8 @@
 package com.dogsole.developersite.jp_apply.dto;
 
-import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -1,13 +1,13 @@
 package com.dogsole.developersite.jp_apply.service;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jp_apply.dto.JpApplyResDTO;
 import com.dogsole.developersite.jp_apply.entity.JpApplyEntity;
 import com.dogsole.developersite.jp_apply.repository.JpApplyRepository;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
-import com.dogsole.developersite.vender.entity.VenderEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -38,18 +38,15 @@ public class JpApplyService {
 
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
         JpApplyEntity jpApplyEntity = new JpApplyEntity();
-        UserEntity userEntity = modelMapper.map(userId, UserEntity.class);
-        VenderEntity venderEntity = modelMapper.map(venderId, VenderEntity.class);
-        JobPostEntity jobPostEntity = modelMapper.map(jobPostId, JobPostEntity.class);
-        UserResumeEntity userResumeEntity = modelMapper.map(resumeId, UserResumeEntity.class);
-//            UserEntity userEntity = new UserEntity();
-//            userEntity.setUserId(userId);
-//            VenderEntity venderEntity = new VenderEntity();
-//            venderEntity.setId(venderId);
-//            JobPostEntity jobPostEntity = new JobPostEntity();
-//            jobPostEntity.setId(jobPostId);
-//            UserResumeEntity userResumeEntity = new UserResumeEntity();
-//            userResumeEntity.setId(resumeId);
+
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUserId(userId);
+            VenderEntity venderEntity = new VenderEntity();
+           venderEntity.setVenderId(venderId);
+            JobPostEntity jobPostEntity = new JobPostEntity();
+            jobPostEntity.setId(jobPostId);
+            UserResumeEntity userResumeEntity = new UserResumeEntity();
+            userResumeEntity.setId(resumeId);
 
         jpApplyEntity.setUserEntity(userEntity);
         jpApplyEntity.setVenderEntity(venderEntity);

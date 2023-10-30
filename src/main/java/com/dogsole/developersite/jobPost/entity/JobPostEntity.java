@@ -1,6 +1,6 @@
 package com.dogsole.developersite.jobPost.entity;
 
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -8,7 +8,7 @@
     <div th:each="jobList : ${jobList}">
         <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
             <img th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
-            <p th:text="${jobList.venderResDTO.name}"></p>
+            <p th:text="${jobList.venderResDTO.venderName}"></p>
             <p th:text="${jobList.title}"></p>
         </a>
     </div>

@@ -1,23 +1,17 @@
 package com.dogsole.developersite.jp_like.service;
 
 import com.dogsole.developersite.account.entity.user.UserEntity;
-import com.dogsole.developersite.common.exception.BusinessException;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
-import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
-import com.dogsole.developersite.jp_apply.dto.JpApplyResDTO;
 import com.dogsole.developersite.jp_like.dto.JpLikeResDTO;
 import com.dogsole.developersite.jp_like.entity.JpLikeEntity;
 import com.dogsole.developersite.jp_like.repository.JpLikeRepository;
-import com.dogsole.developersite.vender.entity.VenderEntity;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +26,19 @@ public class JpLikeService {
                 .collect(Collectors.toList());
     }
     // 찜하기
-    public JpLikeEntity likeJob(Long userId, Long jobPostId ) {
+    public JpLikeEntity likeJob(Long userId,Long venderId, Long jobPostId ) {
         JpLikeEntity jpLikeEntity = new JpLikeEntity();
-        UserEntity userEntity = modelMapper.map(userId, UserEntity.class);
-        JobPostEntity jobPostEntity = modelMapper.map(jobPostId, JobPostEntity.class);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
+        VenderEntity venderEntity = new VenderEntity();
+        venderEntity.setVenderId(venderId);
+        JobPostEntity jobPostEntity = new JobPostEntity();
+        jobPostEntity.setId(jobPostId);
+
         jpLikeEntity.setUserEntity(userEntity);
         jpLikeEntity.setJobPostEntity(jobPostEntity);
+        jpLikeEntity.setVenderEntity(venderEntity);
+        jpLikeEntity.setLike_date(LocalDateTime.now());
 
         return jpLikeRepository.save(jpLikeEntity);
     }

@@ -6,25 +6,68 @@
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
     <div class="job_post" th:if="${jobDetail != null}">
-        <h2 th:text="${jobDetail.venderResDTO.id}">회사id</h2>
+        <h2 th:text="${jobDetail.venderResDTO.venderId}">회사id</h2>
         <h2 th:text="${jobDetail.id}">post id</h2>
         <!-- 타이틀 -->
         <div class="dt_ont">
             <div>
-                <h2 th:text="${jobDetail.venderResDTO.name}"></h2>
+                <h2 th:text="${jobDetail.venderResDTO.venderName}"></h2>
                 <p>등록한 공고 개수</p>
             </div>
             <h1 th:text="${jobDetail.title}"></h1>
         </div>
         <div class="dt_two">
-            <a class="btn btn-light"
-               th:href="@{/jpLike/addLike1(userId=1, jobPostId=${jobDetail.id})}">관심등록</a>
+<!--            <a class="btn btn-light"-->
+<!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
+            <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
+                    th:data-job-post-id="${jobDetail.id}" class="like-button">찜등록</button>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const likeButtons = document.querySelectorAll('.like-button');
+
+                    likeButtons.forEach(function (button) {
+                        button.addEventListener('click', function () {
+                            const userId=1;
+                            const venderId = button.getAttribute("data-vender-id");
+                            const jobPostId = button.getAttribute("data-job-post-id");
+                            addJpLike(userId,venderId,jobPostId);
+                        });
+                    });
+
+                    function addJpLike(userId,venderId,jobPostId) {
+                        // Send an AJAX request to update the reqState for the specified post
+                        const url = '/api/addLike?userId='+userId+'&venderId=' + venderId + '&jobPostId=' + jobPostId;
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ userId: userId, venderId:venderId ,jobPostId:jobPostId}),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.error) {
+                                    console.error('Error adding jp_like:', data.error);
+                                } else if (data.message === 'success') {
+                                    // 찜 등록
+                                    // 아이콘의 색상 변경
+                                    button.classList.add('liked');
+                                } else {
+                                    console.error('Unknown response:', data);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error adding jp_like:', error);
+                            });
+                    }
+
+                });
+            </script>
 
             <!-- 경로지정해줘야함 -->
             <a sec:authorize="isAuthenticated()" class="btn btn-light"
-               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.id}, jobPostId=${jobDetail.id})}">지원하기</a>
-
-
+               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>
 
 
             <hr>
@@ -58,5 +101,4 @@
         </div>
     </div>
 </th:block>
-
 </html>
