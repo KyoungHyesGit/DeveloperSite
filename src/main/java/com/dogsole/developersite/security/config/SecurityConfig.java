@@ -10,6 +10,8 @@ import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -28,6 +30,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@Order(1)
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -47,8 +50,9 @@ public class SecurityConfig {
     //HttpSecurity 를 사용해 보안필터체인 구성을 정의
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChainOrder(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
                         .requestMatchers(
@@ -58,6 +62,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/js/**"),
                                 new AntPathRequestMatcher("/h2-console/**"),
                                 new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/loginpagev"),
                                 new AntPathRequestMatcher("/account/**"),
                                 new AntPathRequestMatcher("/checkToken"),
                                 new AntPathRequestMatcher("/adviceboard/list"),
@@ -138,7 +143,9 @@ public class SecurityConfig {
                             //http.build() 호출하여 구성 후 SecurityFilterChain을 반환하면 이 구성이 애플리케이션에 적용됨
     }
 
+
     //스프링시큐리티에서 사용자의 비밀번호를 안전히 저장하고 비교하기위해 사용되는 PasswordEncoder빈을 구성
+    @Primary
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //BCryptPasswordEncoder 클래스의 인스턴스를 반환
@@ -153,11 +160,10 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());//authenticationProvider에 사용자 비밀번호를 비교할때 사용할 암호화 설정
         return authenticationProvider;
     }
+    @Primary
     @Bean //사용자 인증 관리를 위한 AuthenticationManager 생성
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager(); //사용자 인증을 관리.(사용자 자격 증명)
     }
-
-
 
 }

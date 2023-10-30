@@ -9,6 +9,8 @@ import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +29,10 @@ public class SignupController {
 
     private final UserService userService;
     private final VenderService venderService;
-    private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    @Qualifier("authenticationManager")
+    private AuthenticationManager authenticationManager;
 
     //일반유저의 회원가입 처리 ---------------------------------------------------------------------------
     //가입 페이지이동------------------------------------------------
@@ -177,22 +182,22 @@ public class SignupController {
     }
 
     //회사회원 로그인 처리--------------------------------------------------------------------
-    @PostMapping("/loginv")
-    public String venderLogin(VenderReqDTO venderReqDTO){
-        boolean isLogin = venderService.venderLogin(venderReqDTO);
-        System.out.println(venderReqDTO);
-        System.out.println(isLogin);
-        if(isLogin){
-            //로그인 성공시 메인페이지로
-            System.out.println("기업로긴성공");
-            return "redirect:/account/showv";
-
-        }else{
-            //로글인 실패 alert띄우기.!!
-            System.out.println("기업로긴실패");
-            return "/account/loginv";
-        }
-    }
+//    @PostMapping("/loginv")
+//    public String venderLogin(VenderReqDTO venderReqDTO){
+//        boolean isLogin = venderService.venderLogin(venderReqDTO);
+//        System.out.println(venderReqDTO);
+//        System.out.println(isLogin);
+//        if(isLogin){
+//            //로그인 성공시 메인페이지로
+//            System.out.println("기업로긴성공");
+//            return "redirect:/account/showv";
+//
+//        }else{
+//            //로글인 실패 alert띄우기.!!
+//            System.out.println("기업로긴실패");
+//            return "/account/loginv";
+//        }
+//    }
 
     //로그인 성공 시 페이지이동 처리(예비) ------------------------------------------------------
     @GetMapping("/showv")
