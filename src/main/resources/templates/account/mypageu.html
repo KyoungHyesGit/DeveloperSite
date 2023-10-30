@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -63,12 +64,14 @@
     }
 </style>
 
-<form name="update_form" th:action="@{/account/updateu}" th:object="${userReqDTO}" method="post" id="update_form" onsubmit="return form_check()">
+<form name="update_form" th:action="@{/account/updateu/{id}(id=${user.getUserId()})}" th:object="${userReqDTO}" method="post" id="update_form" onsubmit="return form_check()">
     <fieldset>
-        <legend>회원 정보 수정</legend>
+        <legend> 회원정보 수정</legend>
+        <br>
+        <h5 th:text= "${user.getUserEmail()}"></h5>
         <p>
             <label for="u_name">이름</label>
-            <input type="text" name="userName" id="u_name">
+            <input type="text" name="userName" id="u_name" th:value="${user.getUserName()}">
             <br>
             <span class="err_name"></span>
         </p>
@@ -87,7 +90,7 @@
 
         <p>
             <label for="mobile">변경할 전화번호</label>
-            <input type="text" name="phone" id="mobile">
+            <input type="text" name="phone" id="mobile" th:value="${user.getPhone()}">
             <br>
             <span class="err_mobile">* '-'없이 숫자만 입력</span>
         </p>

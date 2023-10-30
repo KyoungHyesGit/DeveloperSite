@@ -130,18 +130,24 @@ public class SignupController {
     }
 
     //회원 수정 페이지 이동
-    @GetMapping("/updatepageu")
-    public String userPage(){
-
-        return "account/mypageu";
+    @GetMapping("/updatepageu/{id}")
+    public ModelAndView userUpdatePage(@PathVariable Long id){
+    UserResDTO updateUser = userService.showUserById(id);
+        return  new ModelAndView("account/mypageu","user",updateUser);
     }
 
     //회원 수정처리 테스트
-    @PostMapping("/updateu/{id}")
-    public ResponseEntity<UserReqDTO> userUpdateTest(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
-        userService.userUpdateTest(id ,userReqDTO);
+//    @PostMapping("/updateu/{id}")
+//    public ResponseEntity<UserReqDTO> userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO){
+//        userService.userUpdateTest(id ,userReqDTO);
+//
+//        return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
+    @PostMapping("/updateu/{id}")
+    public String userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO){
+        userService.userUpdateTest(id ,userReqDTO);
+        return "redirect:/userMypage";
     }
 
 //-------------여기서 부터는 회사회원의 컨트롤러--------------------------------------------------------------------------------
@@ -219,6 +225,27 @@ public class SignupController {
         //탈퇴회원 객체 반환
         return venderReqDTO;
     }
+
+    //회사 회원 수정 페이지 이동
+//    @GetMapping("/updatepagev")
+//    public String venderUpdatePage(){
+//        return "account/mypagev";
+//    }
+
+    //회원 수정 페이지 이동
+    @GetMapping("/updatepagev/{id}")
+    public ModelAndView venderUpdatePage(@PathVariable Long id){
+        VenderResDTO updateVender = venderService.showVenderById(id);
+        return  new ModelAndView("account/mypagev","vender",updateVender);
+    }
+    //회원 수정처리 테스트
+    @PostMapping("/updatev/{id}")
+    public String venderUpdateTest(@PathVariable Long id, @ModelAttribute VenderReqDTO venderReqDTO){
+        venderService.venderUpdate(id ,venderReqDTO);
+
+        return "redirect:/venderMypage";
+    }
+
 
 
 }

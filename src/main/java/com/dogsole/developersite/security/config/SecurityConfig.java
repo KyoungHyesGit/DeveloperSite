@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -70,7 +71,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/tokenCreate/**"),
                                 new AntPathRequestMatcher("/checkToken/**"),
                                 new AntPathRequestMatcher("/api/account/**"),
-                                new AntPathRequestMatcher("/account/**")
+                                new AntPathRequestMatcher("/account/**"),
+                                new AntPathRequestMatcher("/mail/**")
                         ).permitAll()
                         .anyRequest().authenticated() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
                 )
@@ -112,6 +114,11 @@ public class SecurityConfig {
                             if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
                                 UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
                                 String userEmail = userDetails.getUsername();
+                                String userState = userDetails.getUserState();
+                                if ("d".equals(userState)) {
+                                    System.out.println("계정비활성화 짜식아");
+                                    throw new DisabledException("계정이 비활성화되었습니다.");
+                                }
                                 String myToken = jwtTokenProvider.createToken(userEmail);
 
                                 Cookie cookie = new Cookie("myTokenCookie", myToken);

@@ -1,10 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script>
+
+        //가입 시 이메일 중복 확인 함수
+        //가입 시 빈칸 확인 함수
+        function form_check() {
+            var userName = document.getElementById('u_name').value;
+            var passwd = document.getElementById('pwd').value;
+            var repwd = document.getElementById('repwd').value;
+
+            //이 조건문 왜 안될까
+            if (passwd !== repwd) {
+                alert('비밀번호를 다시 확인하세요.');
+                return false;
+            }
+
+            if (userName === '') {
+                alert('변경할 이름을 입력하세요.');
+                return false;
+            }
+
+            if (passwd === '') {
+                alert('변경할 비밀번호를 입력하세요.');
+                return false;
+            }
+
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 
+<style type="text/css">
+    form {
+        width: 600px;
+        margin: auto;
+    }
+
+    form legend {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    form p span {
+        font-size: 13px;
+        color: rgb(0, 60, 255);
+        font-style: italic;
+    }
+
+    form .final_btn {
+        text-align: center;
+    }
+</style>
+
+<form name="update_form" th:action="@{/account/updatev/{id}(id=${vender.getVenderId()})}" th:object="${venderReqDTO}" method="post" id="update_form" onsubmit="return form_check()">
+    <fieldset>
+        <legend>회사 회원 정보 수정</legend>
+        <p>
+            <label for="u_name">회사 이름</label>
+            <input type="text" name="venderName" id="u_name" th:value="${vender.getVenderName()}">
+            <br>
+            <span class="err_name"></span>
+        </p>
+
+        <p>
+            <label for="pwd">변경할 비밀번호</label>
+            <input type="password" name="venderPasswd" id="pwd">
+            <br>
+        </p>
+        <p>
+            <label for="repwd">비밀번호 확인</label>
+            <input type="password" name="repwd" id="repwd">
+            <br>
+            <span class="err_repwd"></span>
+        </p>
+
+        <p>
+            <label>사진</label>
+            <br>
+            <span class="err_mobile">준비중</span>
+        </p>
+
+
+        <p class="final_btn">
+            <a href="javascript:history.back();" class="btn">취소</a>
+            <button type="submit" id="updatebutton" class="btn">수정</button>
+        </p>
+    </fieldset>
+</form>
 </body>
 </html>
