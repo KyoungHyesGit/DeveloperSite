@@ -1,28 +1,18 @@
 package com.dogsole.developersite.jobPost.controller;
 
-import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostTempService;
-import com.dogsole.developersite.security.service.JwtService;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -83,7 +73,7 @@ public class JobPostTempController {
 
         jobPostTempService.createJobTempPost(jobPostTempReqDTO);
 
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
 
     @GetMapping("/edit/{id}")
@@ -115,9 +105,10 @@ public class JobPostTempController {
         }
         jobPostTemp.setIp(request.getRemoteAddr());
         jobPostTemp.setState("수정");
+        jobPostTemp.setReqState("");
 
         jobPostTempService.updateJobPostTemp(id, jobPostTemp);
-        return "redirect:/jobPostTemp/tempList";
+        return "redirect:/jobPostTemp/vendersTempList/1";
     }
 
     @PostMapping("/delete/{id}")

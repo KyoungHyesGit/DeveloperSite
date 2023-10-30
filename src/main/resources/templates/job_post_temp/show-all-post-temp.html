@@ -28,7 +28,7 @@
         <tr th:each="postTemp : ${tempList}" id="row_${postTemp.id}">
                 <td th:text="${postTemp.id}"></td>
                 <td th:text="${postTemp.state}"></td>
-                <td th:text="${postTemp.reqState}"></td>
+                <td th:id="'reqState_' + ${postTemp.id}" th:text="${postTemp.reqState}" data-postid="${postTemp.id}"></td>
                 <td th:text="${postTemp.ip}"></td>
                 <td th:text="${postTemp.title}"></td>
                 <td th:text="${postTemp.detail}"></td>
@@ -93,7 +93,12 @@
                     } else if (data.message === 'success') {
                         const row = document.getElementById('row_' + postId);
                         // Example: Update the 'state' column
-                        row.querySelector('.state-column').textContent = 'Updated State Value'; // Update with the actual updated state value
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'A';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
                     } else {
                         console.error('Unknown response:', data);
                     }
@@ -105,5 +110,6 @@
 
     });
 </script>
+<script type="text/javascript" th:src="@{/js/job_post_temp/test.js}"></script>
 
 </html>

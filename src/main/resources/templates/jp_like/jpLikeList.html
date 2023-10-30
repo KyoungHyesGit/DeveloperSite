@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<style>
+    /* 테이블 스타일 */
+    table {
+        width: 60%;
+        border-collapse: collapse;
+        margin: 50px 0;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    /* 테이블 헤더 스타일 */
+    thead {
+        background-color: #333;
+        color: #fff;
+    }
+
+    th {
+        padding: 10px;
+        text-align: left;
+    }
+
+    /* 테이블 셀 스타일 */
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    /* 짝수 행 스타일 */
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* 홀수 행 스타일 */
+    tbody tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
+</style>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<th:block layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>회사명</th>
+            <th>공고 제목</th>
+            <th>찜한 날</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="likeList : ${likeList}">
+            <td th:text="${likeList.id}"></td>
+            <td th:text="${likeList.venderEntity.name}"></td>
+            <td th:text="${likeList.jobPostEntity.title}"></td>
+            <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</html>

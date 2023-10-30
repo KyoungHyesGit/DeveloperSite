@@ -2,12 +2,12 @@ package com.dogsole.developersite.adviceBoard.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class AdviceBoard {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String kind;
+//    @Column(nullable = true)
+//    private String kind;
 
     @Column
     @CreationTimestamp

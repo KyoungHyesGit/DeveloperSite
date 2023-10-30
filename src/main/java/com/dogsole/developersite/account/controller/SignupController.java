@@ -7,17 +7,11 @@ import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
-import com.dogsole.developersite.security.service.JwtService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +27,6 @@ public class SignupController {
 
     private final UserService userService;
     private final VenderService venderService;
-    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     //일반유저의 회원가입 처리 ---------------------------------------------------------------------------
@@ -87,6 +80,22 @@ public class SignupController {
 //            return "/account/login-test";
 //        }
 //    }
+    @PostMapping("/login")
+    public String userLogin(UserReqDTO userReqDTO){
+        //로그인 성공 시 true 실패 시 false
+        boolean isLogin = userService.userLogin(userReqDTO);
+
+        if(isLogin){
+            //로그인 성공 시 (로그인 성공 alert 띄우기)
+            System.out.println(isLogin);
+            return "redirect:/account/show";
+        }
+        else{
+            //로그인 실패 시 (로그인 실패 alert 띄우기)
+            System.out.println(isLogin);
+            return "/account/login-test";
+        }
+    }
 
     //테스트코드.(예비 메인페이지)--------------------------------------------------------------------------
     //유저로그인 성공시 목록띄우기
@@ -95,6 +104,13 @@ public class SignupController {
         List<UserResDTO> userResDTOList = userService.showUser();
         System.out.println(userResDTOList);
         return new ModelAndView("account/userList","users",userResDTOList);
+    }
+
+    //유저의 로그아웃 (할예정....)0------------------------------
+    @PostMapping("/logout")
+    public String userLogout(){
+
+        return "";
     }
 
     //회원탈퇴 처리 (예정)-----------------------------------------------------------------------------
@@ -107,7 +123,7 @@ public class SignupController {
     }
     //회원탈퇴처리 테스트 컨트롤러
     @GetMapping("deletetest/{id}")
-    public ResponseEntity<UserReqDTO> userLeaveTest(@PathVariable Long id,@RequestBody UserReqDTO userReqDTO){
+    public ResponseEntity<UserReqDTO> userLeaveTest(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
         //탈퇴처리 (state값 ->d로
         userService.userLeaveTest(id);
 
@@ -194,24 +210,24 @@ public class SignupController {
         return venderReqDTO;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody UserReqDTO userReqDTO, HttpServletResponse response) {
-        // 로그인 처리 로직을 수행합니다.
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userReqDTO.getUserEmail(), userReqDTO.getPasswd()));
-
-        if (authentication.isAuthenticated()) {
-            String myToken = jwtService.generateToken(userReqDTO.getUserEmail());
-
-            // 쿠키 생성
-            Cookie cookie = new Cookie("myTokenCookie", myToken);
-            cookie.setMaxAge(1800); // 쿠키의 만료 시간 (초) 설정, 이 경우 30분
-            cookie.setPath("/"); // 쿠키의 유효한 경로 설정, 필요에 따라 수정 가능
-
-            // 쿠키를 클라이언트로 보내기
-            response.addCookie(cookie);
-            return "/index"; // 로그인 성공 후 이동할 페이지
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
-        }
-    }
+//    @PostMapping("/login")
+//    public String login(@RequestBody UserReqDTO userReqDTO, HttpServletResponse response) {
+//        // 로그인 처리 로직을 수행합니다.
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userReqDTO.getUserEmail(), userReqDTO.getPasswd()));
+//
+//        if (authentication.isAuthenticated()) {
+//            String myToken = jwtService.generateToken(userReqDTO.getUserEmail());
+//
+//            // 쿠키 생성
+//            Cookie cookie = new Cookie("myTokenCookie", myToken);
+//            cookie.setMaxAge(1800); // 쿠키의 만료 시간 (초) 설정, 이 경우 30분
+//            cookie.setPath("/"); // 쿠키의 유효한 경로 설정, 필요에 따라 수정 가능
+//
+//            // 쿠키를 클라이언트로 보내기
+//            response.addCookie(cookie);
+//            return "/index"; // 로그인 성공 후 이동할 페이지
+//        } else {
+//            throw new UsernameNotFoundException("invalid user request !");
+//        }
+//    }
 }

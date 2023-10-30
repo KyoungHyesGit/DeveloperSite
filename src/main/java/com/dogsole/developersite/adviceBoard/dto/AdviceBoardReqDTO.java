@@ -1,9 +1,9 @@
 package com.dogsole.developersite.adviceBoard.dto;
 
 import com.dogsole.developersite.adviceBoard.entity.Comment;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class AdviceBoardReqDTO {
     @NotBlank(message = "내용을 입력해주세요")
     private String content;
 
-    private String kind;
+//    private String kind;
 
     private LocalDateTime regDate;
     private List<Comment> comments;
