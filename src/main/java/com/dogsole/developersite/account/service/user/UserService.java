@@ -28,10 +28,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper; //객체 변환
-<<<<<<< HEAD
-=======
-//    private final SecurityConfig securityConfig; //암호화
->>>>>>> 6927abef910fb23489ed9f876e34744f760900eb
+
     private final JwtTokenProvider jwtTokenProvider; //토큰 공급
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;

@@ -80,7 +80,7 @@
                     <div class="commentContent">
                         <div>
                             <div>
-                                <a href="#none" class="paddingLeft5 borderRound" style="float: right">삭제</a>
+                                <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}" href="#none" class="paddingLeft5 borderRound" style="float: right">삭제</a>
                                 <a href="#none" style="float: right" class="borderRound" th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
                             </div>
                             <div class="commentBd">

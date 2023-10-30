@@ -82,6 +82,7 @@ public class CommentController {
         model.addAttribute("comment", new CommentReqDTO());
         return "redirect:/adviceboard/view";
     }
+
      */
 
     @PostMapping("/addComment")
@@ -141,10 +142,6 @@ public class CommentController {
 //        model.addAttribute("comments",new CommentReqDTO());
 //        return "redirect:/adviceboard/view";
 //    }
-
-
-
-
 
 }
 
