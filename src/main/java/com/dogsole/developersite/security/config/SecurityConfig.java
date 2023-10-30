@@ -44,7 +44,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/js/**"),
                                 new AntPathRequestMatcher("/h2-console/**"),
                                 new AntPathRequestMatcher("/profile"),
-                                new AntPathRequestMatcher("/profile")
+                                new AntPathRequestMatcher("/profile"),
+                                new AntPathRequestMatcher("/mail/**")
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
