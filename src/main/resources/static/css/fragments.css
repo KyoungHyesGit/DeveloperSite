@@ -84,8 +84,12 @@ footer{
     min-width: 960px;
     height: 297px;
 }
+.ftBtn{
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+}
 .ftBtn ul{
-    margin: 10px auto 0;
+    margin: 10px auto;
     width: 1260px;
     display: flex;
     flex-flow: row nowrap;
