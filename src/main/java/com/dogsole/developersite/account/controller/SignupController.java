@@ -129,10 +129,15 @@ public class SignupController {
         return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
     }
 
-    //회원 수정 처리
+    //회원 수정 페이지 이동
+    @GetMapping("/updatepageu")
+    public String userPage(){
+
+        return "account/mypageu";
+    }
 
     //회원 수정처리 테스트
-    @GetMapping("/update/{id}")
+    @PostMapping("/updateu/{id}")
     public ResponseEntity<UserReqDTO> userUpdateTest(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
         userService.userUpdateTest(id ,userReqDTO);
 

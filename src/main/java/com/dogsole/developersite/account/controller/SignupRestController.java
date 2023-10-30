@@ -40,9 +40,9 @@ public class SignupRestController {
         System.out.println(vender);
 
         if((user != null) || (vender != null)){
-            return ResponseEntity.ok("이미 사용중인 이메일입니다.");
+            return ResponseEntity.ok("(X)이미 사용중인 이메일입니다.");
         }else{
-            return ResponseEntity.ok("사용 가능한 이메일입니다!");
+            return ResponseEntity.ok("(O)사용 가능한 이메일입니다!");
         }
     }
 }
