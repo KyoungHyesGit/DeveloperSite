@@ -20,4 +20,6 @@ public class CommentReqDTO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Long adviceboardId;
+
+
 }

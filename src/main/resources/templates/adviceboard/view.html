@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="bottomInfo">
-                            <span style="font-size:12px;">             </span>
+                            <span style="font-size:12px;">대댓글달기</span>
                             <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate == null}" th:text="${#temporals.format(comment.createdDate, 'yyyy.MM.dd')} + ' 작성'">작성 날짜</span>
                             <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate != null}" th:text="${#temporals.format(comment.updatedDate, 'yyyy.MM.dd')} + ' 작성'">수정 날짜</span>
                             <span class="bottomTxt" th:text="${comment.writer} + ' 님이'">댓글 작성자</span>
