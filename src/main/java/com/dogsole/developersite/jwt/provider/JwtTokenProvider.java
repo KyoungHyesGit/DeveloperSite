@@ -3,14 +3,23 @@ package com.dogsole.developersite.jwt.provider;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 
+import javax.crypto.SecretKey;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 
 //토큰을 생성하는 클래스
@@ -23,6 +32,8 @@ public class JwtTokenProvider {
     //토큰 생성 메서드-------------------------------
     //문자열을 받아 토큰을 생성후 반환.(유저의 id 값을 받아다가 줄거임)
     public String createToken(String subject) {
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
         Date tokenNow = new Date(); //현재 시간(토큰발행시간)을 저장
         Date tokenX = new Date(tokenNow.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
         //                                 Duration 클래스는 시간간격을 나타냄
@@ -51,11 +62,69 @@ public class JwtTokenProvider {
                 .getBody(); //토큰의 내용을 나타내는 Claims객체 반환
     }
 
+    //jwt 토큰의 유효성 체크 메서드--------------------------------
+    //JWT를 파싱하고 해당 토큰의 Claims를 추출하는 메서드 (claims는 토큰의 내용을 객체로표현 : 더쉽게 검증하고 조작할 수 있음)
+    public boolean parseJwtToken(String token, UserDetails userDetails) { //매개변수로 token을 받아 토큰의 내용을 나타내는 Claims객체로 반환
+        Claims claims = parseJwtToken(token);
+        String username = claims.getSubject();
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
     //토큰의 앞부분인 Bearer 제거 메서드----------------
     private String BearerRemove(String token) {
         return token.substring("Bearer".length());
     }
 
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+
+    @Cacheable("myTokenCache")
+    public String generateToken(String userName){
+        Map<String,Object> claims=new HashMap<>();
+        return createToken(claims,userName);
+    }
+
+    private String createToken(Map<String, Object> claims, String userName) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userName)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+    }
+
+    private Key getSignKey() {
+        byte[] keyBytes= Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 }
 

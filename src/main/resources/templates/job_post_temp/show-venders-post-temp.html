@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Post List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IP</th>
+                <th>Title</th>
+                <th>detail</th>
+                <th>work</th>
+                <th>req</th>
+                <th>salary</th>
+                <th>Create Date</th>
+                <th>Update Date</th>
+                <th>End Date</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="postTemp : ${tempList}">
+                <td th:text="${postTemp.id}"></td>
+                <td th:text="${postTemp.ip}"></td>
+                <td th:text="${postTemp.title}"></td>
+                <td th:text="${postTemp.detail}"></td>
+                <td th:text="${postTemp.work}"></td>
+                <td th:text="${postTemp.req}"></td>
+                <td th:text="${postTemp.salary}"></td>
+                <td th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td><span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span></td>
+                <td><a th:href="@{/jobPostTemp/edit/{id}(id=${postTemp.id})}">수정</a></td>
+                <td><a th:href="@{/jobPostTemp/delete/{id}(id=${postTemp.id})}">삭제</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- TODO 회사별 추출 _ id : vender_id로 변경 -->
+    <div th:if="${tempList.totalPages > 1}">
+        <ul class="pagination">
+            <li th:if="${tempList.hasPrevious}" class="page-item">
+                <a th:href="@{/jobPostTemp/vendersTempList/1(page=0, size=${tempList.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${tempList.hasPrevious}" class="page-item">
+                <a th:href="@{/jobPostTemp/vendersTempList/(page=${tempList.number - 1}, size=${tempList.size})}" class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                <a th:href="@{/jobPostTemp/vendersTempList/1(page=${i}, size=${tempList.size})}" class="page-link" th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${tempList.hasNext}" class="page-item">
+                <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number + 1}, size=${tempList.size})}" class="page-link">Next</a>
+            </li>
+            <li th:if="${tempList.hasNext}" class="page-item">
+                <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.totalPages - 1}, size=${tempList.size})}" class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
+<a href="/jobPostTemp/add">임시 등록글 등록</a>
+
+</body>
+</html>

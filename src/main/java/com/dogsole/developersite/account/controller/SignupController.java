@@ -47,7 +47,7 @@ public class SignupController {
     public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result,  Model model){
         //입력 항목 검증 시 오류발생 -> 다시 회원가입 페이지로
         if(result.hasErrors()){
-           //검증오류 메세지 alert 띄우기
+            //검증오류 메세지 alert 띄우기
             model.addAttribute("errorMessage1", "가입 실패 : 올바르지 않은 값 삽입\nex)이메일, 생년월일, 전화번호 양식");
             return "/account/signup-test";
         }

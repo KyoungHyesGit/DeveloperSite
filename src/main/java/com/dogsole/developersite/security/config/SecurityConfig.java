@@ -1,9 +1,17 @@
 package com.dogsole.developersite.security.config;
 
-import com.dogsole.developersite.account.service.UserInfoUserDetailsService;
+import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
+import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
+import com.dogsole.developersite.security.filter.JwtAuthFilter;
+import com.dogsole.developersite.security.userInfo.PrincipalDetails;
+import com.dogsole.developersite.security.userInfo.UserInfoUserDetails;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.Cookie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,20 +19,27 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@Order(1)
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-//    @Autowired
-//    private JwtAuthFilter authFilter;
+    @Autowired
+    private JwtAuthFilter authFilter;
+
+    @Autowired
+    private  JwtTokenProvider jwtTokenProvider;
+
 
     @Bean
     //authentication
@@ -32,20 +47,26 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
        return new UserInfoUserDetailsService();
     }
-
     //HttpSecurity 를 사용해 보안필터체인 구성을 정의
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable() //CSRF(Cross-Site Request Forgery)
+    public SecurityFilterChain filterChainOrder(HttpSecurity http) throws Exception {
+        http.csrf().disable().cors().disable()
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll() //아래는 인증없이 허용되는 URL지정
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
                         .requestMatchers(
                                 new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/css/**"),
                                 new AntPathRequestMatcher("/images/**"),
                                 new AntPathRequestMatcher("/js/**"),
                                 new AntPathRequestMatcher("/h2-console/**"),
+                                new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/loginpagev"),
+                                new AntPathRequestMatcher("/account/**"),
                                 new AntPathRequestMatcher("/checkToken"),
+                                new AntPathRequestMatcher("/adviceboard/list"),
+                                new AntPathRequestMatcher("/job_post/**"),
                                 new AntPathRequestMatcher("/tokenCreate/**"),
                                 new AntPathRequestMatcher("/checkToken/**"),
                                 new AntPathRequestMatcher("/api/account/**"),
@@ -53,12 +74,64 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
                 )
-                .formLogin(login -> login //폼기반 인증 로그인 제공
-//                        .loginPage("/account/loginpage")
-//                        .loginProcessingUrl("/login")
-//                        .usernameParameter("userEmail")
-//                        .passwordParameter("passwd")
-                        .defaultSuccessUrl("/", true) //로그인에 성공한 경우 사용자는 항상 "/"경로로 리디렉션됨
+                .oauth2Login(oauth2Login -> {
+                    oauth2Login
+                            .loginPage("/account/loginpage")
+                            .defaultSuccessUrl("/")
+                            .successHandler((request, response, authentication) -> {
+                                System.out.println("성공?");
+                                if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                                    PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+                                    String userEmail = userDetails.getUsername();
+                                    String myToken = jwtTokenProvider.createToken(userEmail);
+
+                                    Cookie cookie = new Cookie("myTokenCookie", myToken);
+                                    cookie.setMaxAge(1800);
+                                    cookie.setPath("/") ;
+                                    cookie.setDomain("");
+
+                                    Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
+                                    loginUserId.setMaxAge(1800);
+                                    loginUserId.setPath("/") ;
+                                    loginUserId.setDomain("");
+
+                                    response.addCookie(cookie);
+                                    response.addCookie(loginUserId);
+
+                                    System.out.println("쿠키 설정됨: " + myToken);
+                                    response.sendRedirect("/"); // 리다이렉트
+                                }
+                            });
+                }).formLogin(login -> login
+                        .loginPage("/account/loginpage")
+                        .loginProcessingUrl("/account/login") // 이 부분을 확인하십시오.
+                        .usernameParameter("userEmail")
+                        .passwordParameter("passwd")
+                        .successHandler((request, response, authentication) -> {
+                            System.out.println("성공?");
+                            if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                                UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
+                                String userEmail = userDetails.getUsername();
+                                String myToken = jwtTokenProvider.createToken(userEmail);
+
+                                Cookie cookie = new Cookie("myTokenCookie", myToken);
+                                cookie.setMaxAge(1800);
+                                cookie.setPath("/") ;
+                                cookie.setDomain("");
+
+                                Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
+                                loginUserId.setMaxAge(1800);
+                                loginUserId.setPath("/") ;
+                                loginUserId.setDomain("");
+
+                                response.addCookie(cookie);
+                                response.addCookie(loginUserId);
+
+                                System.out.println("쿠키 설정됨: " + myToken);
+                               response.sendRedirect("/"); // 리다이렉트
+
+                            }
+                        })
                         .permitAll()
                 )
                 .logout(withDefaults());
@@ -72,7 +145,9 @@ public class SecurityConfig {
                             //http.build() 호출하여 구성 후 SecurityFilterChain을 반환하면 이 구성이 애플리케이션에 적용됨
     }
 
+
     //스프링시큐리티에서 사용자의 비밀번호를 안전히 저장하고 비교하기위해 사용되는 PasswordEncoder빈을 구성
+    @Primary
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //BCryptPasswordEncoder 클래스의 인스턴스를 반환
@@ -87,6 +162,7 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());//authenticationProvider에 사용자 비밀번호를 비교할때 사용할 암호화 설정
         return authenticationProvider;
     }
+    @Primary
     @Bean //사용자 인증 관리를 위한 AuthenticationManager 생성
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager(); //사용자 인증을 관리.(사용자 자격 증명)

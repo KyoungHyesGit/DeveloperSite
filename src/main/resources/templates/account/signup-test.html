@@ -75,7 +75,7 @@
         text-align: center;
     }
 </style>
-        <!--가입성공 메세지-->
+<!--가입성공 메세지-->
 <!--<script th:if="${successMessage}">-->
 <!--    alert("님 회원가입 완료!\n사용 이메일 : ");-->
 <!--    //var userName = document.getElementById('u_name').value;-->
@@ -83,14 +83,14 @@
 <!--    //alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);-->
 <!--</script>-->
 
-        <!--가입실패 메세지1-->
+<!--가입실패 메세지1-->
 <script th:if="${errorMessage1}">
 
     alert("가입 실패 : 올바르지 않은 값 삽입\nex)이메일, 생년월일, 전화번호 양식 및 비밀번호 확인");
 
 </script>
 
-        <!--가입실패 메세지2-->
+<!--가입실패 메세지2-->
 <script th:if="${errorMessage2}">
 
     alert("가입 실패 : 사용중인 이메일 입니다.\n 이메일 중복 확인 재시도");

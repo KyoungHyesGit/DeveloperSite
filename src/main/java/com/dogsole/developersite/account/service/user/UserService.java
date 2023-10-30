@@ -31,6 +31,7 @@ public class UserService {
     private final SecurityConfig securityConfig; //암호화
     private final JwtTokenProvider jwtTokenProvider; //토큰 공급
     private final TokenRepository tokenRepository;
+    private final PasswordEncoder passwordEncoder;
     //비즈니스로직 작성 차례
 
     //유저 전체 조회------------------------------------------------------------------
@@ -60,12 +61,9 @@ public class UserService {
             return false;
         }
         //스프링 시큐리티로 비밀번호 암호화처리
-        PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
         String encodePasswd = passwordEncoder.encode(userReqDTO.getPasswd());
         userReqDTO.setPasswd(encodePasswd);
 
-        //해당 이메일이 중복되지 않는다면
-        //reqDTO(요청)객체를 Entity형으로 전환
         UserEntity userEntity = modelMapper.map(userReqDTO, UserEntity.class);
 
         //db에 등록(가입).

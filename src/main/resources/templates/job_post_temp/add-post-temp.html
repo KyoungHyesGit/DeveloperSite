@@ -19,7 +19,7 @@
     <form action="#" th:action="@{/jobPostTemp/add}" th:object="${jobPostTempReqDTO}" method="post" >
         <!-- TODO 유저로 뽑기 -->
         <label for="vender_id">임시 회사 아이디 넣기 *</label>
-        <input type="text" th:field="*{venderReqDTO.id}" id="vender_id">
+        <input type="text" th:field="*{venderReqDTO.venderId}" id="vender_id">
         <br/>
         <label for="title">TITLE *</label>
         <input type="text" th:field="*{title}" id="title">
@@ -36,13 +36,11 @@
             <label th:for="'work-' + ${postWork.value}" th:text="${postWork.label}"></label>
         </div>
         <br/>
-        <label>요구조건</label>
-        <input type="hidden"  th:field="*{req}" >
+        <label>학력 요구조건</label>
         <div th:each="postReq : ${postReqList}">
-            <input type="checkbox" th:value="${postReq.value}" th:id="'req-' + ${postReq.value}"
-                   th:checked="${(jobPostTempReqDTO.req != null)and(jobPostTempReqDTO.req.contains(postReq.value))}" />
+            <input type="checkbox" th:field="*{req}" th:value="${postReq.value}" th:id="'req-' + ${postReq.value}"
+                   th:checked="${jobPostTempReqDTO.req != null and jobPostTempReqDTO.req.contains(postReq.value)}" />
             <label th:for="'req-' + ${postReq.value}" th:text="${postReq.label}"></label>
-            <hr>
         </div>
 
         <span th:if="${#fields.hasErrors('req')}" th:errors="*{req}"></span>
@@ -52,7 +50,7 @@
         <span th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></span>
         <br/>
         <label for="endTime">마감일</label>
-        <input type="date" th:field="*{endTime}" id="endTime">
+        <input type="datetime-local" th:field="*{endTime}" id="endTime">
         <span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"></span>
         <br/>
         <hr>
