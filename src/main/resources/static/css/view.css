@@ -10,12 +10,13 @@
 }
 
 .bodyLast {
-    margin-bottom: 1.5rem;
+    margin-bottom: 5rem;
 }
 
 .marginTopLeft_1 {
     margin-top: 1rem;
     margin-left: 2rem;
+    margin-right: 15px;
 }
 
 .borderRound {
@@ -61,6 +62,7 @@
 .commentDiv {
     margin-top: 2rem;
     border-top: 1px solid #adadad;
+    padding-bottom: 0.5rem;
 }
 
 .commentContent {
