@@ -7,7 +7,7 @@ import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.jobPost.repository.JobPostTempRepository;
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

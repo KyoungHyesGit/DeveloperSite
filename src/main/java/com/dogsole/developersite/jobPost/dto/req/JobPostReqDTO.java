@@ -1,9 +1,10 @@
 package com.dogsole.developersite.jobPost.dto.req;
 
+import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
-import com.dogsole.developersite.vender.dto.req.VenderReqDTO;
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

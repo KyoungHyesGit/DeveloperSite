@@ -1,7 +1,7 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

@@ -1,11 +1,12 @@
 package com.dogsole.developersite.jobPost.service;
 
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jobPost.repository.JobPostRepository;
-import com.dogsole.developersite.vender.dto.res.VenderResDTO;
-import com.dogsole.developersite.vender.entity.VenderEntity;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
