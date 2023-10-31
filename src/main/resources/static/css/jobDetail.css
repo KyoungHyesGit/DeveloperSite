@@ -1,0 +1,27 @@
+.det_container{
+    margin: 50px auto;
+    width: 1140px;
+}
+.dt_one{
+    float: left;
+}
+.dt_two{
+    float: right;
+}
+.dt_one h2{
+    font-weight: 900;
+}
+.job_Dbtn{
+    width: 170px;
+    height: 60px;
+    display: inline-block;
+    background-color: #2d65f2;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 60px;
+}
+.job_Dbtn:hover{
+    background-color: #1C55E4;
+}

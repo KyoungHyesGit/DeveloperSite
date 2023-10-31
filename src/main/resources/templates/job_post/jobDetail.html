@@ -5,17 +5,14 @@
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
-    <div class="container">
-    <div class="job_post" th:if="${jobDetail != null}">
-        <h2 th:text="${jobDetail.venderResDTO.venderId}">회사id</h2>
-        <h2 th:text="${jobDetail.id}">post id</h2>
+    <div class="container det_container">
+    <div class="job_post" style="display: flex; justify-content: space-between;" th:if="${jobDetail != null}">
         <!-- 타이틀 -->
-        <div class="dt_ont">
+        <div class="dt_one">
             <div>
-                <h2 th:text="${jobDetail.venderResDTO.venderName}"></h2>
-                <p>등록한 공고 개수</p>
+                <h4 th:text="${jobDetail.venderResDTO.venderName}"></h4>
             </div>
-            <h1 th:text="${jobDetail.title}"></h1>
+            <h2 th:text="${jobDetail.title}"></h2>
         </div>
         <div class="dt_two">
             <!--            <a class="btn btn-light"-->
@@ -83,11 +80,12 @@
             <!-- 경로지정해줘야함 -->
             <!--            <a sec:authorize="isAuthenticated()" class="btn btn-light"-->
             <!--               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>-->
-            <a sec:authorize="isAuthenticated()" class="btn btn-light"
-               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>
+            <a sec:authorize="isAuthenticated()" class="job_Dbtn"
+               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">입사지원</a>
+        </div>
 
-
-
+    </div>
+        <div>
             <hr>
             <!-- 요구사항 -->
             <table>
@@ -118,7 +116,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 </th:block>
 
 </html>
