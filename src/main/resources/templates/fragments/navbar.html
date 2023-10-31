@@ -30,7 +30,6 @@
     <nav>
         <div class="container">
             <div>
-
                 <ul style="display: flex" class="menu">
                     <li>
                         <a class="navbar-brand" th:href="@{/job_post/jobList}">
@@ -49,23 +48,12 @@
                         </div>
                     </li>
                     <li>
-                        <a href="/account/loginpage">로그인</a>
+                        <a class="logBtn" sec:authorize="isAnonymous()" href="/account/loginpage">로그인</a>
+                        <a class="logBtn" sec:authorize="isAuthenticated()" href="#">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            기업서비스
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/account/login">로그인</a></li>
-                            <li>
-                                <a id="jopPostBtn">
-                                    <button onclick="updateLinkUrl('/jobPostTemp/vendersTempList/','jopPostBtn')">공고등록</button>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
 
                 </ul>
             </div>

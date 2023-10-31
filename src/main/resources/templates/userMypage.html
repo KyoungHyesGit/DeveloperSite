@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-
 <script>
     function updateLinkUrl(url,btnId) {
         var loginUserIdValue = getCookie('loginUserId');
@@ -10,6 +9,16 @@
         if (loginUserIdValue) {
             var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
             likeBtn.href = url + loginUserIdValue; // URL을 업데이트
+        }
+    }
+
+    function updateLinkUrlVender(url,btnId) {
+        var loginUVenderIdValue = getCookie('loginVenderId');
+        console.log("loginUVenderIdValue:"+loginUVenderIdValue);
+        if (loginUVenderIdValue) {
+            var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
+            console.log("url:"+url + loginUVenderIdValue);
+            likeBtn.href = url + loginUVenderIdValue; // URL을 업데이트
         }
     }
 
@@ -25,7 +34,6 @@
         return null; // 해당 쿠키가 없을 경우
     }
 </script>
-
 <body>
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
@@ -56,6 +64,15 @@
     <a id="likeBtn">
         <button onclick="updateLinkUrl('/jpLike/jpLikeList/','likeBtn')">내 찜 목록</button>
     </a>
+
+    <a id="postBtn">
+        <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')">공고 등록</button>
+    </a>
+
+    <a>
+        <button onclick="window.location.href = '/vender/add'">회사 등록 신청</button>
+    </a>
+
 </th:block>
 </body>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>

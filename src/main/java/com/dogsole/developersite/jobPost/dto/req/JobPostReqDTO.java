@@ -26,7 +26,7 @@ public class JobPostReqDTO {
     private LocalDateTime postDate;
     private String state;
     private String reqState;
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     private LocalDateTime createDt;
     private LocalDateTime updateDt;
 

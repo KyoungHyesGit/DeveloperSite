@@ -1,48 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="fragments/header :: headerFragment"></th:block>
-<style>
-    /* 테이블 스타일 */
-    table {
-        width: 60%;
-        border-collapse: collapse;
-        margin: 50px 0;
-        margin-left:auto;
-        margin-right:auto;
-    }
-
-    /* 테이블 헤더 스타일 */
-    thead {
-        background-color: #333;
-        color: #fff;
-    }
-
-    th {
-        padding: 10px;
-        text-align: left;
-    }
-
-    /* 테이블 셀 스타일 */
-    td {
-        border: 1px solid #ddd;
-        padding: 10px;
-    }
-
-    /* 짝수 행 스타일 */
-    tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    /* 홀수 행 스타일 */
-    tbody tr:nth-child(odd) {
-        background-color: #fff;
-    }
-
-</style>
-<body>
-<!--Header 영역을 참조합니다.-->
-<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
 <th:block layout:fragment="content">
     <table>
         <thead>
@@ -65,13 +25,9 @@
         </tbody>
     </table>
 </th:block>
-</body>
-
 <script>
     function confirmCancellation() {
         return confirm("정말로 지원을 취소하시겠습니까?");
     }
 </script>
-
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

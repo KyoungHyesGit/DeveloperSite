@@ -89,3 +89,11 @@
     cursor: pointer;
     margin: 10px auto;
 }
+.create-resume-button {
+    float: right;
+    margin: 0 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+}
