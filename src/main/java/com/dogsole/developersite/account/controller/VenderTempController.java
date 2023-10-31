@@ -2,6 +2,7 @@ package com.dogsole.developersite.account.controller;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderTempReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderTempResDTO;
 import com.dogsole.developersite.account.service.vender.VenderTempService;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
@@ -61,33 +62,33 @@ public class VenderTempController {
 
     @GetMapping("/edit/{id}")
     public String gotoEditJobPostTempPage(@PathVariable Long id, Model model){
-//        JobPostTempResDTO jobPostTemp = jobPostTempService.getJobTempPost(id);
+        VenderTempResDTO venderTemp = venderTempService.findById(id);
 
-//        model.addAttribute("jobPostTemp",jobPostTemp);
+        model.addAttribute("venderTemp",venderTemp);
 
         return "/account/edit_vender_temp";
     }
 
     @PostMapping("/edit/{id}")
-    public String editJobPostTemp(@ModelAttribute("jobPostTemp") @Valid JobPostTempReqFormDTO jobPostTemp, BindingResult result, Model model, HttpServletRequest request, @PathVariable Long id){
+    public String addJobPostTemp(@ModelAttribute("venderTemp") @Valid VenderTempReqDTO venderTemp, @RequestParam("photo") MultipartFile photo, BindingResult result, Model model, HttpServletRequest request, @PathVariable Long id){
         if(result.hasErrors()){
 
-            model.addAttribute("jobPostTemp",jobPostTemp);
-
-
+            model.addAttribute("venderTemp",venderTemp);
             return "/account/edit_vender_temp";
         }
-        jobPostTemp.setIp(request.getRemoteAddr());
-        jobPostTemp.setState("수정");
-        jobPostTemp.setReqState("");
+        venderTemp.setState("수정");
+        venderTemp.setReqState("");
 
-//        jobPostTempService.updateJobPostTemp(id, jobPostTemp);
+        try{
+            venderTempService.updateVenderTemp(id, venderTemp, photo);
+        }catch (Exception e){}
+
         return "redirect:/userMypage";
     }
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteJobPostTemp(@PathVariable Long id) {
-//        jobPostTempService.deleteJobPostTemp(id);
+        venderTempService.deleteVenderTemp(id);
         // TODO 사용자 정보에서 벤터 id빼서 홈으로 가기
         return "redirect:/userMypage";
     }

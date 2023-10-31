@@ -37,5 +37,6 @@ public class VenderTempResDTO {
     private LocalDateTime createDt;
 
     private LocalDateTime updateDt;
+    private String reqState;
 
 }

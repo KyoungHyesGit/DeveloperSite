@@ -1,6 +1,7 @@
 package com.dogsole.developersite.account.entity.vender;
 
 
+import com.dogsole.developersite.account.dto.vender.VenderTempReqDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -64,5 +65,32 @@ public class VenderTempEntity {
     @CreationTimestamp
     private LocalDateTime updateDt;
 
+    public void setTempToReal(VenderTempEntity venderTempEntity){
+        this.userId = venderTempEntity.getUserId();
+        this.id = venderTempEntity.getId();
+        this.name = venderTempEntity.getName();
+        this.photo = venderTempEntity.getPhoto();
+        this.email = venderTempEntity.getEmail();
+        this.phone = venderTempEntity.getPhone();
+        this.bNo = venderTempEntity.getBNo();
+        this.zipcode = venderTempEntity.getZipcode();
+        this.streetAddr = venderTempEntity.getStreetAddr();
+        this.detailAddr = venderTempEntity.getDetailAddr();
+        this.extraAddr = venderTempEntity.getExtraAddr();
+
+    }
+
+    public void setTempToReal(VenderTempReqDTO venderTempReqDTO){
+        this.id = venderTempReqDTO.getId();
+        this.name = venderTempReqDTO.getName();
+        this.email = venderTempReqDTO.getEmail();
+        this.phone = venderTempReqDTO.getPhone();
+        this.bNo = venderTempReqDTO.getBNo();
+        this.zipcode = venderTempReqDTO.getZipcode();
+        this.streetAddr = venderTempReqDTO.getStreetAddr();
+        this.detailAddr = venderTempReqDTO.getDetailAddr();
+        this.extraAddr = venderTempReqDTO.getExtraAddr();
+
+    }
 
 }
