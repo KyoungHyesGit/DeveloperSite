@@ -8,10 +8,12 @@ import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-import com.dogsole.developersite.security.config.SecurityConfig;
+
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,8 @@ public class VenderService {
     private final VenderRepository venderRepository;
     private final ModelMapper modelMapper;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenRepository tokenRepository;
 
@@ -74,34 +77,41 @@ public class VenderService {
         return true;
     }
     //회사회원 로그인처리------------------------------------------------------------------
-    public boolean venderLogin(VenderReqDTO venderReqDTO){
-        if ((venderRepository.existsByVenderEmail(venderReqDTO.getVenderEmail()))
-                &&venderRepository.existsByVenderPasswd(venderReqDTO.getVenderPasswd())){
-            //기업 회원 로그인 성공
-            //JWT 토큰 발급 처리-------------------------------------------------------
-            //로그인 한 회사회원의 id값 얻기
-            VenderEntity venderEntity = venderRepository.findByVenderEmail(venderReqDTO.getVenderEmail()).orElseThrow();
-            String venderId = venderEntity.getVenderId()+"";
+    public VenderResDTO venderLogin(VenderReqDTO venderReqDTO){
+        VenderEntity venderEntity = null;
+        try{
+            venderEntity = venderRepository.findByVenderEmail(venderReqDTO.getVenderEmail()).get();
+        }catch (Exception e){
 
-            String token = jwtTokenProvider.createToken(venderId); //토큰 생성
-
-            Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+token); //해당 토큰의 claims 객체 생성
-
-            Date tokenIss = claims.getIssuedAt(); //클레임객체에서 토큰 발행일 뜯기
-            Date tokenExp = claims.getExpiration(); //클레임객체에서 토큰 만료일 뜯기
-
-            System.out.print("////토큰 발행일자//////"+tokenIss); //토큰발행일 테스트OK
-            System.out.print("///토큰////////"+token); //토큰 값 발행 테스트 OK
-            System.out.print("///유저아이디/"+venderId+"\n");//회사유저 ID 값 테스트 OK
-
-            //위의 정보로 토큰 엔티티 생성
-            TokenEntity tokenEntity = new TokenEntity(token, tokenIss, tokenExp);
-            //db에 토큰 엔티티 저장
-            tokenRepository.save(tokenEntity);
-
-            return true;
         }
-        return false;
+        if (venderEntity!=null){
+
+            if(passwordEncoder.matches(venderReqDTO.getVenderPasswd(),venderEntity.getVenderPasswd())){
+                //기업 회원 로그인 성공
+                //JWT 토큰 발급 처리-------------------------------------------------------
+                //로그인 한 회사회원의 id값 얻기
+                String venderId = venderEntity.getVenderId()+"";
+
+                String token = jwtTokenProvider.createToken(venderId); //토큰 생성
+
+                Claims claims = jwtTokenProvider.parseJwtToken("Bearer "+token); //해당 토큰의 claims 객체 생성
+
+                Date tokenIss = claims.getIssuedAt(); //클레임객체에서 토큰 발행일 뜯기
+                Date tokenExp = claims.getExpiration(); //클레임객체에서 토큰 만료일 뜯기
+
+                System.out.print("////토큰 발행일자//////"+tokenIss); //토큰발행일 테스트OK
+                System.out.print("///토큰////////"+token); //토큰 값 발행 테스트 OK
+                System.out.print("///유저아이디/"+venderId+"\n");//회사유저 ID 값 테스트 OK
+
+                //위의 정보로 토큰 엔티티 생성
+                TokenEntity tokenEntity = new TokenEntity(token, tokenIss, tokenExp);
+                //db에 토큰 엔티티 저장
+                tokenRepository.save(tokenEntity);
+
+                return modelMapper.map(venderEntity,VenderResDTO.class);
+            }
+        }
+        return null;
     }
     //회사 회원 탈퇴--------------------------------------------------------------------------
     public void venderLeave(String vender_email){

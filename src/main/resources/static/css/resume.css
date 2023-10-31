@@ -97,3 +97,16 @@
     cursor: pointer;
     background-color: #fff;
 }
+.uPContainer{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px; /* 버튼 간 간격 조절 */
+}
+.uPContainer button{
+    background-color: #fff;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}

@@ -29,7 +29,13 @@ public class UserResumeController {
     }
     //이력서 작성페이지로 이동
     @GetMapping("/showCreateResumePage")
-    public String showCreateResumePage() {
+    public String showCreateResumePage(HttpServletRequest request,Model model) {
+        Long userId = Arrays.stream(request.getCookies())
+                .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+        model.addAttribute("userId",userId);
         return "userResume/createResume";
     }
     //이력서 작성
@@ -76,7 +82,7 @@ public class UserResumeController {
     @GetMapping("/selectResume/{id}")
     public String selectResume(@PathVariable Long id, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId,
                                Model model){
-        //userId 임시 지정
+
         List<UserResumeResDTO> userResumes = userResumeService.getUserResumesByUserId(id);
         model.addAttribute("userResumes", userResumes);
         model.addAttribute("userId", id);

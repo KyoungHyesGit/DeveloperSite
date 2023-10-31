@@ -1,5 +1,11 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
+
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import lombok.*;
 

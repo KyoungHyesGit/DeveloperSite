@@ -41,7 +41,6 @@ public class JpLikeRestController {
     @GetMapping("/checkLike")
     public ResponseEntity<Boolean> checkLike(
             @RequestParam("userId") Long userId,
-            @RequestParam("venderId") Long venderId,
             @RequestParam("jobPostId") Long jobPostId) {
         try {
             boolean isLiked = jpLikeService.isJobLiked (userId, jobPostId);
@@ -54,7 +53,6 @@ public class JpLikeRestController {
 @PostMapping("/removeLike")
 public ResponseEntity<Map<String, String>> removeLike(
         @RequestParam("userId") Long userId,
-        @RequestParam("venderId") Long venderId,
         @RequestParam("jobPostId") Long jobPostId) {
     Map<String, String> response = new HashMap<>();
 
