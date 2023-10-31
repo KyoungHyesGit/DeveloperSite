@@ -7,6 +7,7 @@ import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.security.userInfo.PrincipalDetails;
 import com.dogsole.developersite.security.userInfo.PrincipalVenderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -22,7 +23,8 @@ public class PrincipalOauth2VenderService extends DefaultOAuth2UserService {
 
     @Autowired
     private VenderRepository venderRepository;
-    @Autowired private PasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

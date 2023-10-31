@@ -8,10 +8,12 @@ import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-//import com.dogsole.developersite.security.config.SecurityConfig;
+
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,8 @@ public class VenderService {
     private final VenderRepository venderRepository;
     private final ModelMapper modelMapper;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenRepository tokenRepository;
 
@@ -74,7 +77,7 @@ public class VenderService {
         return true;
     }
     //회사회원 로그인처리------------------------------------------------------------------
-    public boolean venderLogin(VenderReqDTO venderReqDTO){
+    public VenderResDTO venderLogin(VenderReqDTO venderReqDTO){
         VenderEntity venderEntity = null;
         try{
             venderEntity = venderRepository.findByVenderEmail(venderReqDTO.getVenderEmail()).get();
@@ -105,10 +108,10 @@ public class VenderService {
                 //db에 토큰 엔티티 저장
                 tokenRepository.save(tokenEntity);
 
-                return true;
+                return modelMapper.map(venderEntity,VenderResDTO.class);
             }
         }
-        return false;
+        return null;
     }
     //회사 회원 탈퇴--------------------------------------------------------------------------
     public void venderLeave(String vender_email){

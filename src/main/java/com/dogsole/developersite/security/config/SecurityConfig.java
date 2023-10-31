@@ -56,23 +56,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
                         .requestMatchers(
-                                new AntPathRequestMatcher("/"),
-                                new AntPathRequestMatcher("/css/**"),
-                                new AntPathRequestMatcher("/images/**"),
-                                new AntPathRequestMatcher("/js/**"),
-                                new AntPathRequestMatcher("/h2-console/**"),
-                                new AntPathRequestMatcher("/login"),
-                                new AntPathRequestMatcher("/loginpagev"),
-                                new AntPathRequestMatcher("/account/**"),
-                                new AntPathRequestMatcher("/checkToken"),
-                                new AntPathRequestMatcher("/adviceboard/list"),
-                                new AntPathRequestMatcher("/job_post/**"),
-                                new AntPathRequestMatcher("/tokenCreate/**"),
-                                new AntPathRequestMatcher("/checkToken/**"),
-                                new AntPathRequestMatcher("/api/account/**"),
-                                new AntPathRequestMatcher("/account/**")
-                        ).permitAll()
-                        .anyRequest().authenticated() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
+                                new AntPathRequestMatcher("/userMypage"),
+                                new AntPathRequestMatcher("/userMypage/**"),
+                                new AntPathRequestMatcher("/account/update/**"),
+                                new AntPathRequestMatcher("/account/delete/**"),
+                                new AntPathRequestMatcher("/userResume/**"),
+                                new AntPathRequestMatcher("/jpApply/**"),
+                                new AntPathRequestMatcher("/jpLike/**")
+                        ).authenticated()
+                        .anyRequest().permitAll() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
                 )
                 .oauth2Login(oauth2Login -> {
                     oauth2Login

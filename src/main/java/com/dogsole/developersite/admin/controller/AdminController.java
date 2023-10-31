@@ -33,13 +33,13 @@ public class AdminController {
     @GetMapping("/show")
     public ModelAndView userShow(Model model){
         List<UserResDTO> userResDTOList = userService.showUser();
-        return new ModelAndView("account/userList","users",userResDTOList);
+        return new ModelAndView("admin/userList","users",userResDTOList);
     }
 
     @GetMapping("/showv")
     public ModelAndView venderShow(Model model){
         List<VenderResDTO> venderResDTOList = venderService.showVender();
-        return new ModelAndView("account/venderList","venders",venderResDTOList);
+        return new ModelAndView("admin/venderList","venders",venderResDTOList);
     }
 
 
