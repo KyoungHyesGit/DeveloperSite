@@ -1,6 +1,7 @@
 .job_container{
     display: flex;
     flex-wrap: wrap;
+    margin: 50px auto;
 }
 .job_item{
     width: 31.5%;

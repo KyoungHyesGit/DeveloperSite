@@ -10,9 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -68,13 +65,15 @@ public class UserResumeController {
 
         return "redirect:/userResume/"+userId;
     }
+    //지원하기 선택후 이력서 선택
     @GetMapping("/selectResume/{id}")
     public String selectResume(@PathVariable Long id, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId,
-                                Model model){
+                               Model model){
         //userId 임시 지정
         List<UserResumeResDTO> userResumes = userResumeService.getUserResumesByUserId(id);
         model.addAttribute("userResumes", userResumes);
         model.addAttribute("userId", id);
+
         model.addAttribute("venderId", venderId);
         model.addAttribute("jobPostId", jobPostId);
         return "/userResume/userResumeSelection";

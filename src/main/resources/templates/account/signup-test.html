@@ -8,6 +8,30 @@
     <script>
 
         //가입 시 이메일 중복 확인 함수
+<<<<<<< HEAD
+        function checkEmailDuplication() {
+            var userEmail = document.getElementById('u_email').value;
+            //db의 값에 있는 컬럼들과 비교해야함.
+            var isEmailDuplicated = (userEmail === '중복@중복');
+
+            var sendButton = document.getElementById('sendBtn');
+            if (isEmailDuplicated) {
+                alert('이미 가입된 이메일입니다.');
+                sendButton.disabled = true;
+                document.getElementById('join_form').onsubmit = function () {
+                    alert('이메일 중복 확인을 해주세요.');
+                    return false;
+                };
+            } else {
+                alert('사용 가능한 이메일입니다.');
+                sendButton.disabled = false;
+               // document.getElementById('join_form').onsubmit = null; // 폼 제출 기능 활성화
+
+            }
+        }
+
+=======
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         //가입 시 빈칸 확인 함수
         function form_check() {
             var userName = document.getElementById('u_name').value;
@@ -48,7 +72,63 @@
                 return false;
             }
 
+<<<<<<< HEAD
+            //이메일 중복 체크 함수
+
+            // 모든 유효성 검사를 통과한 경우, 폼이 제출됩니다.
+            alert(userName + "님 회원가입 완료!\n사용 email: " + userEmail);
+=======
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             return true;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        var isCertification = false;
+
+        function sendNumber() {
+            $("#mail_number").css("display", "block");
+            $.ajax({
+                url: "/mail",
+                type: "post",
+                crossDomain: true,
+                headers: {'Access-Control-Allow-Origin': 'http://The web site allowed to access'},
+                dataType: "json",
+                data: {"mail": $("#u_email").val()},
+                success: function (data) {
+                    alert("인증번호 발송");
+                    var message = data.message;
+                    console.log("message= " + message); // 이메일 전송에 성공했습니다.
+                    // 이제 message 변수에 서버에서 보낸 메시지가 들어 있습니다.
+                    var confirmationNumber = data.confirmationNumber;
+                    console.log("confirmationNumber= " + confirmationNumber);
+
+                    $("#Confirm").val(confirmationNumber);
+                    isCertification = false;
+                },
+
+                error: function (xhr, status, error) {
+                    alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+                }
+            });
+        }
+
+        function confirmNumber() {
+            var enteredNumber = $("#number").val();
+            var confirmationNumber = $("#Confirm").val();
+            const $resultMsg = $('#mail-check-warn');
+            console.log(confirmationNumber);
+            if (enteredNumber === confirmationNumber) {
+                $resultMsg.html('인증 성공');
+                $resultMsg.css('color', 'green');
+                isCertification = true;
+                $("#signupButton").prop("disabled", false); // Enable the signup button
+            } else {
+                $resultMsg.html('인증번호 불일치');
+                $resultMsg.css('color', 'red');
+                isCertification = false;
+                $("#signupButton").prop("disabled", true); // Disable the signup button
+            }
         }
     </script>
 </head>
@@ -83,6 +163,10 @@
 <!--    //alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);-->
 <!--</script>-->
 
+<<<<<<< HEAD
+<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="jaoin_form"
+      onsubmit="return form_check()">
+=======
 <!--가입실패 메세지1-->
 <script th:if="${errorMessage1}">
 
@@ -99,6 +183,7 @@
 
 
 <form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="join_form" onsubmit="return form_check()">
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
     <fieldset>
         <legend>일반회원 회원가입</legend>
         <p>
@@ -110,9 +195,25 @@
         <p>
             <label for="u_email">이메일</label>
             <input type="email" name="userEmail" id="u_email">
+<<<<<<< HEAD
+            <button type="button" onclick="checkEmailDuplication()">이메일 중복확인</button>
+            <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" disabled>인증번호 전송</button>
+=======
             <button type="button" id="checkEmailButton">이메일 중복확인</button>
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             <br>
             <span class="err_id">* ex) aaa@aaa.com</span>
+            <br>
+        <div class="form-group" id="mail_number" name="mail_number">
+            <input type="text" name="number" id="number" class="form-control" style="width:250px; margin-top: -10px"
+                   placeholder="인증번호 입력"/>
+            <span id="mail-check-warn"></span>
+            <button type="button" name="confirmBtn" id="confirmBtn" style="margin-top: 20px" onclick="confirmNumber()">
+                인증 확인
+            </button>
+            <br>
+            <input type="text" id="Confirm" name="Confirm" style="display: none" value=""/>
+        </div>
         </p>
         <div id="emailMessage"></div>
         <!--이메일 중복체크 스크립트-->
@@ -158,8 +259,13 @@
             <span class="err_agree">* 필수</span>
         </p>
         <p class="final_btn">
+<<<<<<< HEAD
+            <a href="http://localhost/account/loginpage" class="btn">취소</a>
+            <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
+=======
             <a href= "http://localhost/account/loginpage" class="btn">취소</a>
             <button type="submit" id="signupButton" class="btn">회원가입</button>
+>>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         </p>
     </fieldset>
 </form>

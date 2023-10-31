@@ -26,16 +26,20 @@ public class JpApplyController {
     public String addApply( Long userId, @RequestParam("venderId") Long venderId, @RequestParam("jobPostId") Long jobPostId, @RequestParam("resumeId") Long resumeId, Model model) {
 
         userId=1L;
-
-            jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
+        System.out.println(">>>>>"+jobPostId);
+        jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;
     }
 
     //지원삭제
-    @PostMapping("/deleteApply")
-    public String deleteApply(@RequestParam Long userId, @RequestParam Long venderId, @RequestParam Long jobPostId, Model model) {
-        jpApplyService.delApllyJp(userId, venderId, jobPostId);
+    @GetMapping("/deleteApply")
+//    public String deleteApply(@RequestParam Long userId, @RequestParam Long jobPostId, Model model) {
+    //임시 유저아이디 지정
+    public String deleteApply( Long userId, @RequestParam("jpApplyId") Long jpApplyId, Model model) {
+        userId=1L;
+        System.out.println("삭제 컨트롤러");
+        jpApplyService.delApllyJp(jpApplyId);
 
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;

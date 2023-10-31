@@ -48,7 +48,8 @@
                         </div>
                     </li>
                     <li>
-                        <a href="/account/loginpage">로그인</a>
+                        <a class="logBtn" sec:authorize="isAnonymous()" href="/account/loginpage">로그인</a>
+                        <a class="logBtn" sec:authorize="isAuthenticated()" href="#">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>

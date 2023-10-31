@@ -1,16 +1,11 @@
 package com.dogsole.developersite.jobPost.dto.req;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
-import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
-import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
-import com.dogsole.developersite.account.dto.vender.VenderResDTO;
-import com.dogsole.developersite.account.entity.vender.VenderEntity;
-import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 @Builder
 @Setter
 @Getter
