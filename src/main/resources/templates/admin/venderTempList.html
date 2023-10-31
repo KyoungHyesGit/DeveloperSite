@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
-
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<!--로그인 성공 alert-->
-<script th:if="${loginok}">
-    alert("로그인 성공!");
-</script>
-
-
-
-<h1>회사 회원 리스트(로그인 성공시 예비메인)</h1>
-<button onclick="location.href='/account/loginpagev'">로그아웃</button>
 <table border="1">
     <tr>
         <th>SEQ</th>
@@ -29,16 +19,86 @@
     </tr>
     <tr th:each="vender, venderState : ${venders}">
         <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
-        <td th:text="${vender.venderId}"></td>
-        <td th:text="${vender.venderName}"></td>
-        <td th:text="${vender.venderEmail}"></td>
+        <td th:text="${vender.id}"></td>
+        <td th:text="${vender.name}"></td>
+        <td th:text="${vender.email}"></td>
         <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:text="${vender.photo}"></td>
-
+        <td>
+        <td th:text="${vender.photo}">
+        </td>
+        <td>
+            <img class="jobBoxImg" th:src="@{/img/vender/} + ${vender.photo}" alt="회사로고이미지"/>
+        </td>
+        <td>
+            <button th:id="'allowButton_' + ${vender.id}" th:attr="data-id=${vender.id}" class="allow-button">허가</button>
+        </td>
 
     </tr>
 </table>
 
+<div th:if="${venders.totalPages > 1}">
+    <ul class="pagination">
+        <li th:if="${venders.hasPrevious}" class="page-item">
+            <a th:href="@{/admin/showTempVender(page=0, size=${venders.size})}" class="page-link">First</a>
+        </li>
+        <li th:if="${venders.hasPrevious}" class="page-item">
+            <a th:href="@{/admin/showTempVender(page=${venders.number - 1}, size=${venders.size})}" class="page-link">Previous</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+            <a th:href="@{/admin/showTempVender(page=${i}, size=${venders.size})}" class="page-link" th:text="${i + 1}"></a>
+        </li>
+        <li th:if="${venders.hasNext}" class="page-item">
+            <a th:href="@{/admin/showTempVender(page=${venders.number + 1}, size=${venders.size})}" class="page-link">Next</a>
+        </li>
+        <li th:if="${venders.hasNext}" class="page-item">
+            <a th:href="@{/admin/showTempVender(page=${venders.totalPages - 1}, size=${venders.size})}" class="page-link">Last</a>
+        </li>
+    </ul>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allowButtons = document.querySelectorAll('.allow-button');
+
+        allowButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const postId = button.getAttribute('data-id');
+                updateReqState(postId);
+            });
+        });
+
+        function updateReqState(id) {
+            // Send an AJAX request to update the reqState for the specified post
+            const url = '/api/vender/allow/' + id;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error updating reqState:', data.error);
+                    } else if (data.message === 'success') {
+                        const row = document.getElementById('row_' + postId);
+                        // Example: Update the 'state' column
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'A';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating reqState:', error);
+                });
+        }
+
+    });
+</script>
 </body>
 </html>
