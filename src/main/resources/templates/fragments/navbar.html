@@ -13,17 +13,6 @@
         }
     }
 
-    // 쿠키에서 loginUserIdValue 값을 가져오는 함수 (이미 있는 코드)
-    function getCookie(name) {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.indexOf(name + '=') === 0) {
-                return cookie.substring(name.length + 1, cookie.length);
-            }
-        }
-        return null; // 해당 쿠키가 없을 경우
-    }
 </script>
 
 <th:block th:fragment="navbarFragment">
@@ -43,17 +32,19 @@
                     <li><a href="/adviceboard/list" class="menuBtn">커뮤니티</a></li>
                     <li>
                         <div class="search">
-                            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
-                            <input type="text" placeholder="검색">
+                            <form th:action="@{/job_post/jobSearch}" method="get">
+                                <a th:href="@{/job_post/jobSearch}"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                <input type="text" name="keyword" placeholder="검색">
+                            </form>
+
                         </div>
                     </li>
                     <li>
-                        <a class="logBtn" sec:authorize="isAnonymous()" href="/account/loginpage">로그인</a>
-                        <a class="logBtn" sec:authorize="isAuthenticated()" href="#">로그아웃</a>
+                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${not #strings.isEmpty(userId)}">로그인</a>
+                        <a class="logBtn" id="logoutBtn" href="#" th:if="${#strings.isEmpty(userId)}">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>
-
 
                 </ul>
             </div>

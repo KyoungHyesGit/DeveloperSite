@@ -8,6 +8,7 @@ import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -75,13 +77,21 @@ public class SignupController {
 
     //로그인 처리----------------------------------------------------------------
     @PostMapping("/login")
-    public String userLogin(UserReqDTO userReqDTO, Model model){
+    public String userLogin(UserReqDTO userReqDTO, Model model, HttpServletRequest request){
         //로그인 성공 시 true 실패 시 false
         boolean isLogin = userService.userLogin(userReqDTO);
+
+        Long userId = Arrays.stream(request.getCookies())
+                .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+
 
         if(isLogin){
             //로그인 성공 시 (로그인 성공 alert 띄우기)
             model.addAttribute("loginok","로그인 성공!");
+            model.addAttribute("userId", "userId");
             System.out.println(isLogin);
             return "redirect:/account/show";
         }

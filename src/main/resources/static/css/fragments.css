@@ -73,6 +73,7 @@ nav{
     height: 26px;
     border: none;
     font-size: 14px;
+    outline: none;
 }
 
 .search img {

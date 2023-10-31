@@ -1,6 +1,8 @@
 .det_container{
     margin: 50px auto;
     width: 1140px;
+    padding: 50px;
+    border: 1px solid lightgray;
 }
 .dt_one{
     float: left;
@@ -24,4 +26,10 @@
 }
 .job_Dbtn:hover{
     background-color: #1C55E4;
+}
+.dt_table{
+    width: 100%;
+}
+.dt_table tr:nth-child(2n){
+    width: 40%;
 }
