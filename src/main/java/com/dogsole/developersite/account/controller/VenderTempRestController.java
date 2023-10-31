@@ -56,4 +56,17 @@ public class VenderTempRestController {
         }
     }
 
+    @PostMapping("/refuse/{id}")
+    public ResponseEntity<Map<String, String>> addRefuseReqVenderTemp(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            venderService.refuseReq(id);
+            response.put("message", "success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (BusinessException ex) {
+            response.put("error", ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

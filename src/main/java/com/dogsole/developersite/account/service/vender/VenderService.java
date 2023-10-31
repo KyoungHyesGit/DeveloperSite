@@ -3,8 +3,10 @@ package com.dogsole.developersite.account.service.vender;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.entity.vender.VenderTempEntity;
+import com.dogsole.developersite.account.repository.user.UserRepository;
 import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.account.repository.vender.VenderTempRepository;
 import com.dogsole.developersite.common.exception.BusinessException;
@@ -37,6 +39,8 @@ import java.util.stream.Collectors;
 public class VenderService {
     private final VenderTempRepository venderTempRepository;
     private final VenderRepository venderRepository;
+    private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
 
     @Autowired
@@ -54,9 +58,22 @@ public class VenderService {
             venderEntity = new VenderEntity();
         }
         venderEntity.setTempToReal(venderTempEntity);
-        venderRepository.save(venderEntity);
+
+        VenderEntity saveVenderEntity = venderRepository.save(venderEntity);
+        UserEntity userEntity = userRepository.findByVenderId(venderTempEntity.getUserId());
+
+        if(userEntity.getVenderId()!=null){
+            userEntity.setVenderId(saveVenderEntity.getVenderId());
+        }
 
         venderTempEntity.setReqState("A"); // A Allow
+    }
+
+    public void refuseReq(Long id) {
+        // 임시테이블에서 본 테이블로 복사
+        VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
+
+        venderTempEntity.setReqState("R"); //R Refuse
     }
 
     //회사회원 전체 조회-------------------------------------------

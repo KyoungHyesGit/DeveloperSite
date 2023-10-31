@@ -68,6 +68,7 @@ public class VenderEntity {
 
     public void setTempToReal(VenderTempEntity venderTempEntity){
         this.userId = venderTempEntity.getUserId();
+        this.venderId = venderTempEntity.getId();
         this.venderName = venderTempEntity.getName();
         this.photo = venderTempEntity.getPhoto();
         this.venderEmail = venderTempEntity.getEmail();

@@ -11,6 +11,7 @@ import com.dogsole.developersite.account.entity.vender.VenderTempEntity;
 import com.dogsole.developersite.account.repository.vender.VenderRepository;
 import com.dogsole.developersite.account.repository.vender.VenderTempRepository;
 import com.dogsole.developersite.account.service.user.UserService;
+import com.dogsole.developersite.common.exception.BusinessException;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
@@ -23,6 +24,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,5 +77,37 @@ public class VenderTempService {
                 .map(vender -> modelMapper.map(vender, VenderTempResDTO.class));
 
         return venderTempResDTOList;
+    }
+
+    public VenderTempResDTO findById(Long id){
+        VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));
+        return modelMapper.map(venderTempEntity, VenderTempResDTO.class);
+    }
+
+    public VenderTempResDTO updateVenderTemp(Long id, VenderTempReqDTO venderTemp, MultipartFile file) throws Exception {
+        VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));
+//        VenderTempEntity venderTempEntity =
+//                modelMapper.map(venderTemp, VenderTempEntity.class);
+
+        //사진 업로드
+        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\img\\vender";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid+"_"+file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+        venderTempEntity.setPhoto(fileName);
+
+        venderTempEntity.setState("수정");
+        venderTempEntity.setTempToReal(venderTemp);
+
+        return modelMapper.map(venderTempEntity, VenderTempResDTO.class);
+    }
+
+    public VenderTempResDTO deleteVenderTemp(Long id) {
+        VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));
+        venderTempEntity.setState("D"); // D Delete
+        venderTempEntity.setReqState("R");
+
+        return modelMapper.map(venderTempEntity, VenderTempResDTO.class);
     }
 }
