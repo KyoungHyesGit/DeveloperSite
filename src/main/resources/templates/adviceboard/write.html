@@ -5,13 +5,12 @@
 <meta charset="UTF-8"/>
 <title>AdviceBoardWrite</title>
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
-</head>
 
 
 <body>
 <header></header>
-<div class="layout container" style="padding-top: 80px">
-    <form style="max-width: 1040px;padding-left: 150px"action="#" th:action="@{/adviceboard/writedo}" th:object="${adviceBoardReqDTO}" method="post">
+<div class="layout container" style="padding-top: 30px">
+    <form style="max-width: 1040px;padding-left: 270px"action="#" th:action="@{/adviceboard/writedo}" th:object="${adviceBoardReqDTO}" method="post">
 
         <div class="form-group row" style="padding-bottom: 10px">
             <label for="inputTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
@@ -52,15 +51,16 @@
 
         <div class="row">
             <div class="col-auto mr-auto"></div>
-            <div class="col-auto" style="padding-left:830px; padding-top: 10px; padding-bottom: 80px">
+            <div class="col-auto" style="padding-left:695px; padding-top: 10px; padding-bottom: 80px">
                 <input class="btn btn-primary" type="submit" role="button" value="글쓰기"/>
             </div>
         </div>
 
     </form>
-    <div th:replace="fragments/footer :: footerFragment"></div>
+
 
 </div>
+<div th:replace="fragments/footer :: footerFragment"></div>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>

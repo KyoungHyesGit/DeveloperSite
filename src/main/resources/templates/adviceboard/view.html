@@ -1,145 +1,146 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/header :: head"></head>
-    <head th:replace="fragments/navbar :: navbarFragment"></head>
-    <head>
-        <meta charset="UTF-8">
-        <script type="text/javascript" th:src="@{/boot/css/ie/html5shiv.js}"></script>
-        <script type="text/javascript" th:src="@{/boot/js/jquery.min.js}"></script>
-        <script type="text/javascript" th:src="@{/boot/js/jquery.dropotron.min.js}"></script>
-        <script type="text/javascript" th:src="@{/boot/js/skel.min.js}"></script>
-        <script type="text/javascript" th:src="@{/boot/js/skel-layers.min.js}"></script>
-        <script type="text/javascript" th:src="@{/boot/js/init.js}"></script>
-        <link th:href="@{/css/view.css}" rel="stylesheet" />
-        <title>AdviceDetailView</title>
-    </head>
-    <body>
-        <script th:inline="javascript">
+<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments/navbar :: navbarFragment"></head>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!--    <script type="text/javascript" th:src="@{/boot/css/ie/html5shiv.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/boot/js/jquery.min.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/boot/js/jquery.dropotron.min.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/boot/js/skel.min.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/boot/js/skel-layers.min.js}"></script>-->
+    <!--    <script type="text/javascript" th:src="@{/boot/js/init.js}"></script>-->
+    <link th:href="@{/css/view.css}" rel="stylesheet" />
+    <title>AdviceDetailView</title>
+</head>
+<body>
+<script th:inline="javascript">
 
-        </script>
-        <div class="container">
-            <div class="viewBody">
-                <button class="backBtn" onclick="location.href='/adviceboard/list'">< 전체 게시글</button>
+</script>
+<div class="container" style="margin-right: 130px">
+    <div class="viewBody">
+        <button class="backBtn" onclick="location.href='/adviceboard/list'">< 전체 게시글</button>
 
-                <!-- 게시글 상세 내용 -->
-                <div class="bodyContent">
-                    <div class="marginTopLeft_1">
-                        <span class="headTxt" th:text="${adviceboard.title}"></span>
-                        <a th:href="@{/adviceboard/modify/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;" class="paddingLeft5">글 수정</a>
-                        <a th:href="@{/adviceboard/delete/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;">글 삭제 | </a>
-                    </div>
-
-                    <div class="marginTopLeft_1">
-                        <span class="profileTxt" th:text="${adviceboard.writer}"></span>
-                        <br/>
-                        <span class="profileTxt" th:text="${#temporals.format(adviceboard.regDate, 'yyyy.MM.dd')} + ' 작성'"></span>
-                    </div>
-
-                    <div class="marginTopLeft_1 bodyLast">
-                        <span th:text="${adviceboard.content}"></span>
-                    </div>
-                </div>
-
-                <!-- 댓글 작성 란 -->
-                <div class="bodyContent">
-                    <form id="textForm" th:action="@{/comments/addComment}" th:object="${commentReqDTO}" method="post">
-                        <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
-                        <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
-                        <div>
-                            <input type="text" class="inputSize" id="writer" th:field="*{writer}" placeholder="작성자를 입력해주세요." required />
-                        </div>
-
-                        <!-- 댓글 내용 -->
-                        <textarea th:field="*{content}" class="inputSize textAreaSize" placeholder="댓글 내용" required></textarea>
-                        <div class="submitDiv">
-                            <button type="submit" class="submitBtn">댓글 등록</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- 댓글 수정 란 -->
-                <div id="updateForm" class="bodyContent" style="display: none">
-                    <form th:action="@{/comments/updateComment}" th:object="${commentReqDTO}" method="post">
-                        <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
-                        <input type="hidden" name="id" id="id"/>
-                        <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
-                        <div>
-                            <input type="text" class="inputSize" name="writer" id="updateWriter" placeholder="작성자를 입력해주세요."/>
-                        </div>
-
-                        <!-- 댓글 내용 -->
-                        <textarea name="content" id="updateContent" placeholder="댓글 내용" class="inputSize textAreaSize"></textarea>
-                        <div class="submitDiv">
-                            <button type="button" class="submitBtn" th:onclick="|closeNoIdx()|">수정취소</button>
-                            <button type="submit" class="submitBtn">댓글 수정</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="commentDiv" th:each="comment, stat : ${adviceboard.comments}">
-                    <div class="commentContent">
-                        <div>
-                            <div>
-                                <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}" href="#none" class="paddingLeft5 borderRound" style="float: right">삭제</a>
-                                <a href="#none" style="float: right" class="borderRound" th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
-                            </div>
-                            <div class="commentBd">
-                                <span th:text="${comment.content}">댓글 내용</span>
-                            </div>
-                        </div>
-
-                        <div class="bottomInfo">
-                            <span style="font-size:12px;">대댓글달기</span>
-                            <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate == null}" th:text="${#temporals.format(comment.createdDate, 'yyyy.MM.dd')} + ' 작성'">작성 날짜</span>
-                            <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate != null}" th:text="${#temporals.format(comment.updatedDate, 'yyyy.MM.dd')} + ' 작성'">수정 날짜</span>
-                            <span class="bottomTxt" th:text="${comment.writer} + ' 님이'">댓글 작성자</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- 게시글 상세 내용 -->
+        <div class="bodyContent">
+            <div class="marginTopLeft_1">
+                <span class="headTxt" th:text="${adviceboard.title}"></span>
+                <a th:href="@{/adviceboard/modify/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;" class="paddingLeft5">글 수정</a>
+                <a th:href="@{/adviceboard/delete/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;">글 삭제 | </a>
             </div>
 
+            <div class="marginTopLeft_1">
+                <span class="profileTxt" th:text="${adviceboard.writer}"></span>
+                <br/>
+                <span class="profileTxt" th:text="${#temporals.format(adviceboard.regDate, 'yyyy.MM.dd')} + ' 작성'"></span>
+            </div>
+
+            <div class="marginTopLeft_1 bodyLast">
+                <span th:text="${adviceboard.content}"></span>
+            </div>
         </div>
 
-        <div th:replace="fragments/footer :: footerFragment"></div>
+        <!-- 댓글 작성 란 -->
+        <div class="bodyContent">
+            <form id="textForm" th:action="@{/comments/addComment}" th:object="${commentReqDTO}" method="post">
+                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
+                <div>
+                    <input type="text" class="inputSize" id="writer" th:field="*{writer}" placeholder="작성자를 입력해주세요." required />
+                </div>
 
-        <script th:inline="javascript">
-            var chkIdx = "";
-            var list = [[${adviceboard.comments}]]; // 목록리스트
-            function showUpdateForm(idx) {
-                uFormFlag = "";
+                <!-- 댓글 내용 -->
+                <textarea th:field="*{content}" class="inputSize textAreaSize" placeholder="댓글 내용" required></textarea>
+                <div class="submitDiv">
+                    <button type="submit" class="submitBtn">댓글 등록</button>
+                </div>
+            </form>
+        </div>
 
-                if (chkIdx == "") { // 열린 수정화면 없을 경우
-                    openArea(idx);
-                } else if (chkIdx == idx) { // 열린 수정화면 닫을 경우
-                    closeArea(idx);
-                    chkIdx = "";
-                } else { // 열린 수정화면 있을 경우
-                    closeArea(chkIdx);
-                    openArea(idx);
-                }
-            }
+        <!-- 댓글 수정 란 -->
+        <div id="updateForm" class="bodyContent" style="display: none">
+            <form th:action="@{/comments/updateComment}" th:object="${commentReqDTO}" method="post">
+                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                <input type="hidden" name="id" id="id"/>
+                <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
+                <div>
+                    <input type="text" class="inputSize" name="writer" id="updateWriter" placeholder="작성자를 입력해주세요."/>
+                </div>
 
-            function closeNoIdx() {
-                closeArea(chkIdx);
-                chkIdx = "";
-            }
+                <!-- 댓글 내용 -->
+                <textarea name="content" id="updateContent" placeholder="댓글 내용" class="inputSize textAreaSize"></textarea>
+                <div class="submitDiv">
+                    <button type="button" class="submitBtn" th:onclick="|closeNoIdx()|">수정취소</button>
+                    <button type="submit" class="submitBtn">댓글 수정</button>
+                </div>
+            </form>
+        </div>
 
-            function closeArea(idx) {
-                $("#id").val("");
-                $("#updateWriter").val("");
-                $("#updateContent").val("");
-                $("#textForm").show();
-                $("#updateForm").hide();
-            }
+        <div class="commentDiv" th:each="comment, stat : ${adviceboard.comments}">
+            <div class="commentContent">
+                <div>
+                    <div>
+                        <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}" class="paddingLeft5 borderRound" style="float: right">삭제</a>
+                        <a href="#none" style="float: right" class="borderRound" th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
+                    </div>
+                    <div class="commentBd">
+                        <span th:text="${comment.content}">댓글 내용</span>
+                    </div>
+                </div>
 
-            function openArea(idx) {
-                $("#textForm").hide();
-                $("#updateForm").show();
-                $("#id").val(list[idx].id);
-                $("#updateWriter").val(list[idx].writer);
-                $("#updateContent").val(list[idx].content);
-                chkIdx = idx;
-            }
-        </script>
-    </body>
+                <div class="bottomInfo">
+                    <span style="font-size:12px;">^____^</span>
+                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate == null}" th:text="${#temporals.format(comment.createdDate, 'yyyy.MM.dd')} + ' 작성'">작성 날짜</span>
+                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate != null}" th:text="${#temporals.format(comment.updatedDate, 'yyyy.MM.dd')} + ' 작성'">수정 날짜</span>
+                    <span class="bottomTxt" th:text="${comment.writer} + ' 님이'">댓글 작성자</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footerFragment"></div>
+
+<script th:inline="javascript">
+    var chkIdx = "";
+    var list = [[${adviceboard.comments}]]; // 목록리스트
+    function showUpdateForm(idx) {
+        uFormFlag = "";
+
+        if (chkIdx == "") { // 열린 수정화면 없을 경우
+            openArea(idx);
+        } else if (chkIdx == idx) { // 열린 수정화면 닫을 경우
+            closeArea(idx);
+            chkIdx = "";
+        } else { // 열린 수정화면 있을 경우
+            closeArea(chkIdx);
+            openArea(idx);
+        }
+    }
+
+    function closeNoIdx() {
+        closeArea(chkIdx);
+        chkIdx = "";
+    }
+
+    function closeArea(idx) {
+        $("#id").val("");
+        $("#updateWriter").val("");
+        $("#updateContent").val("");
+        $("#textForm").show();
+        $("#updateForm").hide();
+    }
+
+    function openArea(idx) {
+        $("#textForm").hide();
+        $("#updateForm").show();
+        $("#id").val(list[idx].id);
+        $("#updateWriter").val(list[idx].writer);
+        $("#updateContent").val(list[idx].content);
+        chkIdx = idx;
+    }
+</script>
+</body>
 </html>

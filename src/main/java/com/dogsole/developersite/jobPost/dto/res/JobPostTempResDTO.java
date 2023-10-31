@@ -65,10 +65,13 @@ public class JobPostTempResDTO {
     private LocalDateTime postDate;
     private String state;
     private String reqState;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull(message = "공고일은 필수")
     private LocalDateTime endTime;
+
     private LocalDateTime createDt;
+
     private LocalDateTime updateDt;
 
     private VenderResDTO venderResDTO;

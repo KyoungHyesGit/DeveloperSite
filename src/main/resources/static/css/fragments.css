@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@media (max-width:1200px){
+    body{
+        background-color: green;
+    }
+}
 ul, li{
     list-style: none;
 }
@@ -8,11 +19,14 @@ a{
 body{
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+    font-family: 'Pretendard-Regular';
 }
 /*navbar*/
 .menu{
     margin: 0;
     padding: 10px;
+    justify-content: space-between;
     align-items: center;
 }
 .menu li{
@@ -73,14 +87,16 @@ footer{
     width: 100%;
     min-width: 960px;
     height: 297px;
+    background-color: #eee;
 }
+
 .ftBtn ul{
-    margin: 10px auto 0;
+    margin: 10px auto;
     width: 1260px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
-    padding: 0;
+    padding: 10px;
 }
 .ftBtn ul li a{
     display: inline-flex;

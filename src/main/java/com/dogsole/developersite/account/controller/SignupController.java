@@ -33,6 +33,7 @@ public class SignupController {
     private final VenderService venderService;
     private final JwtTokenProvider jwtTokenProvider;
 
+
 //일반유저의 회원가입 처리 ---------------------------------------------------------------------------
 
 
@@ -189,12 +190,11 @@ public class SignupController {
         boolean isLogin = venderService.venderLogin(venderReqDTO);
         System.out.println(venderReqDTO);
         System.out.println(isLogin);
-        if (isLogin) {
-            // 로그인 성공시 메인페이지로
-            model.addAttribute("loginok", "로그인 성공!");
+        if(isLogin){
+            //로그인 성공시 메인페이지로
+            model.addAttribute("loginok","로그인 성공!");
             System.out.println("기업로긴성공");
             String myToken = jwtTokenProvider.createToken(venderReqDTO.getVenderEmail());
-
             // 쿠키 생성
             Cookie myTokenCookie = new Cookie("myTokenCookie", myToken);
             myTokenCookie.setMaxAge(1800); // 쿠키 유효 시간 설정 (초 단위)
@@ -209,9 +209,9 @@ public class SignupController {
 
             // 리다이렉트
             return "redirect:/"; // 리다이렉트할 경로를 지정
-        } else {
-            // 로그인 실패 alert 띄우기.
-            model.addAttribute("loginx", "로그인 실패!");
+        }else{
+            //로글인 실패 alert띄우기.!!
+            model.addAttribute("loginx","로그인 실패!");
             System.out.println("기업로긴실패");
             return "/account/loginv";
         }

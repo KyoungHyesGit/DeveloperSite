@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
-<head th:replace="fragments/navbar :: navbarFragment"></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
-<title>ModifyAdvice</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-<body>
-<div class="layout container" style="max-width: 840px">
+
+<th:block layout:fragment="content">
+<div class="layout container" style="max-width: 1000px">
     <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
         <h2 style="font-size: 1.5rem">카테고리</h2>
         <select name="category" class="form-control">
@@ -24,12 +22,13 @@
         <input name="writer" type="text" th:value="${adviceboard.writer}" class="form-control">
         <br>
         <h2 style="font-size: 1.5rem">내용</h2>
-        <textarea name="content" th:text="${adviceboard.content}" class="form-control" style="resize: none; height: 200px"></textarea>
+        <textarea name="content" th:text="${adviceboard.content}" class="form-control"
+                  style="resize: none; height: 200px"></textarea>
         <br>
 
         <button type="submit" class="btn btn-primary">수정</button>
     </form>
 </div>
-<div th:replace="fragments/footer :: footerFragment"></div>
-</body>
+
+</th:block>
 </html>

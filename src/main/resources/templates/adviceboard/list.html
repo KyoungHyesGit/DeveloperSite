@@ -7,7 +7,7 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <div class="container" style="max-width: 1120px; padding-top: 80px">
+    <div class="container" style="max-width: 1120px; padding-top: 30px">
         <div style="padding-bottom: 10px">
             전체 게시글 수: <span th:text="${list.totalElements}"></span>
         </div>
@@ -26,7 +26,7 @@
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px ">카테고리 적용</button>
             </form>
 
-            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:300px">
+            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:350px">
                 <label for="sort" class="mr-2">정렬 : </label>
                 <select name="sort" id="sort" class="form-control" style="width: 180px;margin-left: 10px">
                     <option value="id,desc">작성일(최신순)</option>
@@ -80,17 +80,17 @@
         <div class="form-group d-flex justify-content-between align-items-center">
             <form th:action="@{/adviceboard/list}" method="get">
                 <div class="d-flex">
-                    <select id="searchType" name="searchType">
+                    <select id="searchType" name="searchType" style="width: 80px">
                         <option value="writer">작성자</option>
                         <option value="title">제목</option>
                     </select>
-                    <label for="searchKeyword" style="margin-left: 10px">검색어 : </label>
+                    <label for="searchKeyword" style="margin-left: 10px; margin-right: 10px">검색어</label>
                     <input type="text" id="searchKeyword" name="searchKeyword" th:value="${searchKeyword}"/>
-                    <button type="submit" style="margin-left: 10px">검색</button>
+                    <button type="submit" style="margin-left: 3px">검색</button>
                 </div>
             </form>
 
-            <div class="col-auto" style="padding-right: 150px">
+            <div class="col-auto" style="padding-right: 100px">
                 <a href="/adviceboard/write" class="btn btn-primary ml-2">글쓰기</a>
             </div>
         </div>
@@ -112,16 +112,13 @@
                 </ul>
             </div>
         </div>
-
-
-
     </div>
     </div>
     </div>
 
 
-<!--    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>-->
+    <!--    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>-->
+    <!--    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>-->
 </th:block>
 </body>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>

@@ -20,4 +20,6 @@ public class CommentResDTO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Long adviceboardId;
+
+    private String firstCommentId; //첫 댓글 id
 }

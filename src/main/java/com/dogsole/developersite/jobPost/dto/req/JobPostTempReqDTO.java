@@ -1,7 +1,12 @@
 package com.dogsole.developersite.jobPost.dto.req;
 
-
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
+
+import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
+import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.entity.vender.VenderEntity;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

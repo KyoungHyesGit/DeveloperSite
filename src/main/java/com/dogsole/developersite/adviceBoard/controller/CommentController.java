@@ -82,7 +82,6 @@ public class CommentController {
         model.addAttribute("comment", new CommentReqDTO());
         return "redirect:/adviceboard/view";
     }
-
      */
 
     @PostMapping("/addComment")

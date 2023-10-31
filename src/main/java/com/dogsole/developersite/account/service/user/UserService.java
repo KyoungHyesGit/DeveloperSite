@@ -8,7 +8,8 @@ import com.dogsole.developersite.jwt.dto.TokenReqDTO;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-//import com.dogsole.developersite.security.config.SecurityConfig;
+import com.dogsole.developersite.security.config.SecurityConfig;
+
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper; //객체 변환
+
+    private final SecurityConfig securityConfig; //암호화
 
     private final JwtTokenProvider jwtTokenProvider; //토큰 공급
     private final TokenRepository tokenRepository;

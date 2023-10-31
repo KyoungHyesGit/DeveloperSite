@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity
 @Getter
 @Setter
@@ -46,6 +47,6 @@ public class Comment {
 //    @JoinColumn(name = "user_id")
 //    private UserEntity user;
 
-
-
+    @Column
+    private String firstCommentId; //첫 댓글 id
 }
