@@ -1,79 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <body>
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
+    <h2 class="text-center">이력서 수정</h2>
     <form action="/userResume/createResume" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" th:value="${resume.id}" />
+        <div class="resumeIform">
+            <input type="hidden" name="id" th:value="${resume.id}"/>
+            <label for="resume_title_1">이력서 제목:</label>
+            <input type="text" id="resume_title_1" name="resume_title_1" th:value="${resume.resume_title_1}" required>
+            <br/>
+            <label for="addr_num">우편번호:</label>
+            <input type="text" id="addr_num" name="addr_num" th:value="${resume.addr_num}" required>
+            <br/>
+            <label for="addr_basic">도로명주소:</label>
+            <input type="text" id="addr_basic" name="addr_basic" th:value="${resume.addr_basic}" required>
+            <br/>
+            <label for="addr_detail">상세주소:</label>
+            <input type="text" id="addr_detail" name="addr_detail" th:value="${resume.addr_detail}" required>
+            <br/>
+            <label for="skill">스킬:</label>
+            <input type="text" id="skill" name="skill" th:value="${resume.skill}">
+            <br/>
+            <label for="final_education">최종학력:</label>
+            <input type="text" id="final_education" name="final_education" th:value="${resume.final_education}"
+                   required>
+            <br/>
+            <label for="certification">자격증:</label>
+            <input type="text" id="certification" name="certification" th:value="${resume.certification}">
+            <br/>
+            <label for="work_exp">경력:</label>
+            <input type="text" id="work_exp" name="work_exp" th:value="${resume.work_exp}">
+            <br/>
+            <label for="overseas_exp">해외경험:</label>
+            <input type="text" id="overseas_exp" name="overseas_exp" th:value="${resume.overseas_exp}">
+            <br/>
+            <label for="language_skill">어학:</label>
+            <input type="text" id="language_skill" name="language_skill" th:value="${resume.language_skill}">
+            <br/>
+            <label for="portfolio">포트폴리오:</label>
+            <input type="text" id="portfolio" name="portfolio" th:value="${resume.portfolio}">
+            <br/>
+            <label for="git_addr">깃주소:</label>
+            <input type="text" id="git_addr" name="git_addr" th:value="${resume.git_addr}">
+            <br/>
+            <label for="military_service">병역:</label>
+            <input type="text" id="military_service" name="military_service" th:value="${resume.military_service}">
+            <br/>
+            <label for="resume_content_1">자기소개:</label>
+            <input type="text" id="resume_content_1" name="resume_content_1" th:value="${resume.resume_content_1}"
+                   required>
+            <br/>
+            <label for="state_resume1">이력서 공개여부:</label>
 
-        <label for="addr_num">우편번호:</label>
-        <input type="text" id="addr_num" name="addr_num" th:value="${resume.addr_num}" required>
-        <br/>
-        <label for="addr_basic">도로명주소:</label>
-        <input type="text" id="addr_basic" name="addr_basic" th:value="${resume.addr_basic}" required>
-        <br/>
-        <label for="addr_detail">상세주소:</label>
-        <input type="text" id="addr_detail" name="addr_detail" th:value="${resume.addr_detail}" required>
-        <br/>
-        <label for="skill">스킬:</label>
-        <input type="text" id="skill" name="skill" th:value="${resume.skill}">
-        <br/>
-        <label for="final_education">최종학력:</label>
-        <input type="text" id="final_education" name="final_education" th:value="${resume.final_education}" required>
-        <br/>
-        <label for="state_resume">이력서 공개여부:</label>
-        <input type="radio" id="state_resume" name="state_resume" value="Y" required
-               th:checked="${resume.state_resume == 'Y'}"> 공개
-        <input type="radio" id="state_resume" name="state_resume" value="N" required
-               th:checked="${resume.state_resume == 'N'}"> 비공개
-        <br/>
+            <div class="rdBtn">
+                <input type="radio" id="state_resume1" name="state_resume" value="Y" required
+                       th:checked="${resume.state_resume == 'Y'}"> 공개
 
-        <label for="state_contact">연락처 공개여부:</label>
-        <input type="radio" id="state_contact" name="state_contact" value="Y" required
-               th:checked="${resume.state_contact == 'Y'}"> 공개
-        <input type="radio" id="state_contact" name="state_contact" value="N" required
-               th:checked="${resume.state_contact == 'N'}"> 비공개
-        <br/>
-        <label for="certification">자격증:</label>
-        <input type="text" id="certification" name="certification" th:value="${resume.certification}">
-        <br/>
-        <label for="work_exp">경력:</label>
-        <input type="text" id="work_exp" name="work_exp" th:value="${resume.work_exp}" >
-        <br/>
-        <label for="overseas_exp">해외경험:</label>
-        <input type="text" id="overseas_exp" name="overseas_exp" th:value="${resume.overseas_exp}" >
-        <br/>
-        <label for="language_skill">어학:</label>
-        <input type="text" id="language_skill" name="language_skill" th:value="${resume.language_skill}" >
-        <br/>
-        <label for="portfolio">포트폴리오:</label>
-        <input type="text" id="portfolio" name="portfolio"  th:value="${resume.portfolio}">
-        <br/>
-        <label for="git_addr">깃주소:</label>
-        <input type="text" id="git_addr" name="git_addr" th:value="${resume.git_addr}" >
-        <br/>
-        <label for="military_service">병역:</label>
-        <input type="text" id="military_service" name="military_service" th:value="${resume.military_service}" >
-        <br/>
-        <label for="resume_title_1">자소서이름:</label>
-        <input type="text" id="resume_title_1" name="resume_title_1" th:value="${resume.resume_title_1}" required>
-        <br/>
-        <label for="resume_content_1">자소서내용:</label>
-        <input type="text" id="resume_content_1" name="resume_content_1" th:value="${resume.resume_content_1}" required>
-        <br/>
-        <label for="photo">증명사진 업로드:</label>
-        <input type="file" id="photo" name="photo" accept="image/*" onchange="previewImage(event)">
-
-        <!-- 이미지를 보여주기 위한 img 요소 -->
-        변경 전: <img th:if="${resume.photoUrl}" th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
-        변경 후: <img id="imagePreview" src="#" style="max-width: 100px; height: auto;" alt="미리보기">
-        <br/>
-        <button type="submit">저장</button>
+                <input type="radio" id="state_resume2" name="state_resume" value="N" required
+                       th:checked="${resume.state_resume == 'N'}">비공개
+            </div>
+            <br/>
+            <label for="state_contact1">연락처 공개여부:</label>
+            <div class="rdBtn">
+                <input type="radio" id="state_contact1" name="state_contact" value="Y" required
+                       th:checked="${resume.state_contact == 'Y'}"> 공개
+                <input type="radio" id="state_contact2" name="state_contact" value="N" required
+                       th:checked="${resume.state_contact == 'N'}"> 비공개
+            </div>
+            <br/>
+            <label for="photo">증명사진 업로드:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" onchange="previewImage(event)">
+            <br/>
+            <!-- 이미지를 보여주기 위한 img 요소 -->
+            변경 전: <img th:if="${resume.photoUrl}" th:src="${resume.photoUrl}" alt="증명사진"
+                       style="max-width: 100px; height: auto;"/>
+            변경 후: <img id="imagePreview" src="#" style="max-width: 100px; height: auto;" alt="미리보기">
+            <br/>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장</button>
+            &nbsp;&nbsp;
+            <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"><i class="fa-solid fa-rotate-left"></i>돌아가기</a>
+        </div>
     </form>
-    <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}">돌아가기</a>
 </th:block>
 </body>
 <script>
@@ -89,6 +102,16 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    document.getElementById("saveButton").addEventListener("click", function(event) {
+        event.preventDefault(); // 기본 제출 동작을 중지
+
+        if (confirm("변경 사항을 저장하시겠습니까?")) {
+            // '확인'을 누르면 폼을 제출
+            document.querySelector("form").submit();
+        } else {
+            // '취소'를 누르면 아무 작업도 수행하지 않음
+        }
+    });
 </script>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

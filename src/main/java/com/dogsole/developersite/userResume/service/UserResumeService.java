@@ -60,14 +60,7 @@ public class UserResumeService {
         // 이력서를 삭제합니다.
         userResumeRepository.delete(resume);
     }
-    public Long getUserIdByResumeId(Long resumeId) {
-        // 이력서 ID를 사용하여 user_id를 가져오는 메서드
-        UserResumeEntity userResume = userResumeRepository.findById(resumeId).orElse(null);
-        if (userResume != null) {
-            return userResume.getUserEntity().getUserId();
-        } else {
-            return null; // 이력서를 찾지 못한 경우 예외 처리
-        }
-    }
+
+
 
 }

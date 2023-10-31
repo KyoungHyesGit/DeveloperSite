@@ -11,11 +11,6 @@ ul, li{
 a{
     text-decoration: none;
     color: #333;
-<<<<<<< HEAD
-    margin:10px;
-    padding: 0;
-=======
->>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 }
 body{
     margin: 0;
@@ -24,8 +19,6 @@ body{
     font-family: 'Pretendard-Regular';
 }
 /*navbar*/
-<<<<<<< HEAD
-=======
 .menu{
     margin: 0;
     padding: 10px;
@@ -51,20 +44,10 @@ body{
 .menuBtn:hover{
     color: #1187CF;
 }
->>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 
 .search {
     position: relative;
     width: 300px;
-<<<<<<< HEAD
-}
-
-.search input {
-    width: 250px;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    padding: 10px 12px;
-=======
     border: 1px solid #eee;
     border-radius: 46px;
     padding: 10px 12px;
@@ -79,7 +62,6 @@ body{
     width: 240px;
     height: 26px;
     border: none;
->>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
     font-size: 14px;
 }
 
@@ -90,10 +72,7 @@ body{
     right: 12px;
     margin: 0;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 89cd4f09f53e772a1b10f8ac8bb2cec94707568f
 /*footer*/
 footer{
     isplay: block;
@@ -104,14 +83,16 @@ footer{
     width: 100%;
     min-width: 960px;
     height: 297px;
+    background-color: #eee;
 }
+
 .ftBtn ul{
-    margin: 10px auto 0;
+    margin: 10px auto;
     width: 1260px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
-    padding: 0;
+    padding: 10px;
 }
 .ftBtn ul li a{
     display: inline-flex;
