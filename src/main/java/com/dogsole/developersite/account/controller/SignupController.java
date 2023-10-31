@@ -9,8 +9,10 @@ import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -51,7 +54,7 @@ public class SignupController {
 
     //회원가입처리-----------------------------------------------------------------
     @PostMapping("/signuptest")
-    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result,  Model model){
+    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result, Model model){
         //입력 항목 검증 시 오류발생 -> 다시 회원가입 페이지로
         if(result.hasErrors()){
             //검증오류 메세지 alert 띄우기
@@ -82,13 +85,21 @@ public class SignupController {
 
     //로그인 처리----------------------------------------------------------------
     @PostMapping("/login")
-    public String userLogin(UserReqDTO userReqDTO, Model model){
+    public String userLogin(UserReqDTO userReqDTO, Model model, HttpServletRequest request){
         //로그인 성공 시 true 실패 시 false
         boolean isLogin = userService.userLogin(userReqDTO);
+
+        Long userId = Arrays.stream(request.getCookies())
+                .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+
 
         if(isLogin){
             //로그인 성공 시 (로그인 성공 alert 띄우기)
             model.addAttribute("loginok","로그인 성공!");
+            model.addAttribute("userId", "userId");
             System.out.println(isLogin);
             return "redirect:/account/show";
         }

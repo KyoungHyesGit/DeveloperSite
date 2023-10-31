@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<th:block layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>user ID</th>
+            <th>자소서 제목</th>
+            <th>지원일</th>
+            <th>지원자 점검 상태</th>
+            <th>액션</th> <!-- 추가: 상태 변경 액션을 위한 열 -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applyList : ${applyList}">
+            <td th:text="${applyList.id}"></td>
+            <td th:text="${applyList.userEntity.userId}"></td>
+            <td>
+                <a th:href="@{/userResume/showDetailForm/{id}(id=${applyList.userResumeEntity.id})}" th:text="${applyList.userResumeEntity.resume_title_1}"></a>
+            </td>
+            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
+            <td th:text="${applyList.userState}"></td>
+            <td>
+                <select class="user-state-select" data-id="${applyList.id}">
+                    <option value="검토전">검토전</option>
+                    <option value="보류중">보류중</option>
+                    <option value="합격">합격</option>
+                </select>
+                <button class="change-state-button" data-id="${applyList.id}">변경</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery를 사용합니다. -->
+<script>
+    $(document).ready(function () {
+        // "변경" 버튼 클릭 시 AJAX를 사용하여 상태 변경 요청을 보냅니다.
+        $(".change-state-button").click(function () {
+            var applyId = $(this).data("id");
+            var newStatus = $(this).closest("tr").find(".user-state-select").val();
+            changeUserState(applyId, newStatus);
+        });
+
+        // AJAX로 상태 변경 요청을 처리하는 함수
+        function changeUserState(id, userState) {
+            $.ajax({
+                type: "POST",
+                url: "/api/jpApply/changeUserState/" + id,
+                data: {
+                    userState: userState
+                },
+                success: function (data) {
+                    if (data.message === "success") {
+                        // 성공한 경우 화면을 업데이트하거나 다른 조치를 취합니다.
+                        alert("상태가 변경되었습니다.");
+                        var statusCell = buttonElement.closest("tr").find("td:eq(4)");
+                        // 새로운 상태로 업데이트
+                        statusCell.text(userState);                    } else {
+                        alert("상태 변경에 실패했습니다. 오류: " + data.error);
+                    }
+                },
+                error: function (error) {
+                    alert("상태 변경 요청에 오류가 발생했습니다.");
+                }
+            });
+        }
+    });
+</script>
+</html>

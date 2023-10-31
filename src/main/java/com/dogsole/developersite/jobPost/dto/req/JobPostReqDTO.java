@@ -2,11 +2,11 @@ package com.dogsole.developersite.jobPost.dto.req;
 
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
+
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 @Builder
 @Setter
 @Getter
@@ -27,7 +27,7 @@ public class JobPostReqDTO {
     private LocalDateTime postDate;
     private String state;
     private String reqState;
-    private LocalDate endTime;
+    private LocalDateTime endTime;
     private LocalDateTime createDt;
     private LocalDateTime updateDt;
 

@@ -44,46 +44,29 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
+    <h2>내 이력서</h2>
     <table>
         <thead>
         <tr>
             <th>번호</th>
-            <th>회사명</th>
-            <th>공고 제목</th>
-<<<<<<< HEAD
-            <th>지원일</th>
-            <th></th>
-=======
-            <th>지원 날</th>
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
+            <th>사진</th>
+            <th>이력서 제목</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="applyList : ${applyList}">
-            <td th:text="${applyList.id}"></td>
-<<<<<<< HEAD
-            <td th:text="${applyList.venderEntity.venderName}"></td>
-            <td th:text="${applyList.jobPostEntity.title}"></td>
-            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
-            <td><a th:href="'/jpApply/deleteApply?jpApplyId=' + ${applyList.id}" onclick="return confirmCancellation();">지원취소</a></td>
+        <tr th:each="resume : ${userResumes}">
+            <td th:text="${resume.id}"></td>
+            <td>
+                <img th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
+            </td>
+            <td>
+                <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"  th:text="${resume.resume_title_1}"></a>
+            </td>
 
-=======
-            <td th:text="${applyList.venderEntity.name}"></td>
-            <td th:text="${applyList.jobPostEntity.title}"></td>
-            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         </tr>
         </tbody>
     </table>
 </th:block>
 </body>
-<<<<<<< HEAD
-<script>
-    function confirmCancellation() {
-        return confirm("정말로 지원을 취소하시겠습니까?");
-    }
-</script>
-=======
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>
