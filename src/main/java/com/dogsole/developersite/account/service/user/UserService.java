@@ -14,6 +14,8 @@ import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,12 @@ public class UserService {
                 .collect(Collectors.toList());
 
         return userResDTOList;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserResDTO> showUser(Pageable pageable){
+        return userRepository.findAll(pageable)
+                .map(user -> modelMapper.map(user, UserResDTO.class));
     }
 
     //특정 유저 이메일로 검색하기------------------------------------------------------

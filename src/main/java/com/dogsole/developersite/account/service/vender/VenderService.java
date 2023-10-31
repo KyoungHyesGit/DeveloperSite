@@ -4,7 +4,12 @@ package com.dogsole.developersite.account.service.vender;
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
+import com.dogsole.developersite.account.entity.vender.VenderTempEntity;
 import com.dogsole.developersite.account.repository.vender.VenderRepository;
+import com.dogsole.developersite.account.repository.vender.VenderTempRepository;
+import com.dogsole.developersite.common.exception.BusinessException;
+import com.dogsole.developersite.jobPost.entity.JobPostEntity;
+import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
@@ -14,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class VenderService {
+    private final VenderTempRepository venderTempRepository;
     private final VenderRepository venderRepository;
     private final ModelMapper modelMapper;
 
@@ -34,6 +43,21 @@ public class VenderService {
     private PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenRepository tokenRepository;
+
+    public void allowReq(Long id) {
+        // 임시테이블에서 본 테이블로 복사
+        VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
+
+        VenderEntity venderEntity = venderRepository.findByTempId(id);
+
+        if(venderEntity==null){
+            venderEntity = new VenderEntity();
+        }
+        venderEntity.setTempToReal(venderTempEntity);
+        venderRepository.save(venderEntity);
+
+        venderTempEntity.setReqState("A"); // A Allow
+    }
 
     //회사회원 전체 조회-------------------------------------------
     @Transactional(readOnly = true)
@@ -43,6 +67,16 @@ public class VenderService {
         List<VenderResDTO> userResDTOList = venderEntityList.stream()
                 .map(vender -> modelMapper.map(vender, VenderResDTO.class))
                 .collect(Collectors.toList());
+
+        return userResDTOList;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<VenderResDTO> showVender(Pageable pageable){
+        Page<VenderEntity> venderEntityList=venderRepository.findAll(pageable);
+        //화면에 뿌려주기 위해
+        Page<VenderResDTO> userResDTOList = venderEntityList
+                .map(vender -> modelMapper.map(vender, VenderResDTO.class));
 
         return userResDTOList;
     }

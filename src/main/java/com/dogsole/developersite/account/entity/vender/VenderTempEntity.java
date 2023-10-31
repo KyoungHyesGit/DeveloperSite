@@ -15,15 +15,21 @@ import java.time.LocalDateTime;
 public class VenderTempEntity {
 
     @Id
-    @Column(name = "vender_id")
+    @Column(name = "vender_temp_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "vender_name")
     private String name;
 
     @Column(name ="vender_photo")
     private String photo;
+
+    @Column(name="vender_req_state")
+    private String reqState;
 
     @Column(name="vender_state")
     private String state;
@@ -34,16 +40,20 @@ public class VenderTempEntity {
     @Column(name="vender_phone")
     private String phone;
 
-    @Column(name = "vender_phone_zipcode")
+    @Column(name="vender_b_no")
+    private String bNo;
+
+
+    @Column(name = "vender_zipcode")
     private String zipcode;
 
-    @Column(name = "vender_phone_street_addr")
+    @Column(name = "vender_street_addr")
     private String streetAddr;
 
-    @Column(name = "vender_phone_detail_addr")
+    @Column(name = "vender_detail_addr")
     private String detailAddr;
 
-    @Column(name = "vender_phone_extra_add")
+    @Column(name = "vender_extra_add")
     private String extraAddr;
 
     @Column(name = "create_dt")
