@@ -16,7 +16,8 @@
             </div>
             <div class="dt_two">
                 <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
-                        th:data-job-post-id="${jobDetail.id}" th:data-user-id="${userId}" class="like-button"><i class="fa-solid fa-star"></i>찜</button>
+                        th:data-job-post-id="${jobDetail.id}" th:data-user-id="${userId}" class="like-button"><i class="fa-solid fa-star" style="color: #c8c8c8; font-size: 30px;"></i>
+                </button>
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
@@ -45,7 +46,7 @@
                                         $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
                                             if (status === "success" && data.message === "success") {
                                                 // 찜 삭제가 성공했으므로 버튼 색상 변경
-                                                $star.css('color', '');
+                                                $star.css('color', '#c8c8c8');
                                                 alert("찜이 취소되었습니다.");
                                             } else if (status === "success" && data.error) {
                                                 alert("오류: " + data.error);

@@ -7,6 +7,7 @@
 }
 .dt_two{
     float: right;
+    clear: both;
 }
 .dt_one h2{
     font-weight: 900;
@@ -29,6 +30,6 @@
     width: 60px;
     height: 60px;
     text-align: center;
-    border: 1px solid #333;
+    border: none;
     background-color: #fff;
 }
