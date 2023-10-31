@@ -25,4 +25,6 @@ public class VenderResDTO {
     private LocalDateTime updateDt;
 
     private String photo;
+
+    private String photoUrl;
 }

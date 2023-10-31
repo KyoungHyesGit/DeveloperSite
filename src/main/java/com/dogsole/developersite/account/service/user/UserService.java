@@ -17,9 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -131,7 +135,14 @@ public class UserService {
 
         userEntity.setState("d");
     }
-    //회원탈퇴 테스트
+    public void userBlock(Long id) {
+        //저장소에서 탈퇴하는 유저의 객체를 entity형으로 꺼냄
+        UserEntity userEntity = userRepository.findByUserId(id)
+                .orElseThrow();
+
+        userEntity.setState("B");
+    }
+    //회원탈퇴 테스트 이거로 진행중!!!!!!!!!!!!!!!!!!!!!!!
     public void userLeaveTest(Long user_id){
         UserEntity userEntity = userRepository.findByUserId(user_id)
                 .orElseThrow();
@@ -155,8 +166,8 @@ public class UserService {
 
         return modelMapper.map(existsUser, UserReqDTO.class);
     }
-    //회원 수정 테스트--------------------
-    public UserReqDTO userUpdateTest(Long user_id, UserReqDTO userReqDTO){
+    //회원 수정 테스트--------------------(이거로 사용중!!!!!!!!!!!!!!!!!!!!!!!)
+    public void userUpdateTest(Long user_id, UserReqDTO userReqDTO){
         UserEntity existsUser = userRepository.findByUserId(user_id)
                 .orElseThrow();
         String encodePasswd = passwordEncoder.encode(userReqDTO.getPasswd());
@@ -164,8 +175,7 @@ public class UserService {
         existsUser.setPasswd(encodePasswd);
         //이름 변경
         existsUser.setUserName(userReqDTO.getUserName());
-        //폰 번호 변경 왜안되는걸까----------10/30/16:01분---여기 할차례
+        //폰 변경
         existsUser.setPhone(userReqDTO.getPhone());
-        return modelMapper.map(existsUser, UserReqDTO.class);
     }
 }

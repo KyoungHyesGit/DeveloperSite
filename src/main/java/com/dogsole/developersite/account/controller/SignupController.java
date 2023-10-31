@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -111,13 +113,19 @@ public class SignupController {
         return "account/login-test";
     }
 
-    //회원탈퇴 처리 (예정)-----------------------------------------------------------------------------
-    @GetMapping("/delete/{id}")
-    public UserReqDTO userLeave(UserReqDTO userReqDTO, String id){
+    //회원탈퇴 페이지로 이동
+    @GetMapping("deletepageu/{id}")
+    public  ModelAndView userLeavePage(@PathVariable Long id){
+        UserResDTO deleteUser = userService.showUserById(id);
+        return new ModelAndView("account/accountdel","user",deleteUser);
+    }
+    //회원탈퇴 처리(예정)-----------------------------------------------------------------------------
+    @PostMapping("/deleteu/{id}")
+    public String userLeaveTest(@PathVariable Long id){
         //탈퇴처리 (state 값 -> 'd'로)
-        userService.userLeave(userReqDTO.getUserEmail());
+        userService.userLeaveTest(id);
         //탈퇴회원 객체 반환
-        return userReqDTO;
+        return "redirect:/userMypage";
     }
     //회원탈퇴처리 테스트 컨트롤러
     @GetMapping("deletetest/{id}")
@@ -133,7 +141,7 @@ public class SignupController {
     @GetMapping("/updatepageu/{id}")
     public ModelAndView userUpdatePage(@PathVariable Long id){
     UserResDTO updateUser = userService.showUserById(id);
-        return  new ModelAndView("account/mypageu","user",updateUser);
+        return new ModelAndView("account/mypageu","user",updateUser);
     }
 
     //회원 수정처리 테스트
@@ -144,11 +152,15 @@ public class SignupController {
 //        return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
 //    }
 
+    //실제 업데이트(수정) 이거로 진행중!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @PostMapping("/updateu/{id}")
-    public String userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO){
+    public String userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO) {
         userService.userUpdateTest(id ,userReqDTO);
+        System.out.println("컨트롤러에서//////////////////////"+userReqDTO);
         return "redirect:/userMypage";
     }
+
+
 
 //-------------여기서 부터는 회사회원의 컨트롤러--------------------------------------------------------------------------------
 
