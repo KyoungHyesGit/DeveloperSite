@@ -8,11 +8,12 @@ import com.dogsole.developersite.jwt.dto.TokenReqDTO;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-import com.dogsole.developersite.security.config.SecurityConfig;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,11 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper; //객체 변환
-    private final SecurityConfig securityConfig; //암호화
     private final JwtTokenProvider jwtTokenProvider; //토큰 공급
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
-    //비즈니스로직 작성 차례
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;    //비즈니스로직 작성 차례
 
     //유저 전체 조회------------------------------------------------------------------
     @Transactional(readOnly = true)
@@ -135,6 +136,7 @@ public class UserService {
 
         userEntity.setState("d");
     }
+
     public void userBlock(Long id) {
         //저장소에서 탈퇴하는 유저의 객체를 entity형으로 꺼냄
         UserEntity userEntity = userRepository.findByUserId(id)
@@ -142,7 +144,10 @@ public class UserService {
 
         userEntity.setState("B");
     }
+
     //회원탈퇴 테스트 이거로 진행중!!!!!!!!!!!!!!!!!!!!!!!
+
+    //회원탈퇴 테스트
     public void userLeaveTest(Long user_id){
         UserEntity userEntity = userRepository.findByUserId(user_id)
                 .orElseThrow();

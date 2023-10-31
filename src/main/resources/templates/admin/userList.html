@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<h1>일반 회원 리스트(로그인 성공시 예비메인)</h1>
+<button onclick="location.href='/account/loginpage'">로그아웃</button>
+<table border="1">
+    <tr>
+        <th>SEQ</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>CreatedAt</th>
+        <th>birth</th>
+        <th>userImage</th>
+        <th>유저 차단</th>
+
+    </tr>
+    <tr th:each="user, userState : ${users}">
+        <td th:text="${userState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.userEmail}"></td>
+        <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${user.birth}"></td>
+        <td th:text="${user.photo}"></td>
+        <td>
+            <button th:id="'allowButton_' + ${user.userId}" th:attr="data-id=${user.userId}" class="allow-button">차단</button>
+        </td>
+
+    </tr>
+</table>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allowButtons = document.querySelectorAll('.allow-button');
+
+        allowButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const postId = button.getAttribute('data-id');
+                updateReqState(postId);
+            });
+        });
+
+        function updateReqState(postId) {
+            // Send an AJAX request to update the reqState for the specified post
+            const url = '/api/account/block/' + postId;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postId: postId }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error updating reqState:', data.error);
+                    } else if (data.message === 'success') {
+                        const row = document.getElementById('row_' + postId);
+                        // Example: Update the 'state' column
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'A';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating reqState:', error);
+                });
+        }
+
+    });
+</script>
+</html>
