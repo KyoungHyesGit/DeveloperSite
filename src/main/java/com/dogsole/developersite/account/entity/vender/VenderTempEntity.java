@@ -23,6 +23,9 @@ public class VenderTempEntity {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "vender_id")
+    private Long venderId;
+
     @Column(name = "vender_name")
     private String name;
 

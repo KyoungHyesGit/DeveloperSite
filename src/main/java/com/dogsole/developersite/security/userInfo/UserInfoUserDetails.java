@@ -15,6 +15,7 @@ public class UserInfoUserDetails implements UserDetails {
 
 
     private Long id;
+    private Long venderId;
     private String name;
     private String password;
     private String state;
@@ -24,6 +25,7 @@ public class UserInfoUserDetails implements UserDetails {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
         id=userEntity.getUserId();
+        venderId=userEntity.getVenderId();
         state=userEntity.getState();
 //        authorities= Arrays.stream(userEntity.getRoles().split(","))
 //                .map(SimpleGrantedAuthority::new)
@@ -47,6 +49,9 @@ public class UserInfoUserDetails implements UserDetails {
 
     public Long getUserId() {
         return id;
+    }
+    public Long getVenderId() {
+        return venderId;
     }
 
     public String getUserState(){return state;}

@@ -22,11 +22,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
         id=userEntity.getUserId();
-        venderId = userEntity.getVenderId();
-
-//        authorities= Arrays.stream(userEntity.getRoles().split(","))
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
+        venderId=userEntity.getVenderId();
     }
 
     @Override
@@ -53,7 +49,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return id;
     }
 
-    public Long geVenderId() {
+    public Long getVenderId() {
         return venderId;
     }
 
