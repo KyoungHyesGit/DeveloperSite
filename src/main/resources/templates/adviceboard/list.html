@@ -16,11 +16,11 @@
             <form action="/adviceboard/list" method="get" class="d-flex" style="align-items: center;">
                 <label for="filterCategory" class="mr-2"><strong>카테고리 필터:</strong></label>
                 <select id="filterCategory" name="filterCategory" class="form-control" style="width: 200px;margin-left: 10px">
-                    <option value="all">모든 카테고리</option>
-                    <option value="IT">IT</option>
-                    <option value="디자인">디자인</option>
-                    <option value="이직질문">이직질문</option>
-                    <option value="채용공고">채용공고</option>
+                    <option value="all" th:selected="${filterCategory == 'all'}">모든 카테고리</option>
+                    <option value="IT" th:selected="${filterCategory == 'IT'}">IT</option>
+                    <option value="디자인" th:selected="${filterCategory == '디자인'}">디자인</option>
+                    <option value="이직질문" th:selected="${filterCategory == '이직질문'}">이직질문</option>
+                    <option value="채용공고" th:selected="${filterCategory == '채용공고'}">채용공고</option>
                     <!-- 다른 카테고리 옵션 추가 -->
                 </select>
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px ">카테고리 적용</button>
@@ -29,12 +29,12 @@
             <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:350px">
                 <label for="sort" class="mr-2">정렬 : </label>
                 <select name="sort" id="sort" class="form-control" style="width: 180px;margin-left: 10px">
-                    <option value="id,desc">작성일(최신순)</option>
-                    <option value="id,asc">작성일(오래된순)</option>
-                    <option value="commentCount,desc">댓글(많은순)</option>
-                    <option value="commentCount,asc">댓글(적은순)</option>
-                    <option value="views,desc">조회수(많은순)</option>
-                    <option value="views,asc">조회수(적은순)</option>
+                    <option value="id,desc" th:selected="${sort == 'id,desc'}">작성일(최신순)</option>
+                    <option value="id,asc" th:selected="${sort == 'id,asc'}">작성일(오래된순)</option>
+                    <option value="commentCount,desc" th:selected="${sort == 'commentCount,desc'}">댓글(많은순)</option>
+                    <option value="commentCount,asc" th:selected="${sort == 'commentCount,asc'}">댓글(적은순)</option>
+                    <option value="views,desc" th:selected="${sort == 'views,desc'}">조회수(많은순)</option>
+                    <option value="views,asc" th:selected="${sort == 'views,asc'}">조회수(적은순)</option>
                 </select>
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px">정렬 적용</button>
             </form>
@@ -154,5 +154,6 @@
         width: 100%;
     }
 </style>
+
 
 </html>

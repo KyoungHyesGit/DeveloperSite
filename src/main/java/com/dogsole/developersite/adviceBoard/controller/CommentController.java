@@ -92,6 +92,7 @@ public class CommentController {
         comment.setAdviceboards(adviceBoard);
         commentService.addComment(comment);
         attributes.addAttribute("id", comment.getAdviceboards().getId());
+        attributes.addAttribute("isRedirect", true);
         return "redirect:/adviceboard/view/{id}";
     }
 
@@ -103,6 +104,7 @@ public class CommentController {
         comment.setAdviceboards(adviceBoard);
         commentService.updateComment(comment);
         attributes.addAttribute("id", comment.getAdviceboards().getId());
+        attributes.addAttribute("isRedirect", true);
         return "redirect:/adviceboard/view/{id}";
     }
 
@@ -131,6 +133,7 @@ public class CommentController {
     public String deleteComment(@PathVariable Long commentId, @PathVariable Long boardId, RedirectAttributes attributes) {
         commentService.deleteComment(commentId);
         attributes.addAttribute("boardId", boardId);
+        attributes.addAttribute("isRedirect", true);
         return "redirect:/adviceboard/view/{boardId}";
     }
 
