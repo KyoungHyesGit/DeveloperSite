@@ -1,5 +1,8 @@
 package com.dogsole.developersite.jobPost.controller;
 
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.dto.vender.VenderTempResDTO;
+import com.dogsole.developersite.account.service.vender.VenderService;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
 import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
@@ -8,12 +11,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +29,7 @@ import java.util.List;
 public class JobPostController {
     private final JobPostService jobPostService;
     private final LovService lovService;
+    private final VenderService venderService;
 
     // 전체공고리스트(main)
     @GetMapping("/jobList")
@@ -125,6 +131,12 @@ public class JobPostController {
         model.addAttribute("sortOption", sortOption);
     }
 
-
+    @GetMapping("/venderList")
+    public ModelAndView venderShow(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                                   @RequestParam(name = "size", required = false, defaultValue = "2") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<VenderResDTO> venderResDTOList = venderService.showVender(pageable);
+        return new ModelAndView("job_post/venderList","venders",venderResDTOList);
+    }
 
 }

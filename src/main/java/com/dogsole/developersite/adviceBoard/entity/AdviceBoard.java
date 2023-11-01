@@ -36,9 +36,6 @@ public class AdviceBoard {
     @Column(nullable = false)
     private String content;
 
-//    @Column(nullable = true)
-//    private String kind;
-
     @Column
     @CreationTimestamp
     private LocalDateTime regDate = LocalDateTime.now();
