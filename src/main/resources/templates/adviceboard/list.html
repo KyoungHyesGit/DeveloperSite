@@ -17,16 +17,20 @@
                 <label for="filterCategory" class="mr-2"><strong>카테고리 필터:</strong></label>
                 <select id="filterCategory" name="filterCategory" class="form-control" style="width: 200px;margin-left: 10px">
                     <option value="all" th:selected="${filterCategory == 'all'}">모든 카테고리</option>
-                    <option value="IT" th:selected="${filterCategory == 'IT'}">IT</option>
-                    <option value="디자인" th:selected="${filterCategory == '디자인'}">디자인</option>
-                    <option value="이직질문" th:selected="${filterCategory == '이직질문'}">이직질문</option>
+                    <option value="신입" th:selected="${filterCategory == '신입'}">신입</option>
+                    <option value="취준" th:selected="${filterCategory == '취준'}">취준</option>
+                    <option value="이직" th:selected="${filterCategory == '이직'}">이직</option>
+                    <option value="면접" th:selected="${filterCategory == '면접'}">면접</option>
+                    <option value="자소서" th:selected="${filterCategory == '자소서'}">자소서</option>
+                    <option value="Q&A" th:selected="${filterCategory == 'Q&A'}">Q&A</option>
+                    <option value="잡담" th:selected="${filterCategory == '잡담'}">잡담</option>
                     <option value="채용공고" th:selected="${filterCategory == '채용공고'}">채용공고</option>
                     <!-- 다른 카테고리 옵션 추가 -->
                 </select>
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px ">카테고리 적용</button>
             </form>
 
-            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:350px">
+            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:430px">
                 <label for="sort" class="mr-2">정렬 : </label>
                 <select name="sort" id="sort" class="form-control" style="width: 180px;margin-left: 10px">
                     <option value="id,desc" th:selected="${sort == 'id,desc'}">작성일(최신순)</option>

@@ -47,6 +47,5 @@ public class Comment {
 //    @JoinColumn(name = "user_id")
 //    private UserEntity user;
 
-    @Column
-    private String firstCommentId; //첫 댓글 id
+
 }

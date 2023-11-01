@@ -51,7 +51,7 @@ public class AdviceController {
         adviceBoardService.update(id, reqDTO);
 
         model.addAttribute("adviceboard", reqDTO); // 변환된 DTO를 모델에 추가
-
+        model.addAttribute("nlString", System.getProperty("line.separator"));
         return "/adviceboard/view";
     }
 
