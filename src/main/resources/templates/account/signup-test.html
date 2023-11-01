@@ -8,7 +8,7 @@
     <script>
 
         //가입 시 이메일 중복 확인 함수
-<<<<<<< HEAD
+
         function checkEmailDuplication() {
             var userEmail = document.getElementById('u_email').value;
             //db의 값에 있는 컬럼들과 비교해야함.
@@ -30,8 +30,7 @@
             }
         }
 
-=======
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
+
         //가입 시 빈칸 확인 함수
         function form_check() {
             var userName = document.getElementById('u_name').value;
@@ -72,13 +71,11 @@
                 return false;
             }
 
-<<<<<<< HEAD
+
             //이메일 중복 체크 함수
 
             // 모든 유효성 검사를 통과한 경우, 폼이 제출됩니다.
             alert(userName + "님 회원가입 완료!\n사용 email: " + userEmail);
-=======
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             return true;
         }
     </script>
@@ -163,10 +160,8 @@
 <!--    //alert(userName+"님 회원가입 완료!\n사용 이메일 : "+userEmail);-->
 <!--</script>-->
 
-<<<<<<< HEAD
-<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="jaoin_form"
-      onsubmit="return form_check()">
-=======
+
+
 <!--가입실패 메세지1-->
 <script th:if="${errorMessage1}">
 
@@ -183,7 +178,7 @@
 
 
 <form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="join_form" onsubmit="return form_check()">
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
+
     <fieldset>
         <legend>일반회원 회원가입</legend>
         <p>
@@ -195,12 +190,10 @@
         <p>
             <label for="u_email">이메일</label>
             <input type="email" name="userEmail" id="u_email">
-<<<<<<< HEAD
+
             <button type="button" onclick="checkEmailDuplication()">이메일 중복확인</button>
             <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" disabled>인증번호 전송</button>
-=======
             <button type="button" id="checkEmailButton">이메일 중복확인</button>
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
             <br>
             <span class="err_id">* ex) aaa@aaa.com</span>
             <br>
@@ -259,13 +252,8 @@
             <span class="err_agree">* 필수</span>
         </p>
         <p class="final_btn">
-<<<<<<< HEAD
             <a href="http://localhost/account/loginpage" class="btn">취소</a>
             <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
-=======
-            <a href= "http://localhost/account/loginpage" class="btn">취소</a>
-            <button type="submit" id="signupButton" class="btn">회원가입</button>
->>>>>>> 83a9c0936041bb867fa6d89bb12ca9aa575debfc
         </p>
     </fieldset>
 </form>
