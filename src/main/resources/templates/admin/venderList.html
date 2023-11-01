@@ -29,31 +29,31 @@
             <tr class="text-center" th:each="vender, venderState : ${venders}">
 
                 <th scope="row">
-                <span th:text="${venderState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
+                    <span th:text="${venderState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
                 </th>
 
                 <td>
-                <span th:text="${vender.venderId}"></span>
+                    <span th:text="${vender.venderId}"></span>
                 </td>
 
                 <td>
-                <span th:text="${vender.venderName}"></span>
+                    <span th:text="${vender.venderName}"></span>
                 </td>
 
                 <td>
-                <span th:text="${vender.venderEmail}"></span>
+                    <span th:text="${vender.venderEmail}"></span>
                 </td>
 
                 <td>
-                <span th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></span>
                 </td>
 
                 <td>
-                <span th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></span>
                 </td>
 
                 <td>
-                <span th:text="${vender.photo}"></span>
+                    <span th:text="${vender.photo}"></span>
                 </td>
             </tr>
             </tbody>
@@ -62,28 +62,30 @@
     </div>
 
     <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
-    <div th:if="${venders.totalPages > 1}">
-        <ul class="pagination">
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/admin/showv(page=0, size=${venders.size})}" class="page-link">First</a>
-            </li>
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/admin/showv(page=${venders.number - 1}, size=${venders.size})}"
-                   class="page-link">Previous</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
-                <a th:href="@{/admin/showv(page=${i}, size=${venders.size})}" class="page-link"
-                   th:text="${i + 1}"></a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/admin/showv(page=${venders.number + 1}, size=${venders.size})}"
-                   class="page-link">Next</a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/admin/showv(page=${venders.totalPages - 1}, size=${venders.size})}"
-                   class="page-link">Last</a>
-            </li>
-        </ul>
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <div th:if="${venders.totalPages > 1}">
+            <ul class="pagination">
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/admin/showv(page=0, size=${venders.size})}" class="page-link">First</a>
+                </li>
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/admin/showv(page=${venders.number - 1}, size=${venders.size})}"
+                       class="page-link">Previous</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                    <a th:href="@{/admin/showv(page=${i}, size=${venders.size})}" class="page-link"
+                       th:text="${i + 1}"></a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/admin/showv(page=${venders.number + 1}, size=${venders.size})}"
+                       class="page-link">Next</a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/admin/showv(page=${venders.totalPages - 1}, size=${venders.size})}"
+                       class="page-link">Last</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </th:block>
