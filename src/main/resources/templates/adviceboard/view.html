@@ -18,7 +18,7 @@
 <script th:inline="javascript">
 
 </script>
-<div class="container" style="margin-right: 130px">
+<div class="container" style="margin-right: 190px">
     <div class="viewBody">
         <button class="backBtn" onclick="location.href='/adviceboard/list'">< 전체 게시글</button>
 
@@ -37,8 +37,7 @@
             </div>
 
             <div class="marginTopLeft_1 bodyLast">
-                <span th:text="${adviceboard.content}"></span>
-            </div>
+                <span th:utext="${#strings.replace(adviceboard.content, nlString, '&lt;br /&gt;')}"></span>            </div>
         </div>
 
         <!-- 댓글 작성 란 -->
@@ -85,7 +84,7 @@
                         <a href="#none" style="float: right" class="borderRound" th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
                     </div>
                     <div class="commentBd">
-                        <span th:text="${comment.content}">댓글 내용</span>
+                        <span th:utext="${#strings.replace(comment.content, nlString, '&lt;br /&gt;')}">댓글내용</span>
                     </div>
                 </div>
 

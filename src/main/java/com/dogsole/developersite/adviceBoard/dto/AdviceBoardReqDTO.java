@@ -2,6 +2,7 @@ package com.dogsole.developersite.adviceBoard.dto;
 
 import com.dogsole.developersite.adviceBoard.entity.Comment;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
