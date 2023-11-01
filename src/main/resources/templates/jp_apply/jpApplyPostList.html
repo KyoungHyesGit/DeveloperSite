@@ -59,7 +59,8 @@
             <td th:text="${applyList.id}"></td>
             <td th:text="${applyList.userEntity.userId}"></td>
             <td>
-                <a th:href="@{/userResume/showDetailForm/{id}(id=${applyList.userResumeEntity.id})}" th:text="${applyList.userResumeEntity.resume_title_1}"></a>
+                <a th:href="@{/userResume/showDetailForm/{id}(id=${applyList.userResumeEntity.id})}"
+                   th:text="${applyList.userResumeEntity.resume_title_1}"></a>
             </td>
             <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
             <td th:id="'userState_' + ${applyList.id}" th:text="${applyList.userState}"></td>
