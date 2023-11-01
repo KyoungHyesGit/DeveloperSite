@@ -3,6 +3,7 @@ package com.dogsole.developersite.account.dto.vender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ public class VenderTempReqDTO {
     @NotBlank(message = "이름은 필수 입력 항목")
     private String name;
 
-    private String photo;
+    private MultipartFile photo;
 
     @NotBlank(message = "이메일 필수 입력 항목")
     private String email;
@@ -27,6 +28,10 @@ public class VenderTempReqDTO {
     private String phone;
 
     private String state;
+
+    @NotBlank(message = "사업자 등록 번호 필수")
+    private String bNo;
+
 
     @NotBlank(message = "우편번호 필수")
     private String zipcode;
@@ -39,6 +44,7 @@ public class VenderTempReqDTO {
     private LocalDateTime createDt;
 
     private LocalDateTime updateDt;
+    private String reqState;
 
 
 }

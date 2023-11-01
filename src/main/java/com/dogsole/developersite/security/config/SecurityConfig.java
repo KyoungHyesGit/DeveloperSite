@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -51,22 +52,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChainOrder(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http.cors(withDefaults()) // CORS 설정 활성화
+                .csrf().disable()
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 모든 사용자에게 허용되는 URL지정
                         .requestMatchers(
                                 new AntPathRequestMatcher("/userMypage"),
                                 new AntPathRequestMatcher("/userMypage/**"),
                                 new AntPathRequestMatcher("/account/update/**"),
                                 new AntPathRequestMatcher("/account/delete/**"),
+                                new AntPathRequestMatcher("/account/loginpage/**"),
                                 new AntPathRequestMatcher("/userResume/**"),
                                 new AntPathRequestMatcher("/jpApply/**"),
                                 new AntPathRequestMatcher("/jpLike/**"),
                                 new AntPathRequestMatcher("/vender/**"),
-                                new AntPathRequestMatcher("/mail/**")
+                                new AntPathRequestMatcher("/mail/**"),
+                                new AntPathRequestMatcher("/vender/**")
                         ).authenticated()
                         .anyRequest().permitAll() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
+
                 )
                 .oauth2Login(oauth2Login -> {
                     oauth2Login
@@ -89,8 +94,14 @@ public class SecurityConfig {
                                     loginUserId.setPath("/") ;
                                     loginUserId.setDomain("");
 
+                                    Cookie loginVenderId = new Cookie("loginVenderId", userDetails.geVenderId().toString());
+                                    loginUserId.setMaxAge(1800);
+                                    loginUserId.setPath("/") ;
+                                    loginUserId.setDomain("");
+
                                     response.addCookie(cookie);
                                     response.addCookie(loginUserId);
+                                    response.addCookie(loginVenderId);
 
                                     System.out.println("쿠키 설정됨: " + myToken);
                                     response.sendRedirect("/"); // 리다이렉트
@@ -106,6 +117,11 @@ public class SecurityConfig {
                             if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
                                 UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
                                 String userEmail = userDetails.getUsername();
+                                String userState = userDetails.getUserState();
+                                if ("d".equals(userState)) {
+                                    System.out.println("계정비활성화 짜식아");
+                                    throw new DisabledException("계정이 비활성화되었습니다.");
+                                }
                                 String myToken = jwtTokenProvider.createToken(userEmail);
 
                                 Cookie cookie = new Cookie("myTokenCookie", myToken);

@@ -26,12 +26,10 @@ public class DeveloperSiteApplication {
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
 		mailSender.setUsername("yyr0204jh@gmail.com");
-		mailSender.setPassword("xacdpfemwfvvptar");
+		mailSender.setPassword("xbmnzfggsozzjyhg");
 		Properties props = mailSender.getJavaMailProperties();
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.starttls.required", "true");
-
-
 		return mailSender;
 	}
 }

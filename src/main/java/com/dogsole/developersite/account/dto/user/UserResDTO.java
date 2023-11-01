@@ -32,4 +32,6 @@ public class UserResDTO {
     private String state;
 
     private String photo;
+
+    private String photoUrl;
 }

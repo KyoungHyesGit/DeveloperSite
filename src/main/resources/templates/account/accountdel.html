@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/accountdel.css">
+</head>
+<th:block layout:fragment="content">
+    <meta charset="UTF-8">
+
+    <body>
+
+    <form name="delete_form" th:action="@{/account/deleteu/{id}(id=${user.getUserId()})}" th:object="${userReqDTO}" method="post" id="delete_form">
+
+            <div class="emailview">
+                <h5>email </h5>
+                <h5 th:text="${user.getUserEmail()}"></h5>
+                <br>
+                <h5>이름 </h5>
+                <h5 th:text="${user.getUserName()}"></h5>
+                <br>
+                <h4>탈퇴 하시겠습니까?</h4>
+            </div>
+            <p class="final_btn">
+                <a href="javascript:history.back();" class="btn">취소</a>
+                <button type="submit" id="deletebutton" class="btn">탈퇴</button>
+            </p>
+    </form>
+    </body>
+</th:block>
+</html>

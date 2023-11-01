@@ -2,6 +2,7 @@ package com.dogsole.developersite.account.controller;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderTempReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderTempResDTO;
 import com.dogsole.developersite.account.service.vender.VenderTempService;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
@@ -9,6 +10,8 @@ import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostTempService;
+import com.dogsole.developersite.userResume.entity.UserResumeEntity;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -37,48 +42,55 @@ public class VenderTempController {
     }
 
     @PostMapping("/add")
-    public String addJobPostTemp(@ModelAttribute @Valid VenderTempReqDTO venderTempReqDTO, BindingResult result, Model model, HttpServletRequest request){
+    public String addJobPostTemp(@ModelAttribute @Valid VenderTempReqDTO venderTempReqDTO, @RequestParam("photo") MultipartFile photo, BindingResult result, Model model, HttpServletRequest request){
         if (result.hasErrors()) {
-            return "/job_post_temp/add_vender_temp";
+            return "/account/add_vender_temp";
         }
+        try{
+            Cookie[] cookies = request.getCookies();
+            Long userId = Arrays.stream(request.getCookies())
+                    .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                    .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                    .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                    .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+            venderTempService.createVenderTemp(venderTempReqDTO,photo,userId);
+        }catch (Exception e){
 
-
-        venderTempService.createVenderTemp(venderTempReqDTO);
-
-        return "redirect:/jobPostTemp/vendersTempList/1";
+        }
+        return "redirect:/userMypage";
     }
 
     @GetMapping("/edit/{id}")
     public String gotoEditJobPostTempPage(@PathVariable Long id, Model model){
-//        JobPostTempResDTO jobPostTemp = jobPostTempService.getJobTempPost(id);
+        VenderTempResDTO venderTemp = venderTempService.findById(id);
 
-//        model.addAttribute("jobPostTemp",jobPostTemp);
+        model.addAttribute("venderTemp",venderTemp);
 
-        return "/job_post_temp/edit-post-temp";
+        return "/account/edit_vender_temp";
     }
 
     @PostMapping("/edit/{id}")
-    public String editJobPostTemp(@ModelAttribute("jobPostTemp") @Valid JobPostTempReqFormDTO jobPostTemp, BindingResult result, Model model, HttpServletRequest request, @PathVariable Long id){
+    public String addJobPostTemp(@ModelAttribute("venderTemp") @Valid VenderTempReqDTO venderTemp, @RequestParam("photo") MultipartFile photo, BindingResult result, Model model, HttpServletRequest request, @PathVariable Long id){
         if(result.hasErrors()){
 
-            model.addAttribute("jobPostTemp",jobPostTemp);
-
-
-            return "/job_post_temp/edit-post-temp";
+            model.addAttribute("venderTemp",venderTemp);
+            return "/account/edit_vender_temp";
         }
-        jobPostTemp.setIp(request.getRemoteAddr());
-        jobPostTemp.setState("수정");
-        jobPostTemp.setReqState("");
+        venderTemp.setState("수정");
+        venderTemp.setReqState("");
 
-//        jobPostTempService.updateJobPostTemp(id, jobPostTemp);
-        return "redirect:/jobPostTemp/vendersTempList/1";
+        try{
+            venderTempService.updateVenderTemp(id, venderTemp, photo);
+        }catch (Exception e){}
+
+        return "redirect:/userMypage";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteJobPostTemp(@PathVariable Long id){
-//        jobPostTempService.deleteJobPostTemp(id);
+    @GetMapping("/delete/{id}")
+    public String deleteJobPostTemp(@PathVariable Long id) {
+        venderTempService.deleteVenderTemp(id);
         // TODO 사용자 정보에서 벤터 id빼서 홈으로 가기
-        return "redirect:/jobPostTemp/vendersTempList/1";    }
-
+        return "redirect:/userMypage";
+    }
 
 }

@@ -42,7 +42,6 @@ public class MailService {
         number = (int)(Math.random() * (90000)) + 100000; // 새로운 인증 번호 생성
         MimeMessage message = CreateMail(mail);
         javaMailSender.send(message);
-
         return number;
     }
 
