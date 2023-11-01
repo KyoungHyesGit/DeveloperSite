@@ -7,7 +7,6 @@
     <title>Title</title>
 </head>
 <body>
-<button onclick="location.href='/account/loginpagev'">로그아웃</button>
 <table border="1">
     <tr>
         <th>SEQ</th>
@@ -27,8 +26,6 @@
         <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
         <td th:text="${vender.photo}"></td>
-
-
     </tr>
 </table>
 

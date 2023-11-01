@@ -1,4 +1,4 @@
-form {
+#update_form{
     margin: 80px auto 0;
     background-color: #f2f2f2;
     padding: 20px;
@@ -27,7 +27,7 @@ label {
     margin-right: 5px;
 }
 
-form input[type="text"],
+#update_form input[type="text"],
 input[type="password"],
 input[type="file"] {
     width: 100%;

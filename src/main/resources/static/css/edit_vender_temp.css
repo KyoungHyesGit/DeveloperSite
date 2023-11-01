@@ -6,7 +6,7 @@ h1 {
     text-align: center;
 }
 
-form {
+#subm {
     margin: 30px auto 0;
     background-color: #f2f2f2;
     padding: 20px;
@@ -15,14 +15,14 @@ form {
     max-width: 500px;
 }
 
-label {
+form label {
     display: block;
     margin-top: 10px;
     color: #000000;
     font-weight: 600;
 }
 
-form input[type="text"],
+#subm input[type="text"],
 form input[type="email"] {
     width: 100%;
     padding: 10px;
@@ -63,7 +63,7 @@ hr {
     border-radius: 5px;
 }
 
-input[type="submit"] {
+form input[type="submit"] {
     background-color: #0074d9;
     color: #fff;
     border: none;

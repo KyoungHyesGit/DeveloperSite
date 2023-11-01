@@ -26,8 +26,6 @@ public class AdviceBoardReqDTO {
     @NotBlank(message = "내용을 입력해주세요")
     private String content;
 
-//    private String kind;
-
     private LocalDateTime regDate;
     private List<Comment> comments;
 

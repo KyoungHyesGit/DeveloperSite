@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        function changeUserState(selectElement) {
+            const id = selectElement.getAttribute("data-id");
+            const userState = selectElement.value;
+
+            // Send an AJAX request to change the user state
+            const url = '/api/jpApply/changeUserState/' + id;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userState), // 이 부분을 추가해야 함
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error changing user state:', data.error);
+                    } else if (data.message === 'success') {
+                        // Example: Update the 'userState' cell
+                        const userStateCell = document.getElementById('userState_' + id);
+                        if (userStateCell) {
+                            userStateCell.textContent = userState;
+                        } else {
+                            console.error('userState-cell not found in row:', id);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error changing user state:', error);
+                });
+        }
+
+    </script>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>user ID</th>
+            <th>자소서 제목</th>
+            <th>지원일</th>
+            <th>지원자 점검 상태</th>
+            <th>액션</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applyList : ${applyList}">
+            <td th:text="${applyList.id}"></td>
+            <td th:text="${applyList.userEntity.userId}"></td>
+            <td>
+                <a th:href="@{/userResume/showDetailForm/{id}(id=${applyList.userResumeEntity.id})}"
+                   th:text="${applyList.userResumeEntity.resume_title_1}"></a>
+            </td>
+            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
+            <td th:id="'userState_' + ${applyList.id}" th:text="${applyList.userState}"></td>
+            <td>
+                <select th:data-id="${applyList.id}" onchange="changeUserState(this)">
+                    <option value="검토전">검토전</option>
+                    <option value="보류중">보류중</option>
+                    <option value="합격">합격</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</body>
+</html>

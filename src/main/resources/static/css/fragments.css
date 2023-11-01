@@ -4,7 +4,6 @@
     font-weight: 400;
     font-style: normal;
 }
-
 ul, li{
     list-style: none;
 }
@@ -18,7 +17,18 @@ body{
     overflow-y: scroll;
     font-family: 'Pretendard-Regular';
 }
+.container {
+    width: 1200px;
+    max-width: none !important;
+}
 /*navbar*/
+nav{
+    width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+    background-color: #fff;
+    box-shadow: 0 5px 10px -3px #eee;
+}
 .menu{
     margin: 0;
     padding: 10px;
@@ -63,6 +73,7 @@ body{
     height: 26px;
     border: none;
     font-size: 14px;
+    outline: none;
 }
 
 .search img {
@@ -84,13 +95,14 @@ footer{
     min-width: 960px;
     height: 297px;
 }
+
 .ftBtn ul{
-    margin: 10px auto 0;
+    margin: 10px auto;
     width: 1260px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
-    padding: 0;
+    padding: 10px;
 }
 .ftBtn ul li a{
     display: inline-flex;

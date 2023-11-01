@@ -1,5 +1,6 @@
 package com.dogsole.developersite.jobPost.service;
 
+
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
@@ -7,6 +8,7 @@ import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
 import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jobPost.entity.JobPostTempEntity;
 import com.dogsole.developersite.jobPost.repository.JobPostRepository;
+
 import com.dogsole.developersite.jobPost.repository.JobPostTempRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -56,6 +58,22 @@ public class JobPostService {
         });
     }
 
+    public Page<JobPostResDTO> getVenderPost(Long id, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByVenderEntity_VenderId(id,pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
     // 상세페이지
     @Transactional(readOnly = true)
     public JobPostResDTO getJobDetail(Long id) {
@@ -69,6 +87,56 @@ public class JobPostService {
 
         return jobPostResDTO;
     }
+
+    // 검색
+    public Page<JobPostResDTO> getSearchJobPost(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByTitleContaining(keyword, pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+    // 검색-등록순
+    public Page<JobPostResDTO> getAllPostByDateAsc(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findAllByOrderByCreateDtAsc(keyword,pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+    // 검색-마감일순
+    public Page<JobPostResDTO> getEndTimeAsc(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByEndTimeSearch(keyword,pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+
 
 
 }

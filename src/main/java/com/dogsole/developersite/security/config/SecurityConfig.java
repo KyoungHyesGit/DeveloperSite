@@ -46,7 +46,7 @@ public class SecurityConfig {
     //authentication
     //사용자별 데이터를 로드하며 주로 인증목적으로 쓰임  (UserInfoUserDetailsService의 인스턴스반환)
     public UserDetailsService userDetailsService() {
-       return new UserInfoUserDetailsService();
+        return new UserInfoUserDetailsService();
     }
     //HttpSecurity 를 사용해 보안필터체인 구성을 정의
 
@@ -135,21 +135,21 @@ public class SecurityConfig {
                                 response.addCookie(loginUserId);
 
                                 System.out.println("쿠키 설정됨: " + myToken);
-                               response.sendRedirect("/"); // 리다이렉트
+                                response.sendRedirect("/"); // 리다이렉트
 
                             }
                         })
                         .permitAll()
                 )
                 .logout(withDefaults());
-                // '/logout'이라는 url로 POST 요청을 보내면 로그아웃 처리됨.
-                //스프링시큐리티는 로그아웃 요청 시 CSRF 토큰을 요구함, 보안 목적으로 사용되며 요청 실행 시 CSRF토큰을 함께 제공해야함
+        // '/logout'이라는 url로 POST 요청을 보내면 로그아웃 처리됨.
+        //스프링시큐리티는 로그아웃 요청 시 CSRF 토큰을 요구함, 보안 목적으로 사용되며 요청 실행 시 CSRF토큰을 함께 제공해야함
         // 로그아웃 버튼     <form th:action="@{/logout}" method="post">
         //                  <input type="submit" value="로그아웃">
         //                 </form>
 
         return http.build(); //HttpSecurity 객체를 사용하여 보안필터체인을 정의 및 구성
-                            //http.build() 호출하여 구성 후 SecurityFilterChain을 반환하면 이 구성이 애플리케이션에 적용됨
+        //http.build() 호출하여 구성 후 SecurityFilterChain을 반환하면 이 구성이 애플리케이션에 적용됨
     }
 
 
@@ -159,9 +159,9 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //BCryptPasswordEncoder 클래스의 인스턴스를 반환
     }                                       //BCryptPasswordEncoder는 스프링시큐리티에서 널리 사용되는 비번 해시함수
-                                            //사용예제
-                                            // PasswordEncoder passwordEncoder = passwordEncoder();
-                                            // String hashedPassword = passwordEncoder.encode(rawPassword);
+    //사용예제
+    // PasswordEncoder passwordEncoder = passwordEncoder();
+    // String hashedPassword = passwordEncoder.encode(rawPassword);
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider(); //사용자의 인증을 처리하는 인터페이스.

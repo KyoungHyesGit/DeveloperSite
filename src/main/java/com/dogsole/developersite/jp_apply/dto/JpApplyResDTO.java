@@ -20,6 +20,7 @@ public class JpApplyResDTO {
     private UserEntity userEntity;
     private JobPostResDTO jobPostEntity;
     private UserResumeEntity userResumeEntity;
+    private String userState;
     private LocalDateTime apply_date;
 
 }

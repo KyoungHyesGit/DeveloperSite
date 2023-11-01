@@ -7,6 +7,7 @@ import com.dogsole.developersite.userResume.entity.UserResumeEntity;
 import com.dogsole.developersite.userResume.repository.UserResumeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,5 +70,7 @@ public class UserResumeService {
             return null; // 이력서를 찾지 못한 경우 예외 처리
         }
     }
+
+
 
 }

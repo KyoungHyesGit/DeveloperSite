@@ -36,6 +36,11 @@
         return null; // 해당 쿠키가 없을 경우
     }
 </script>
+<head>
+    <!--대화창 기능을 위한 제이쿼리-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script> <!---채팅창기능을 위한 자바스크립트--->
+</head>
 <body>
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
@@ -71,11 +76,28 @@
         <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')">공고 등록</button>
     </a>
 
+    <a id="postVenderBtn">
+        <button onclick="updateLinkUrlVender('//job_post/venderJobList/','postVenderBtn')">공고별 지원자 보기</button>
+    </a>
+
     <a>
         <button onclick="window.location.href = '/vender/add'">회사 등록 신청</button>
     </a>
-
-
+<!--php챗-->
+    <hr class = "mid-line">
+    <h1 class = "chatBox-title">실시간 맛집 소통</h1>
+    <div class = "chatBox-layout">
+        <div id="chatbox"></div>
+        <div class = "inputBox">
+            <form id="messageForm" method="post" action="">
+                <input type="hidden" id="login_id" value="<?=$login_id?>"/>
+                <input type="text" id="messageInput" placeholder="메세지를 입력하세요."/>
+                <input type="submit" value="전송" id = "enter"/>
+            </form>
+        </div>
+    </div>
+                <!--php챗-->
+    <!----spring 챗 테스트 코드------>
     <h1>채팅 내역</h1>
     <ul>
         <div th:each="message : ${chatHistory}">
@@ -86,8 +108,34 @@
         <input type="text" id="chatMessage" placeholder="메시지 입력">
         <button onclick="sendMessage()">전송</button> <!--전송 자바스크립트 짤 차례 11/01 - 10:28-->
     </div>
+    <!----spring 챗 테스트 코드------>
 </th:block>
+<!----spring 챗 테스트 코드------>
+<script>
+    function sendMessage() {
+        var message = document.getElementById('chatMessage').value;
 
+        // AJAX 또는 Fetch API를 사용하여 서버로 메시지 전송
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/send-chat', true); // '/send-chat'는 서버의 엔드포인트 URL입니다
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ message: message }));
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // 서버에 메시지가 성공적으로 전송되었을 때 로컬 채팅 창에 추가
+                var chatList = document.getElementById('chatList');
+                var listItem = document.createElement('li');
+                listItem.textContent = message;
+                chatList.appendChild(listItem);
+
+                // 입력 필드 비우기
+                document.getElementById('chatMessage').value = '';
+            }
+        };
+    }
+    <!--spring 챗 테스트 코드-->
+</script>
 </body>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 

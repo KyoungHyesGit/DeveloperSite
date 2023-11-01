@@ -2,11 +2,7 @@ package com.dogsole.developersite.jobPost.dto.res;
 
 
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+
 import lombok.*;
 
 import java.time.LocalDate;
@@ -32,11 +28,9 @@ public class JobPostResDTO {
     private LocalDate postDate;
     private String state;
     private String reqState;
-    private LocalDate endTime;
-    private LocalDateTime createDt = LocalDateTime.now();
-
-
-    private LocalDateTime updateDt = LocalDateTime.now();
+    private LocalDateTime endTime;
+    private LocalDateTime createDt;
+    private LocalDateTime updateDt;
 
 
     private VenderResDTO venderResDTO;
