@@ -1,44 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<!--로그인 성공 alert-->
-<script th:if="${loginok}">
-    alert("로그인 성공!");
-</script>
+<th:block layout:fragment="content">
 
+    <div class="container" style="max-width: 1120px; padding-top: 30px">
+        <h1 style="text-align: center; margin-bottom: 30px">기업 회원 리스트</h1>
+        <button onclick="location.href='/account/loginpage'" class="btn btn-primary"
+                style="float: right; margin-bottom: 10px">로그아웃
+        </button>
+        <table border="1" class="table">
 
+            <thead class="thead-light">
+            <tr class="text-center">
+                <th>SEQ</th>
+                <th>ID</th>
+                <th>Vender Name</th>
+                <th>Vender Email</th>
+                <th>Vender CreatedDt</th>
+                <th>Vender UpdateDt</th>
+                <th>Vender Logo</th>
 
-<h1>회사 회원 리스트(로그인 성공시 예비메인)</h1>
-<button onclick="location.href='/account/loginpagev'">로그아웃</button>
-<table border="1">
-    <tr>
-        <th>SEQ</th>
-        <th>ID</th>
-        <th>Vender Name</th>
-        <th>Vender Email</th>
-        <th>Vender CreatedDt</th>
-        <th>Vender UpdateDt</th>
-        <th>Vender Logo</th>
+            </tr>
+            </thead>
 
-    </tr>
-    <tr th:each="vender, venderState : ${venders}">
-        <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
-        <td th:text="${vender.venderId}"></td>
-        <td th:text="${vender.venderName}"></td>
-        <td th:text="${vender.venderEmail}"></td>
-        <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:text="${vender.photo}"></td>
+            <tbody>
+            <tr class="text-center" th:each="vender, venderState : ${venders}">
 
+                <th scope="row">
+                <span th:text="${venderState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
+                </th>
 
-    </tr>
-</table>
+                <td>
+                <span th:text="${vender.venderId}"></span>
+                </td>
 
-</body>
+                <td>
+                <span th:text="${vender.venderName}"></span>
+                </td>
+
+                <td>
+                <span th:text="${vender.venderEmail}"></span>
+                </td>
+
+                <td>
+                <span th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+
+                <td>
+                <span th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+
+                <td>
+                <span th:text="${vender.photo}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
+    <div th:if="${venders.totalPages > 1}">
+        <ul class="pagination">
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/showv(page=0, size=${venders.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.number - 1}, size=${venders.size})}"
+                   class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                <a th:href="@{/admin/showv(page=${i}, size=${venders.size})}" class="page-link"
+                   th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.number + 1}, size=${venders.size})}"
+                   class="page-link">Next</a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.totalPages - 1}, size=${venders.size})}"
+                   class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
+
+</th:block>
 </html>

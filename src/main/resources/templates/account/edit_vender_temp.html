@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/edit_vender_temp.css">
     <!-- TODO 헤더들에 넣어버리기 -->
     <!-- TODO 제이쿼리, 부트스트랩, 주소찾기, 지도그리기 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
@@ -16,12 +21,14 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b88a4607f4ecc87937dfee0781b70682&libraries=services"></script>
-    <name>name</name>
+
 </head>
+
 <body>
-<h1>회사 등록</h1>
-<body>
-<form action="#" th:action="@{/vender/edit/{id}(id=${venderTemp.id})}" th:object="${venderTemp}" method="post"  enctype="multipart/form-data">
+<th:block layout:fragment="content">
+<h1>회사 정보 수정</h1>
+<div class="container">
+<form id="subm" action="#" th:action="@{/vender/edit/{id}(id=${venderTemp.id})}" th:object="${venderTemp}" method="post"  enctype="multipart/form-data">
     <label for="name">이름 *</label>
     <input type="text" th:field="*{name}" id="name" required >
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -67,16 +74,15 @@
     <span th:if="${#fields.hasErrors('extraAddr')}" th:errors="*{extraAddr}"></span>
     <br/>
     <hr>
-    <div id="map" style="width:500px;height:400px;"></div>
+    <div id="map" style="width:460px;height:400px;"></div>
     <hr>
 
 
-    <input type="submit" value="SUBMIT">
+    <input type="submit" value="수정">
 
 </form>
-</body>
-<!-- TODO JS로 분리하기 -->
-<!-- TODO <script type="text/javascript" th:src="@{/js/job_post_temp/add-post-temp.js}"></script>-->
+</div>
+
 <script>
 
     var findAddrFlag = false;
@@ -225,5 +231,7 @@
         });
     });
 </script>
+</th:block>
+</body>
 
 </html>

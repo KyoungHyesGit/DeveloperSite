@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/add_vender_temp.css">
+
     <!-- TODO 헤더들에 넣어버리기 -->
     <!-- TODO 제이쿼리, 부트스트랩, 주소찾기, 지도그리기 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
@@ -27,7 +28,7 @@
 <th:block layout:fragment="content">
 <h1>회사 등록</h1>
 <div class="container">
-<form action="#" th:action="@{/vender/add}" th:object="${venderTempReqDTO}" method="post" enctype="multipart/form-data">
+<form id="subm" action="#" th:action="@{/vender/add}" th:object="${venderTempReqDTO}" method="post" enctype="multipart/form-data">
     <label for="name">회사명 *</label><br>
     <input type="text" th:field="*{name}" id="name" required >
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -234,6 +235,5 @@
     </script>
 </th:block>
 </body>
-
 
 </html>

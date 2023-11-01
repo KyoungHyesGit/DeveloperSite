@@ -7,6 +7,7 @@ import com.dogsole.developersite.userResume.entity.UserResumeEntity;
 import com.dogsole.developersite.userResume.repository.UserResumeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,17 +29,18 @@ public class UserResumeService {
                 .map(userResume -> modelMapper.map(userResume, UserResumeResDTO.class))
                 .collect(Collectors.toList());
     }
-    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO, MultipartFile file,Long userId) throws Exception{
+
+    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO, MultipartFile file, Long userId) throws Exception {
         UserResumeEntity userResumeEntity = modelMapper.map(userResumeReqDTO, UserResumeEntity.class);
 
         //사진 업로드
-        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\resumeImage";
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\resumeImage";
         UUID uuid = UUID.randomUUID();
-        String fileName = uuid+"_"+file.getOriginalFilename();
+        String fileName = uuid + "_" + file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
         file.transferTo(saveFile);
         userResumeEntity.setPhoto(fileName);
-        userResumeEntity.setPhotoUrl("/resumeImage/"+fileName);
+        userResumeEntity.setPhotoUrl("/resumeImage/" + fileName);
 
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);
@@ -46,10 +48,12 @@ public class UserResumeService {
 
         return userResumeRepository.save(userResumeEntity);
     }
+
     //이력서 상세
-    public UserResumeResDTO getUserResumeByid(Long id){
-        return modelMapper.map(userResumeRepository.findUserResumeEntityById(id),UserResumeResDTO.class);
+    public UserResumeResDTO getUserResumeByid(Long id) {
+        return modelMapper.map(userResumeRepository.findUserResumeEntityById(id), UserResumeResDTO.class);
     }
+
     // 이력서 삭제 메서드
     public void deleteResumeById(Long id) {
         // 이력서 ID로 이력서를 찾아냅니다.
@@ -59,7 +63,5 @@ public class UserResumeService {
         // 이력서를 삭제합니다.
         userResumeRepository.delete(resume);
     }
-
-
 
 }

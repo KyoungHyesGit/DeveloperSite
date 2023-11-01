@@ -7,10 +7,12 @@ import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,7 +52,7 @@ public class SignupController {
 
     //회원가입처리-----------------------------------------------------------------
     @PostMapping("/signuptest")
-    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result,  Model model){
+    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result, Model model){
         //입력 항목 검증 시 오류발생 -> 다시 회원가입 페이지로
         if(result.hasErrors()){
             //검증오류 메세지 alert 띄우기
@@ -118,10 +120,18 @@ public class SignupController {
     }
 
     //유저의 로그아웃 (할예정....)0------------------------------
-    @PostMapping("/logout")
-    public String userLogout(Model model){
-        //로그아웃 완료 alert창
-        model.addAttribute("logout","로그아웃 되었습니다."); //이거지금 안됨
+    @GetMapping("/logout")
+    public String userLogout(Model model, HttpServletResponse response, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0); // 쿠키를 만료시켜 삭제
+                response.addCookie(cookie);
+            }
+        }
+        // 로그아웃 성공 메시지를 JavaScript로 생성하여 반환
+        model.addAttribute("logout","로그아웃");
+
         return "account/login-test";
     }
 

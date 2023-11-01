@@ -1,45 +1,98 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<th:block layout:fragment="content">
 
+    <div class="container" style="max-width: 1120px; padding-top: 30px">
+        <h1 style="text-align: center; margin-bottom: 30px">일반 회원 리스트(로그인 성공시 예비메인)</h1>
+        <button onclick="location.href='/account/loginpage'" class="btn btn-primary"
+                style="float: right; margin-bottom: 10px">로그아웃
+        </button>
+        <table border="1" class="table">
 
+            <thead class="thead-light">
+            <tr class="text-center">
+                <th scope="col">SEQ</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">birth</th>
+                <th scope="col">userImage</th>
+                <th scope="col">유저 차단</th>
+            </tr>
+            </thead>
 
-<h1>일반 회원 리스트(로그인 성공시 예비메인)</h1>
-<button onclick="location.href='/account/loginpage'">로그아웃</button>
-<table border="1">
-    <tr>
-        <th>SEQ</th>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>CreatedAt</th>
-        <th>birth</th>
-        <th>userImage</th>
-        <th>유저 차단</th>
+            <tbody>
+            <tr class="text-center" th:each="user, userState : ${users}">
 
-    </tr>
-    <tr th:each="user, userState : ${users}">
-        <td th:text="${userState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
-        <td th:text="${user.userId}"></td>
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.userEmail}"></td>
-        <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
-        <td th:text="${user.birth}"></td>
-        <td th:text="${user.photo}"></td>
-        <td>
-            <button th:id="'allowButton_' + ${user.userId}" th:attr="data-id=${user.userId}" class="allow-button">차단</button>
-        </td>
+                <th scope="row">
+                    <span th:text="${userState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
+                </th>
 
-    </tr>
-</table>
+                <td>
+                    <span th:text="${user.userId}"></span>
+                </td>
 
-</body>
+                <td>
+                    <span th:text="${user.userName}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${user.userEmail}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${user.birth}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${user.photo}"></span>
+                </td>
+
+                <td>
+                    <button th:id="'allowButton_' + ${user.userId}" th:attr="data-id=${user.userId}"
+                            class="allow-button">차단
+                    </button>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
+    <div th:if="${users.totalPages > 1}">
+        <ul class="pagination">
+            <li th:if="${users.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/show(page=0, size=${users.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${users.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/show(page=${users.number - 1}, size=${users.size})}"
+                   class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, users.totalPages - 1)}" class="page-item">
+                <a th:href="@{/admin/show(page=${i}, size=${users.size})}" class="page-link"
+                   th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${users.hasNext}" class="page-item">
+                <a th:href="@{/admin/show(page=${users.number + 1}, size=${users.size})}"
+                   class="page-link">Next</a>
+            </li>
+            <li th:if="${users.hasNext}" class="page-item">
+                <a th:href="@{/admin/show(page=${users.totalPages - 1}, size=${users.size})}"
+                   class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
+
+</th:block>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const allowButtons = document.querySelectorAll('.allow-button');
@@ -59,7 +112,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ postId: postId }),
+                body: JSON.stringify({postId: postId}),
             })
                 .then(response => response.json())
                 .then(data => {

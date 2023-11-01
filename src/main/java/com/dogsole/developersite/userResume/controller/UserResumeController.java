@@ -1,5 +1,6 @@
 package com.dogsole.developersite.userResume.controller;
 
+import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.userResume.dto.UserResumeReqDTO;
 import com.dogsole.developersite.userResume.dto.UserResumeResDTO;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
@@ -7,6 +8,7 @@ import com.dogsole.developersite.userResume.service.UserResumeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -96,4 +98,5 @@ public class UserResumeController {
         model.addAttribute("jobPostId", jobPostId);
         return "/userResume/userResumeSelection";
     }
+
 }

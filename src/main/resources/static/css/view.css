@@ -62,8 +62,9 @@
 .commentDiv {
     margin-top: 2rem;
     border-top: 1px solid #adadad;
-    padding-bottom: 0.5rem;
+    margin-bottom: -20px;
 }
+
 
 .commentContent {
     margin-left: 1.5rem;

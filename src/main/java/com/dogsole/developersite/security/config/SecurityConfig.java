@@ -1,5 +1,6 @@
 package com.dogsole.developersite.security.config;
 
+import com.dogsole.developersite.security.handler.CustomLogoutHandler;
 import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.security.filter.JwtAuthFilter;
@@ -141,7 +142,12 @@ public class SecurityConfig {
                         })
                         .permitAll()
                 )
-                .logout(withDefaults());
+                .logout()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new CustomLogoutHandler());
+
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessHandler(new CustomLogoutHandler());
         // '/logout'이라는 url로 POST 요청을 보내면 로그아웃 처리됨.
         //스프링시큐리티는 로그아웃 요청 시 CSRF 토큰을 요구함, 보안 목적으로 사용되며 요청 실행 시 CSRF토큰을 함께 제공해야함
         // 로그아웃 버튼     <form th:action="@{/logout}" method="post">

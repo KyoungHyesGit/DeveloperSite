@@ -1,5 +1,6 @@
 package com.dogsole.developersite.jobPost.service;
 
+
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;
@@ -43,6 +44,22 @@ public class JobPostService {
     // 전체공고목록
     public Page<JobPostResDTO> getAllPost(Pageable pageable) {
         Page<JobPostEntity> jobPostEntities = jobPostRepository.findAll(pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+    public Page<JobPostResDTO> getVenderPost(Long id, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByVenderEntity_VenderId(id,pageable);
         return jobPostEntities.map(jobPostEntity -> {
 
             JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);

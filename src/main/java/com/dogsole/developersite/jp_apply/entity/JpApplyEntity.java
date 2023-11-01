@@ -24,6 +24,9 @@ public class JpApplyEntity {
     @Column(name = "jp_apply_id")
     private Long id;
 
+    @Column(name = "jp_apply_user_state")
+    private String userState;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VENDER_ID")
     private VenderEntity venderEntity;

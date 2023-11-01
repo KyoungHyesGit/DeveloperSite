@@ -1,6 +1,7 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
 
+
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import jakarta.validation.constraints.NotBlank;
@@ -60,10 +61,13 @@ public class JobPostTempResDTO {
     private LocalDateTime postDate;
     private String state;
     private String reqState;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull(message = "공고일은 필수")
     private LocalDateTime endTime;
+
     private LocalDateTime createDt;
+
     private LocalDateTime updateDt;
 
     private VenderResDTO venderResDTO;

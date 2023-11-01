@@ -19,6 +19,7 @@ public class DeveloperSiteApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
 	@Bean
 	public JavaMailSender javaMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

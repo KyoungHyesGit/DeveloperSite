@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -33,11 +34,14 @@ public class AdviceController {
     }
 
     @GetMapping("/view/{id}")
-    public String view(Model model, @PathVariable("id") Long id, CommentReqDTO commentReqDTO) {
+    public String view(Model model, @PathVariable("id") Long id, CommentReqDTO commentReqDTO, @RequestParam(required = false) Boolean isRedirect) {
         model.addAttribute("comment", new CommentReqDTO());
 
         AdviceBoard adviceBoard = adviceBoardService.view(id);
-        adviceBoard.incrementViews(); // 조회수 증가 메서드 호출
+
+        if (isRedirect == null) {
+            adviceBoard.incrementViews(); // 조회수 증가 메서드 호출
+        } // 조회수 증가 메서드 호출
 
         // ModelMapper를 사용하여 엔티티를 DTO로 변환
         ModelMapper modelMapper = new ModelMapper();
@@ -47,7 +51,7 @@ public class AdviceController {
         adviceBoardService.update(id, reqDTO);
 
         model.addAttribute("adviceboard", reqDTO); // 변환된 DTO를 모델에 추가
-
+        model.addAttribute("nlString", System.getProperty("line.separator"));
         return "/adviceboard/view";
     }
 
@@ -64,7 +68,7 @@ public class AdviceController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable("id") Long id, @ModelAttribute @Valid AdviceBoardReqDTO board, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable("id") Long id, @ModelAttribute @Valid AdviceBoardReqDTO board, BindingResult bindingResult, Model model, RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             return "adviceboard/modify";
         }
@@ -78,15 +82,17 @@ public class AdviceController {
 
         // 게시글 업데이트 메서드를 호출하여 수정을 적용
         adviceBoardService.update(id, board);
-
+        attributes.addAttribute("isRedirect", true);
         return "redirect:/adviceboard/view/{id}";
     }
+
     @GetMapping("/list")
     public String list(Model model,
                        @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(name = "searchKeyword", required = false) String searchKeyword,
                        @RequestParam(name = "searchType", required = false, defaultValue = "title") String searchType,
-                       @RequestParam(name = "filterCategory", required = false) String filterCategory // 카테고리 필터 추가
+                       @RequestParam(name = "filterCategory", required = false) String filterCategory, // 카테고리 필터 추가
+                       @RequestParam(name = "sort", required = false) String sort // 정렬 옵션 추가
     ) {
         Page<AdviceBoard> list = null;
 
@@ -120,13 +126,14 @@ public class AdviceController {
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("searchType", searchType);
         model.addAttribute("filterCategory", filterCategory); // 카테고리 필터 정보를 뷰로 전달
+        model.addAttribute("sort", sort); // 정렬 옵션을 뷰로 전달
 
         return "adviceboard/list";
     }
 
     @PostMapping("/writedo")
-    public String writedo(@ModelAttribute @Valid AdviceBoardReqDTO adviceBoardReqDTO, BindingResult result, Model model, HttpServletRequest request){
-            if (result.hasErrors()) {
+    public String writedo(@ModelAttribute @Valid AdviceBoardReqDTO adviceBoardReqDTO, BindingResult result, Model model, HttpServletRequest request) {
+        if (result.hasErrors()) {
             return "adviceboard/write";
         }
 

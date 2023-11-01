@@ -77,7 +77,7 @@ public class UserService {
     //회원 가입-------------------------------------------------------------------
     //일반(구직자) 유저 가입처리 (반환형은 트루 펄스)
     public Boolean userSignup(UserReqDTO userReqDTO){
-       //저장소(db)에 동일한 email이 있다면 가입 실패 시킴
+        //저장소(db)에 동일한 email이 있다면 가입 실패 시킴
         if((userRepository.existsByUserEmail(userReqDTO.getUserEmail()))){
             return false;
         }
@@ -166,7 +166,7 @@ public class UserService {
     public UserReqDTO userUpdate(String user_email, UserReqDTO userReqDTO){
         //저장소에서 로그인한 유저의 이메일과 동일한 값을 가진 객체를 가져올 것
         UserEntity existsUser = userRepository.findByUserEmail(user_email)
-                        .orElseThrow();
+                .orElseThrow();
 
         //비번 변경
         existsUser.setPasswd(userReqDTO.getPasswd());

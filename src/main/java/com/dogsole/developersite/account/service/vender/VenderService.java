@@ -99,12 +99,12 @@ public class VenderService {
     }
 
     //특정 회사회원 이메일로 검색하기-------------------------------------------------
-        public VenderResDTO showVenderByEmail(String vender_email){
+    public VenderResDTO showVenderByEmail(String vender_email){
         VenderEntity venderEntity = venderRepository.findByVenderEmail(vender_email)
                 .orElseThrow();
         VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
         return venderResDTO;
-        }
+    }
 
         //특정회사회원 id로 검색
         public VenderResDTO showVenderById(Long id){

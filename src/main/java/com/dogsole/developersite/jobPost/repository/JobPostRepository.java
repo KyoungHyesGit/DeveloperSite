@@ -7,9 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     // 전체공고목록
     Page<JobPostEntity> findAll(Pageable pageable);
+
+    Page<JobPostEntity> findByVenderEntity_VenderId(Long venderId, Pageable pageable);
+
     JobPostEntity findByTempId(Long tempId);
 
     //전체검색

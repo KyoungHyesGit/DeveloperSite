@@ -2,8 +2,12 @@ package com.dogsole.developersite.jp_apply.controller;
 
 import com.dogsole.developersite.jp_apply.dto.JpApplyResDTO;
 import com.dogsole.developersite.jp_apply.service.JpApplyService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +57,15 @@ public class JpApplyController {
 
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;
+    }
+    @GetMapping("/postResumeList/{id}")
+    public String getResumeId(@PathVariable Long id, Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                              @RequestParam(name = "size", required = false, defaultValue = "2") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<JpApplyResDTO> postResumeList = jpApplyService.getPostResumeList(id,pageable);
+        model.addAttribute("applyList",postResumeList);
+            return "/jp_apply/jpApplyPostList";
     }
 
 }
