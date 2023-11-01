@@ -49,7 +49,7 @@
 </head>
 <body>
 
-<form name="update_form" th:action="@{/account/updateu/{id}(id=${user.getUserId()})}" th:object="${userReqDTO}" method="post" id="update_form" enctype="multipart/form-data" onsubmit="return form_check()">
+<form  name="update_form" th:action="@{/account/updateu/{id}(id=${user.getUserId()})}" th:object="${userReqDTO}" method="post" id="update_form" enctype="multipart/form-data" onsubmit="return form_check()">
     <fieldset>
         <legend>회원정보 수정</legend>
         <br>
