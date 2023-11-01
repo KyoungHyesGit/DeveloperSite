@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +21,7 @@ public class JpApplyRestController {
     private final JpApplyService jpApplyService;
 
     @PostMapping("/changeUserState/{id}")
-    public ResponseEntity<Map<String, String>> changeUserState(@PathVariable Long id, @RequestParam String userState) {
+    public ResponseEntity<Map<String, String>> changeUserState(@PathVariable Long id, @RequestBody String userState) {
         Map<String, String> response = new HashMap<>();
         try {
             String chageState = jpApplyService.changeUserState(id, userState);
