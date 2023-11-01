@@ -10,13 +10,17 @@ body {letter-spacing:-.025em;}
 .main_hd{background:#fff;transition: all 0.3s ease;}
 .main_hd.on{border-bottom:#ddd;box-shadow: 0px 3px 10px rgb(0 0 0 / 5%);}
 
-.container {width: 1200px;max-width: none !important;}/*navbar*/
+.container {width: 1200px;max-width: none !important;/* height: 700px; */}
 
-nav{width: 100%;/* box-sizing: border-box; */position: sticky;top: 0;/* background-color: #fff; *//* box-shadow: 0 5px 10px -3px #eee; */}
+.container.search::after {
+    height: 700px;
+}/*navbar*/
 
-.menu{margin: 0;padding: 10px;justify-content: space-between;align-items: center;}
+nav{width: 100%;z-index: 100;display: block;/* box-sizing: border-box; */position: sticky;top: 0;/* background-color: #fff; */box-shadow: 0 5px 10px -8px #eee;}
+
+.menu{margin: 0;justify-content: space-between;align-items: center;padding: 0;/* margin-right: 10px; */}
 .menu li{line-height: 55px;}
-.menu li:nth-child(7){margin-top: 5px;line-height: 0;}
+.menu li:nth-child(7){/* margin-top: 5px; */line-height: 0;margin-left: 300px;}
 .menu li:nth-child(3),
 .menu li:nth-child(5){color: #eee;}
 .menuBtn{font-weight: 700;color: #444;margin: 0 10px;}
@@ -25,13 +29,13 @@ nav{width: 100%;/* box-sizing: border-box; */position: sticky;top: 0;/* backgrou
 .navgator a{font-size:0.9rem;}
 .navgator a ~ a{margin-left:10px;}
 
-.search {position: relative;width: 300px;border: 1px solid #eee;border-radius: 46px;padding: 6px 10px 6px 16px;box-sizing: border-box;}
-.search form{display:flex;align-items: center;}
-.search i{color: #333;margin-right: 11px;}
-.search input {width: 240px;height: 26px;border: none;font-size: 14px;outline: none;}
+.search {display:flex;justify-content: center;margin: 50px auto;}
+
+.search form{position: relative;width: 800px;border: 3px solid #0097f3;border-radius: 20px;padding: 20px 30px;box-sizing: border-box; background: #fff;}
+.search input {width: 100%;border: none;font-size: 20px;outline: none;}
 .search img {position : absolute;width: 17px;top: 10px;right: 12px;margin: 0;}
-
-
+.search button{background-color:#0097f3; margin-left: 10px; width: 76px; border-radius: 20px;}
+.search i{color: #fff; font-size: 35px;}
 /*footer*/
 footer{display: block;clear: both;position: relative;z-index: 1;margin-top: 110px;width: 100%;min-width: 960px;height: 297px;}
 
@@ -39,3 +43,4 @@ footer{display: block;clear: both;position: relative;z-index: 1;margin-top: 110p
 .ftBtn ul li a{display: inline-flex;color: #333;font-size: 13px;line-height: 24px;letter-spacing: -1px;}
 .inner{position: relative;margin: 0 auto;padding: 60px 0 21px 260px;width: 960px;box-sizing: border-box;}
 .inner .logo{display: block;position: absolute;top: 60px;left: 20px;width: 158px;height: 31px;}
+.main_vs{cursor: pointer;}
