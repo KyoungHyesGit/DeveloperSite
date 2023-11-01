@@ -20,9 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,6 +65,14 @@ public class UserService {
         UserResDTO userResDTO =modelMapper.map(userEntity, UserResDTO.class);
         return userResDTO;
     }
+    //특정 유저 아이디로 검색하기-----------------------------------------------------
+    public UserResDTO showUserById(Long id){
+        UserEntity userEntity = userRepository.findByUserId(id)
+                .orElseThrow();
+        UserResDTO userResDTO = modelMapper.map(userEntity, UserResDTO.class);
+
+        return userResDTO;
+    }
 
     //회원 가입-------------------------------------------------------------------
     //일반(구직자) 유저 가입처리 (반환형은 트루 펄스)
@@ -84,7 +96,16 @@ public class UserService {
     //로그인 처리 --------------------------------------------------------------------
     public boolean userLogin(UserReqDTO userReqDTO){
         if((userRepository.existsByUserEmail(userReqDTO.getUserEmail()))
-                &&userRepository.existsByPasswd(userReqDTO.getPasswd())){
+                &&(userRepository.existsByPasswd(userReqDTO.getPasswd()))){
+            //유저 상태값이 d(삭제상태)인지 확인
+            UserEntity userEntityState = userRepository.findByUserEmail(userReqDTO.getUserEmail()).orElseThrow();
+            System.out.println("로그인 진입시 값"+userEntityState.getState());
+
+            if(userEntityState.getState().equals("d")){
+                System.out.println("로그인실패시값"+userEntityState.getState());
+                return false;
+            }
+
             //로그인 성공 alert 띄우기
             //로그인 성공 후 토큰 발급 처리.--------------------------------------------
             //로그인 한 유저 객체의 id 값 얻기
@@ -108,7 +129,7 @@ public class UserService {
             //DB에 토큰저장하기
             tokenRepository.save(tokenEntity);
             //토큰저장이안대 씨발 10/27/11시38분
-
+            System.out.println("로그인성공시값"+userEntityState.getState());
             return true;
         }
         return false;
@@ -131,6 +152,9 @@ public class UserService {
 
         userEntity.setState("B");
     }
+
+    //회원탈퇴 테스트 이거로 진행중!!!!!!!!!!!!!!!!!!!!!!!
+
     //회원탈퇴 테스트
     public void userLeaveTest(Long user_id){
         UserEntity userEntity = userRepository.findByUserId(user_id)
@@ -143,6 +167,7 @@ public class UserService {
         //저장소에서 로그인한 유저의 이메일과 동일한 값을 가진 객체를 가져올 것
         UserEntity existsUser = userRepository.findByUserEmail(user_email)
                 .orElseThrow();
+
         //비번 변경
         existsUser.setPasswd(userReqDTO.getPasswd());
         //이름 변경
@@ -154,16 +179,16 @@ public class UserService {
 
         return modelMapper.map(existsUser, UserReqDTO.class);
     }
-    //회원 수정 테스트--------
-    public UserReqDTO userUpdateTest(Long user_id, UserReqDTO userReqDTO){
-        //비번변경
+    //회원 수정 테스트--------------------(이거로 사용중!!!!!!!!!!!!!!!!!!!!!!!)
+    public void userUpdateTest(Long user_id, UserReqDTO userReqDTO){
         UserEntity existsUser = userRepository.findByUserId(user_id)
                 .orElseThrow();
-
+        String encodePasswd = passwordEncoder.encode(userReqDTO.getPasswd());
         //비번 변경
-        existsUser.setPasswd(userReqDTO.getPasswd());
+        existsUser.setPasswd(encodePasswd);
         //이름 변경
         existsUser.setUserName(userReqDTO.getUserName());
-        return modelMapper.map(existsUser, UserReqDTO.class);
+        //폰 변경
+        existsUser.setPhone(userReqDTO.getPhone());
     }
 }

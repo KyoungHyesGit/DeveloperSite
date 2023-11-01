@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<th:block layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,6 +27,9 @@
     <button type="button" onclick="location.href='http://localhost/account/signuppagev'">회원가입</button>
 </form>
 </body>
+<<<<<<< HEAD
+</th:block>
+=======
 <script>
     function setCookie(name, value, days) {
         var expires = "";
@@ -36,4 +44,5 @@
     // 위의 함수를 호출하여 쿠키를 설정
     setCookie("myTokenCookie", myToken, 30); // 30은 쿠키의 유효 기간을 나타냅니다. 필요에 따라 조절할 수 있습니다.
 </script>
+>>>>>>> 57dcffcab3826c7684113480aacf6f0f4acaec32
 </html>

@@ -106,6 +106,15 @@ public class VenderService {
         return venderResDTO;
     }
 
+        //특정회사회원 id로 검색
+        public VenderResDTO showVenderById(Long id){
+        VenderEntity venderEntity = venderRepository.findById(id)
+                .orElseThrow();
+        VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+        return venderResDTO;
+        }
+
     //회사회원 회원가입-------------------------------------------------------------
     public Boolean venderSignup(VenderReqDTO venderReqDTO){
         //저장소(db)에 동일한 email이 있으면 false처리로 가입실패
@@ -175,12 +184,13 @@ public class VenderService {
 
 
     //회사회원 정보 수정---------------------------------------------
-    public VenderReqDTO venderUpdate(String vender_email, VenderReqDTO venderReqDTO){
-        VenderEntity existsVender = venderRepository.findByVenderEmail(vender_email)
+    public VenderReqDTO venderUpdate(Long id, VenderReqDTO venderReqDTO){
+        VenderEntity existsVender = venderRepository.findById(id)
                 .orElseThrow();
 
+        String encodePasswd = passwordEncoder.encode(venderReqDTO.getVenderPasswd());
         //회사 비번 변경
-        existsVender.setVenderPasswd(venderReqDTO.getVenderPasswd());
+        existsVender.setVenderPasswd(encodePasswd);
         //회사 이름 변경
         existsVender.setVenderName(venderReqDTO.getVenderName());
         //회사 정보 변경일

@@ -45,6 +45,9 @@ public class VenderEntity {
     @Column(name ="photo")
     private String photo;
 
+    @Column(name="photourl")
+    private String photoUrl;
+
     @Column(name="state")
     private String state;
 

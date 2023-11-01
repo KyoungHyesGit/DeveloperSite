@@ -46,6 +46,9 @@ public class UserEntity {
     @Column(name="state")
     private String state;
 
-    @Column(name="photo")
+    @Column(name = "photo")
     private String photo;
+
+    @Column(name="photourl")
+    private String photoUrl;
 }
