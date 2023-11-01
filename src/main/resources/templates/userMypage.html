@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
+
+
 <script>
     function updateLinkUrl(url,btnId) {
         var loginUserIdValue = getCookie('loginUserId');
@@ -73,7 +75,19 @@
         <button onclick="window.location.href = '/vender/add'">회사 등록 신청</button>
     </a>
 
+
+    <h1>채팅 내역</h1>
+    <ul>
+        <div th:each="message : ${chatHistory}">
+            <li th:text="${message}"></li>
+        </div>
+    </ul>
+    <div>
+        <input type="text" id="chatMessage" placeholder="메시지 입력">
+        <button onclick="sendMessage()">전송</button> <!--전송 자바스크립트 짤 차례 11/01 - 10:28-->
+    </div>
 </th:block>
+
 </body>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 
