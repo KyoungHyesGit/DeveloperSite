@@ -38,17 +38,18 @@
                 <!-- 소셜 미디어를 비롯한 연락처 정보 -->
                 <p>
                     <i class="fa fa-envelope" aria-hidden="true"></i>
-                    <a href="${resume.userEntity.userEmail}" th:text="${resume.userEntity.userEmail}"></a>
+                    <a href="${resume.userEntity.userEmail}" th:text="Email" target="_blank"></a>
                 </p>
                 <p>
                     <i class="fa fa-github" aria-hidden="true"></i>
-                    <a th:href="${resume.git_addr}" th:text="${resume.git_addr}"/>
+                    <a th:href="${resume.git_addr}" th:text="Github" target="_blank"></a>
                 </p>
                 <p>
                     <i class="fa fa-id-card-clip" aria-hidden="true"></i>
-                    <a th:href="${resume.portfolio}" th:text="${resume.portfolio}"/>
+                    <a th:href="${resume.portfolio}" th:text="Blog" target="_blank"></a>
                 </p>
             </section>
+
 
         </article>
         <article id="mainRight">
