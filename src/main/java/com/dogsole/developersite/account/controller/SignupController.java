@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -124,10 +123,18 @@ public class SignupController {
     }
 
     //유저의 로그아웃 (할예정....)0------------------------------
-    @PostMapping("/logout")
-    public String userLogout(Model model){
-        //로그아웃 완료 alert창
-        model.addAttribute("logout","로그아웃 되었습니다."); //이거지금 안됨
+    @GetMapping("/logout")
+    public String userLogout(Model model, HttpServletResponse response, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0); // 쿠키를 만료시켜 삭제
+                response.addCookie(cookie);
+            }
+        }
+        // 로그아웃 성공 메시지를 JavaScript로 생성하여 반환
+        model.addAttribute("logout","로그아웃");
+
         return "account/login-test";
     }
 
