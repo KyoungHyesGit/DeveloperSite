@@ -143,4 +143,5 @@ public class JobPostController {
         return new ModelAndView("job_post/venderList","venders",venderResDTOList);
     }
 
+
 }

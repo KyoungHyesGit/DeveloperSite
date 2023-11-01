@@ -6,7 +6,13 @@
 <th:block layout:fragment="content">
     <h2 class="text-center">이력서 선택</h2>
     <div class="table_container">
-        <table class="listTable">
+        <div th:if="${#lists.isEmpty(userResumes)}">
+            <script>
+                alert('작성한 이력서가 없습니다. 이력서 작성페이지로 이동합니다.');
+                window.location.href = '/userResume/showCreateResumePage';
+            </script>
+        </div>
+        <table class="listTable" th:if="${not #lists.isEmpty(userResumes)}">
             <thead>
             <tr>
                 <th>번호</th>
@@ -29,13 +35,10 @@
                     <!-- 선택 버튼을 추가하고 resume_id를 넘겨줍니다 -->
                     <a th:href="@{'/jpApply/addApply?venderId=' + ${venderId} + '&jobPostId=' + ${jobPostId}+ '&resumeId=' + ${resume.id}}"
                        onclick="return confirm('이 이력서를 선택하시겠습니까?')">선택</a>
-
                 </td>
             </tr>
             </tbody>
         </table>
-
     </div>
 </th:block>
-
 </html>

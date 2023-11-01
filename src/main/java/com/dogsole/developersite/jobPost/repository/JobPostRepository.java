@@ -36,4 +36,6 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     Page<JobPostEntity> findByEndTimeSearch(@Param("keyword") String keyword,Pageable pageable);
 
 
+
+
 }
