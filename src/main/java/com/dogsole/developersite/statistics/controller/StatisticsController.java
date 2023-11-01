@@ -21,5 +21,4 @@ public class StatisticsController {
         model.addAttribute("pontos",pontos);
         return "/statistics/graph";
     }
-
 }

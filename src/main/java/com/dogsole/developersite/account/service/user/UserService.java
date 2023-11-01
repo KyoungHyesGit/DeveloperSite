@@ -8,12 +8,14 @@ import com.dogsole.developersite.jwt.dto.TokenReqDTO;
 import com.dogsole.developersite.jwt.entity.TokenEntity;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.jwt.repository.TokenRepository;
-import com.dogsole.developersite.security.config.SecurityConfig;
-
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,13 +31,11 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper; //객체 변환
-
-    private final SecurityConfig securityConfig; //암호화
-
     private final JwtTokenProvider jwtTokenProvider; //토큰 공급
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
-    //비즈니스로직 작성 차례
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;    //비즈니스로직 작성 차례
 
     //유저 전체 조회------------------------------------------------------------------
     @Transactional(readOnly = true)
@@ -46,6 +46,12 @@ public class UserService {
                 .collect(Collectors.toList());
 
         return userResDTOList;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserResDTO> showUser(Pageable pageable){
+        return userRepository.findAll(pageable)
+                .map(user -> modelMapper.map(user, UserResDTO.class));
     }
 
     //특정 유저 이메일로 검색하기------------------------------------------------------
@@ -59,7 +65,7 @@ public class UserService {
     //회원 가입-------------------------------------------------------------------
     //일반(구직자) 유저 가입처리 (반환형은 트루 펄스)
     public Boolean userSignup(UserReqDTO userReqDTO){
-       //저장소(db)에 동일한 email이 있다면 가입 실패 시킴
+        //저장소(db)에 동일한 email이 있다면 가입 실패 시킴
         if((userRepository.existsByUserEmail(userReqDTO.getUserEmail()))){
             return false;
         }
@@ -117,6 +123,14 @@ public class UserService {
 
         userEntity.setState("d");
     }
+
+    public void userBlock(Long id) {
+        //저장소에서 탈퇴하는 유저의 객체를 entity형으로 꺼냄
+        UserEntity userEntity = userRepository.findByUserId(id)
+                .orElseThrow();
+
+        userEntity.setState("B");
+    }
     //회원탈퇴 테스트
     public void userLeaveTest(Long user_id){
         UserEntity userEntity = userRepository.findByUserId(user_id)
@@ -128,7 +142,7 @@ public class UserService {
     public UserReqDTO userUpdate(String user_email, UserReqDTO userReqDTO){
         //저장소에서 로그인한 유저의 이메일과 동일한 값을 가진 객체를 가져올 것
         UserEntity existsUser = userRepository.findByUserEmail(user_email)
-                        .orElseThrow();
+                .orElseThrow();
         //비번 변경
         existsUser.setPasswd(userReqDTO.getPasswd());
         //이름 변경

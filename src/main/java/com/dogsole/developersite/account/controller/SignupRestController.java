@@ -4,12 +4,14 @@ import com.dogsole.developersite.account.dto.user.UserResDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+import com.dogsole.developersite.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,4 +47,17 @@ public class SignupRestController {
             return ResponseEntity.ok("사용 가능한 이메일입니다!");
         }
     }
+    @PostMapping("/block/{id}")
+    public ResponseEntity<Map<String, String>> blockUser(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            userService.userBlock(id);
+            response.put("message", "success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (BusinessException ex) {
+            response.put("error", ex.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

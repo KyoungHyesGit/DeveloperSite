@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
+    <title>가입테스트</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    var isCertification = false;
+    function sendNumber() {
+        $("#mail_number").css("display", "block");
+        $.ajax({
+            url: "/mail",
+            type: "post",
+            crossDomain: true,
+            headers: { 'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
+            dataType: "json",
+            data: { "mail": $("#u_email").val() },
+            success: function(data) {
+                alert("인증번호 발송");
+                var message = data.message;
+                console.log("message= " + message); // 이메일 전송에 성공했습니다.
+                // 이제 message 변수에 서버에서 보낸 메시지가 들어 있습니다.
+                var confirmationNumber = data.confirmationNumber;
+                console.log("confirmationNumber= " + confirmationNumber);
+
+                $("#Confirm").val(confirmationNumber);
+                isCertification = false;
+            },
+
+            error: function (xhr, status, error) {
+                alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+            }
+        });
+    }
+
+    function confirmNumber() {
+        var enteredNumber = $("#number").val();
+        var confirmationNumber = $("#Confirm").val();
+        const $resultMsg = $('#mail-check-warn');
+        console.log(confirmationNumber);
+        if (enteredNumber === confirmationNumber) {
+            $resultMsg.html('인증 성공');
+            $resultMsg.css('color', 'green');
+            isCertification = true;
+            $("#signupButton").prop("disabled", false); // Enable the signup button
+        } else {
+            $resultMsg.html('인증번호 불일치');
+            $resultMsg.css('color', 'red');
+            isCertification = false;
+            $("#signupButton").prop("disabled", true); // Disable the signup button
+        }
+    }
+</script>
+<body>
+<form name="join_form" th:action="@{/account/signuptest}" th:object="${userReqDTO}" method="post" id="join_form">
+    <fieldset>
+        <legend>일반회원 회원가입</legend>
+        <label for="u_email">이메일</label>
+        <input type="email" name="userEmail" id="u_email">
+        <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호 전송</button>
+        <br>
+        <div class="form-group" id="mail_number" name="mail_number">
+            <input type="text" name="number" id="number" class="form-control" style="width:250px; margin-top: -10px"
+                   placeholder="인증번호 입력"/>
+            <span id="mail-check-warn"></span>
+            <button type="button" name="confirmBtn" id="confirmBtn" style="margin-top: 20px" onclick="confirmNumber()">
+                인증 확인
+            </button>
+            <br>
+            <input type="text" id="Confirm" name="Confirm" style="display: none" value=""/>
+        </div>
+        <p class="final_btn">
+            <a href="http://localhost/account/loginpage" class="btn">취소</a>
+            <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>
+        </p>
+    </fieldset>
+</form>
+</body>
+</html>

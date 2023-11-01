@@ -25,5 +25,5 @@ public class VenderInfoUserDetailsService implements UserDetailsService {
         Optional<VenderEntity> venderInfo = repository.findByVenderEmail(venderEmail);
         return venderInfo.map(VenderInfoUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found " + venderEmail));
-    }
+ }
 }

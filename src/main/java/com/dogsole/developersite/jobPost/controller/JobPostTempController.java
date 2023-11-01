@@ -45,7 +45,7 @@ public class JobPostTempController {
         Pageable pageable = PageRequest.of(page, size);
         Page<JobPostTempResDTO> tempList = jobPostTempService.getAllPosts(pageable);
         model.addAttribute("tempList", tempList);
-        return "/job_post_temp/show-all-post-temp";
+        return "/admin/show-all-post-temp";
     }
 
     @GetMapping("/add")

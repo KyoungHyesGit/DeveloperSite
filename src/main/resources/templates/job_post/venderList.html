@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>SEQ</th>
+        <th>ID</th>
+        <th>Vender Name</th>
+        <th>Vender Email</th>
+        <th>Vender CreatedDt</th>
+        <th>Vender UpdateDt</th>
+        <th>Vender Logo</th>
+
+    </tr>
+    <tr th:each="vender, venderState : ${venders}">
+        <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
+        <td th:text="${vender.venderId}"></td>
+        <td th:text="${vender.venderName}"></td>
+        <td th:text="${vender.venderEmail}"></td>
+        <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${vender.photo}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

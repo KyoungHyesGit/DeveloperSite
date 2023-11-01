@@ -5,22 +5,22 @@
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
 
-    <div th:each="jobList : ${jobList}">
-        <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-            <img th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
-            <p th:text="${jobList.venderResDTO.venderName}"></p>
-            <p th:text="${jobList.title}"></p>
-        </a>
-    </div>
-    <div class="container job_container">
-        <div class="job_item" th:each="jobList : ${jobList}">
-            <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-                <div class="jobBox text-center">
-                    <img class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
+    <!--div class="block">
+        <img class="title_Img" th:src="@{/img/logo/mainImg.jpg}" alt="title background" sizes="100vw" decoding="async" data-nimg="fill">
+    </div-->
+    <div class="container">
+        <div class="block">
+            <div class="job_container">
+                <div class="job_item" th:each="jobList : ${jobList}">
+                    <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
+                        <div class="jobBox text-center">
+                            <img class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
+                        </div>
+                        <p th:text="${jobList.venderResDTO.venderName}"></p>
+                        <p th:text="${jobList.title}"></p>
+                    </a>
                 </div>
-                <p th:text="${jobList.venderResDTO.venderName}"></p>
-                <p th:text="${jobList.title}"></p>
-            </a>
+            </div>
         </div>
 
     </div>

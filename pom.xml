@@ -149,7 +149,18 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
             <version>2.6.2</version>
         </dependency>
+<<<<<<< HEAD
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+=======
+>>>>>>> 870ae479b6a6e138aea395c055bea367d186c22a
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

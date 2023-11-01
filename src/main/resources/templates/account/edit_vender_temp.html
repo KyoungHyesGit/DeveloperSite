@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- TODO 헤더들에 넣어버리기 -->
+    <!-- TODO 제이쿼리, 부트스트랩, 주소찾기, 지도그리기 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+            crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b88a4607f4ecc87937dfee0781b70682&libraries=services"></script>
+    <name>name</name>
+</head>
+<body>
+<h1>회사 등록</h1>
+<body>
+<form action="#" th:action="@{/vender/edit/{id}(id=${venderTemp.id})}" th:object="${venderTemp}" method="post"  enctype="multipart/form-data">
+    <label for="name">이름 *</label>
+    <input type="text" th:field="*{name}" id="name" required >
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <button type="button" id="nameCheckButton">이름 중복확인</button>
+    <div id="nameMessage"></div>
+    <br/>
+    <label for="bNo">사업자 등록 번호 *</label>
+    <input type="text" th:field="*{bNo}" id="bNo" required >
+    <span th:if="${#fields.hasErrors('bNo')}" th:errors="*{bNo}"></span>
+    <button type="button" id="bNoCheckButton">사업자 등록번호 인증</button>
+    <div id="bNoMessage"></div>
+    <br/>
+    <label for="photo">대표사진</label>
+    <input type="file" id="photo" name="photo">
+    <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
+    <br>
+    <label for="email">이메일 *</label>
+    <input type="email" th:field="*{email}" id="email" required>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    <br/>
+
+    <label for="phone">전화번호</label>
+    <input type="text" th:field="*{phone}" id="phone" required>
+    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+    <br/>
+
+
+    <label for="zipcode">우편번호</label>
+    <input type="text" th:field="*{zipcode}" id="zipcode" required>
+    <span th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"></span>
+    <input type="button" value="우편번호 검색" onclick="findAddr()">
+    <br/>
+    <label for="streetAddr">도로명주소</label>
+    <input type="text" th:field="*{streetAddr}" id="streetAddr">
+    <span th:if="${#fields.hasErrors('streetAddr')}" th:errors="*{streetAddr}"></span>
+    <br/>
+    <label for="detailAddr">상세주소</label>
+    <input type="text" th:field="*{detailAddr}" id="detailAddr" required>
+    <span th:if="${#fields.hasErrors('detailAddr')}" th:errors="*{detailAddr}"></span>
+    <br/>
+    <label for="extraAddr">참고항목</label>
+    <input type="text" th:field="*{extraAddr}" id="extraAddr">
+    <span th:if="${#fields.hasErrors('extraAddr')}" th:errors="*{extraAddr}"></span>
+    <br/>
+    <hr>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <hr>
+
+
+    <input type="submit" value="SUBMIT">
+
+</form>
+</body>
+<!-- TODO JS로 분리하기 -->
+<!-- TODO <script type="text/javascript" th:src="@{/js/job_post_temp/add-post-temp.js}"></script>-->
+<script>
+
+    var findAddrFlag = false;
+    function findAddr() {
+        findAddrFlag = true;
+        console.log("findAddr");
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if (data.userSelectedType === 'R') {
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("extraAddr").value = extraAddr;
+
+                } else {
+                    document.getElementById("extraAddr").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById("streetAddr").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddr").focus();
+
+
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+                // 지도를 생성합니다
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(addr, function (result, status) {
+
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === kakao.maps.services.Status.OK) {
+
+                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords
+                        });
+
+                        // 인포윈도우로 장소에 대한 설명을 표시합니다
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content: '<div style="width:150px;text-align:center;padding:6px 0;">회사위치</div>'
+                        });
+                        infowindow.open(map, marker);
+
+                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                        map.setCenter(coords);
+                    }
+                });
+            }
+        }).open();
+    }
+
+    document.getElementById("nameCheckButton").addEventListener("click", function () {
+        var nameInput = document.getElementById("name");
+        var nameMessage = document.getElementById("nameMessage");
+
+        var name = nameInput.value;
+
+        // AJAX 요청을 보냅니다.
+        $.ajax({
+            type: "GET",
+            url: "/api/vender/checkVenderName",
+            data: {
+                name: name
+            },
+            success: function (response) {
+                console.log("response"+response);
+                if (response === "사용 가능한!") {
+                    nameMessage.textContent  = response;
+                } else {
+                    nameMessage.textContent  = response;
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    document.getElementById("bNoCheckButton").addEventListener("click", function () {
+        var bNoInput = document.getElementById("bNo");
+        var bNoMessage = document.getElementById("bNoMessage");
+
+        var bNo = bNoInput.value;
+        var serviceKey = "wKQumq5LX0aGJN19E3mLdne0GDiEtPtVpVY3tDVBkOYPc21sBxDu%2B4lUggPaO0ETQboYKIVcYuGsd5lxtqhYoQ%3D%3D";
+
+        // AJAX 요청을 보냅니다.
+        $.ajax({
+            type: "POST",
+            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey="+serviceKey,
+            data: JSON.stringify({b_no: [bNo]}),
+            contentType: "application/json", // 데이터 형식을 JSON으로 설정
+            success: function (response) {
+                console.log("response"+response);
+                // API 응답에서 tax_type 값을 추출
+                var taxType = response.data[0].tax_type;
+
+                // tax_type 값을 bNoMessage.textContent에 설정
+                if(taxType=='국세청에 등록되지 않은 사업자등록번호입니다.'){
+                    bNoMessage.textContent = taxType;
+                }else{
+                    bNoMessage.textContent = '인증 완료';
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+</html>

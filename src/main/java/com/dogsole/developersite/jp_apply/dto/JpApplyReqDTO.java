@@ -21,5 +21,6 @@ public class JpApplyReqDTO {
     private JobPostEntity jobPostEntity;
     private UserResumeEntity userResumeEntity;
     private LocalDateTime like_date = LocalDateTime.now();
+    private String userState;
 
 }
