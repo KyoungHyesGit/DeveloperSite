@@ -4,9 +4,9 @@
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
-    <h1>이력서 선택</h1>
-    <div>
-        <table>
+    <h2 class="text-center">이력서 선택</h2>
+    <div class="table_container">
+        <table class="listTable">
             <thead>
             <tr>
                 <th>번호</th>
@@ -27,7 +27,8 @@
                 </td>
                 <td>
                     <!-- 선택 버튼을 추가하고 resume_id를 넘겨줍니다 -->
-                    <a th:href="@{'/jpApply/addApply?venderId=' + ${venderId} + '&jobPostId=' + ${jobPostId}+ '&resumeId=' + ${resume.id}}">선택</a>
+                    <a th:href="@{'/jpApply/addApply?venderId=' + ${venderId} + '&jobPostId=' + ${jobPostId}+ '&resumeId=' + ${resume.id}}"
+                       onclick="return confirm('이 이력서를 선택하시겠습니까?')">선택</a>
 
                 </td>
             </tr>

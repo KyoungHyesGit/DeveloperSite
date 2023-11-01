@@ -9,7 +9,7 @@
         <button class="create-resume-button" onclick="location.href='/userResume/showCreateResumePage'">
             <i class="fa-regular fa-pen-to-square"></i>&nbsp;&nbsp;이력서 작성하기
         </button>
-        <table>
+        <table class="listTable">
             <thead>
             <tr>
                 <th>번호</th>
@@ -18,8 +18,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="resume : ${userResumes}">
-                <td th:text="${resume.id}"></td>
+            <tr th:each="resume,rowStat : ${userResumes}">
+                <td th:text="${rowStat.count}"></td>
                 <td>
                     <img th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
                 </td>

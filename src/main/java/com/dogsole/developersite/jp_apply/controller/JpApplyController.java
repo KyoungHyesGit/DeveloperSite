@@ -32,9 +32,11 @@ public class JpApplyController {
                 .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
                 .findFirst() // 첫 번째 일치하는 쿠키 가져오기
                 .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
-        jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
-        //지원목록 페이지로 이동
-        return "redirect:/jpApply/jpApplyList/" + userId;
+
+            jpApplyService.addAapplyJp(userId, venderId, jobPostId,resumeId);
+            //지원목록 페이지로 이동
+            return "redirect:/jpApply/jpApplyList/" + userId;
+
     }
 
     //지원삭제
@@ -52,4 +54,5 @@ public class JpApplyController {
         //지원목록 페이지로 이동
         return "redirect:/jpApply/jpApplyList/" + userId;
     }
+
 }

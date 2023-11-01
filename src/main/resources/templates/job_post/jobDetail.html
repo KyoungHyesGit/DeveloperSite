@@ -76,9 +76,13 @@
                     });
                 </script>
 
-                <!-- 경로지정해줘야함 -->
                 <a sec:authorize="isAuthenticated()" class="job_Dbtn"
-                   th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">입사지원</a>
+                   th:href="@{/userResume/selectResume/{id}(id=${userId}, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}"
+                   th:if="${!isAlreadyApplied}">입사지원</a>
+                <a sec:authorize="isAuthenticated()" th:if="${isAlreadyApplied}" class="job_Dbtn2">지원완료</a>
+
+
+
             </div>
         </div>
         <div>

@@ -30,11 +30,6 @@ public class JpApplyService {
                 .map(jpApplyEntity -> modelMapper.map(jpApplyEntity, JpApplyResDTO.class))
                 .collect(Collectors.toList());
     }
-    //지원했는지 확인 T/F
-    public boolean isJpApplydByUser(Long userId, Long jobPostId) {
-        Optional<JpApplyEntity> apply = jpApplyRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
-        return apply.isPresent();
-    }
 
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
         JpApplyEntity jpApplyEntity = new JpApplyEntity();
@@ -64,5 +59,9 @@ public class JpApplyService {
         JpApplyEntity jpApplyEntity = jpApplyRepository.findById(jpApplyId)
                 .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
         jpApplyRepository.delete(jpApplyEntity);
+    }
+    //지원확인
+    public boolean isAlreadyApplied(Long userId, Long jobPostId) {
+        return jpApplyRepository.existsByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
     }
 }

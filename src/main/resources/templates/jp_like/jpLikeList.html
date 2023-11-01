@@ -5,25 +5,28 @@
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
+    <h2 class="text-center">내 찜목록</h2>
+    <div class="table_container">
+        <table class="listTable">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>회사명</th>
+                <th>공고 제목</th>
+                <th>찜한 날</th>
+            </tr>
+            </thead>
+            <tbody>
 
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>회사명</th>
-            <th>공고 제목</th>
-            <th>찜한 날</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr th:each="likeList : ${likeList}">
-            <td th:text="${likeList.id}"></td>
-            <td th:text="${likeList.venderEntity.venderName}"></td>
-            <td><a th:text="${likeList.jobPostEntity.title}" th:href="@{/job_post/jobDetail/{id}(id=${likeList.jobPostEntity.id})}"></a></td>
-            <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
-        </tr>
-        </tbody>
-    </table>
+            <tr th:each="likeList,rowStat : ${likeList}">
+                <td th:text="${rowStat.count}"></td>
+                <td th:text="${likeList.venderEntity.venderName}"></td>
+                <td><a th:text="${likeList.jobPostEntity.title}"
+                       th:href="@{/job_post/jobDetail/{id}(id=${likeList.jobPostEntity.id})}"></a></td>
+                <td th:text="${#temporals.format(likeList.like_date, 'yyyy년 MM월 dd일')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </th:block>
 </html>

@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">
-<meta charset="UTF-8">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>회사명</th>
-            <th>공고 제목</th>
-            <th>지원일</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="applyList : ${applyList}">
-            <td th:text="${applyList.id}"></td>
-            <td th:text="${applyList.venderEntity.venderName}"></td>
-            <td th:text="${applyList.jobPostEntity.title}"></td>
-            <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일 HH시mm분')}"></td>
-            <td><a th:href="'/jpApply/deleteApply?jpApplyId=' + ${applyList.id}" onclick="return confirmCancellation();">지원취소</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <h2 class="text-center">내 지원현황</h2>
+    <div class="table_container">
+        <table class="listTable">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>회사명</th>
+                <th>공고 제목</th>
+                <th>지원일</th>
+                <th>이력서</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="applyList,rowStat  : ${applyList}">
+                <td th:text="${rowStat.count}"></td>
+                <td th:text="${applyList.venderEntity.venderName}"></td>
+                <td><a th:text="${applyList.jobPostEntity.title}"
+                       th:href="@{/job_post/jobDetail/{id}(id=${applyList.jobPostEntity.id})}"></a></td>
+                <td th:text="${#temporals.format(applyList.apply_date, 'yyyy년 MM월 dd일')}"></td>
+                <td><a th:text="${applyList.userResumeEntity.resume_title_1}"
+                       th:href="@{/userResume/showDetailForm/{id}(id=${applyList.userResumeEntity.id})}"></a></td>
+                <td><a th:href="'/jpApply/deleteApply?jpApplyId=' + ${applyList.id}"
+                       onclick="return confirmCancellation();">지원취소</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </th:block>
+</body>
 <script>
     function confirmCancellation() {
         return confirm("정말로 지원을 취소하시겠습니까?");
     }
 </script>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

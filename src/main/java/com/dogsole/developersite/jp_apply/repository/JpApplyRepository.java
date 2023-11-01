@@ -10,6 +10,6 @@ public interface JpApplyRepository extends JpaRepository<JpApplyEntity,Long> {
 
     List<JpApplyEntity> findByUserEntityUserId(Long userId);
     Optional<JpApplyEntity> findByUserEntityUserIdAndJobPostEntityId(Long userId, Long jobPostId);
-
+    boolean existsByUserEntityUserIdAndJobPostEntityId(Long userId, Long jobPostId);
 
 }
