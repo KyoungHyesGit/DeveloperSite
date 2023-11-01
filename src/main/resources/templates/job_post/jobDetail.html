@@ -79,7 +79,8 @@
                 <a sec:authorize="isAuthenticated()" class="job_Dbtn"
                    th:href="@{/userResume/selectResume/{id}(id=${userId}, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}"
                    th:if="${!isAlreadyApplied}">입사지원</a>
-                <a sec:authorize="isAuthenticated()" th:if="${isAlreadyApplied}" class="job_Dbtn2">지원완료</a>
+                <a sec:authorize="isAuthenticated()" th:if="${isAlreadyApplied}"
+                   th:href="@{/jpApply/jpApplyList/{id}(id=${userId})}" class="job_Dbtn2">지원완료</a>
 
 
 
