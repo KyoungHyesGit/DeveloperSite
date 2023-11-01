@@ -42,7 +42,6 @@ public class UserResumeService {
         userResumeEntity.setPhoto(fileName);
         userResumeEntity.setPhotoUrl("/resumeImage/" + fileName);
 
-        userId = 1L;
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);
         userResumeEntity.setUserEntity(userEntity);

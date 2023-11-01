@@ -53,7 +53,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChainOrder(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http.cors(withDefaults()) // CORS 설정 활성화
+                .csrf().disable()
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 모든 사용자에게 허용되는 URL지정
@@ -62,7 +63,6 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/userMypage/**"),
                                 new AntPathRequestMatcher("/account/update/**"),
                                 new AntPathRequestMatcher("/account/delete/**"),
-                                new AntPathRequestMatcher("/account/loginpage/**"),
                                 new AntPathRequestMatcher("/userResume/**"),
                                 new AntPathRequestMatcher("/jpApply/**"),
                                 new AntPathRequestMatcher("/jpLike/**"),

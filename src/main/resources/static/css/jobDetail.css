@@ -33,3 +33,14 @@
 .dt_table tr:nth-child(2n){
     width: 40%;
 }
+.job_Dbtn2 {
+    width: 170px;
+    height: 60px;
+    display: inline-block;
+    background-color: #a9a9a9;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 60px;
+}

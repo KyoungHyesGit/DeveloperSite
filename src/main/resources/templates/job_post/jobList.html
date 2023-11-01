@@ -3,12 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
-<th:block layout:fragment="content">
 
+
+<th:block layout:fragment="content">
+    <div class="container search">
+        <form th:action="@{/job_post/jobSearch}" method="get">
+            <a th:href="@{/job_post/jobSearch}"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <input type="text" name="keyword" placeholder="검색어를 입력해주세요">
+        </form>
+    </div>
+    <div class="main_vs container">
+        <img th:src="@{/img/banner.png}">
+    </div>
     <!--div class="block">
         <img class="title_Img" th:src="@{/img/logo/mainImg.jpg}" alt="title background" sizes="100vw" decoding="async" data-nimg="fill">
     </div-->
     <div class="container">
+
         <div class="block">
             <div class="job_container">
                 <div class="job_item" th:each="jobList : ${jobList}">
@@ -16,13 +27,13 @@
                         <div class="jobBox text-center">
                             <img class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
                         </div>
-                        <p th:text="${jobList.venderResDTO.venderName}"></p>
-                        <p th:text="${jobList.title}"></p>
+                        <p class="veName" th:text="${jobList.venderResDTO.venderName}"></p>
+                        <p class="ellipsis" th:text="${jobList.title}"></p>
                     </a>
                 </div>
             </div>
         </div>
 
-    </div>
+    </div><!--container-->
 </th:block>
 </html>

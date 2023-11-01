@@ -5,8 +5,6 @@ import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.account.dto.user.UserResDTO;
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
-import com.dogsole.developersite.account.entity.user.UserEntity;
-import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
 
@@ -14,16 +12,15 @@ import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
@@ -100,7 +97,7 @@ public class SignupController {
         if(isLogin){
             //로그인 성공 시 (로그인 성공 alert 띄우기)
             model.addAttribute("loginok","로그인 성공!");
-            model.addAttribute("userId", "userId");
+            model.addAttribute("userId", userId);
             System.out.println(isLogin);
             return "redirect:/account/show";
         }

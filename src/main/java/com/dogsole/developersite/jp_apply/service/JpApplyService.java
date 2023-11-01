@@ -33,6 +33,7 @@ public class JpApplyService {
                 .map(jpApplyEntity -> modelMapper.map(jpApplyEntity, JpApplyResDTO.class))
                 .collect(Collectors.toList());
     }
+
     //지원했는지 확인 T/F
     public boolean isJpApplydByUser(Long userId, Long jobPostId) {
         Optional<JpApplyEntity> apply = jpApplyRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);

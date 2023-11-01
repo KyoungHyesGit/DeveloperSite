@@ -45,6 +45,9 @@ public class SignupRestController {
         if((user != null) || (vender != null)){
             String xHtml = "(X) 이미 사용중인 이메일입니다.";
             return ResponseEntity.ok().body(xHtml);
+        }else if (email.isEmpty()){
+            String xHtml = "(X) 이메일을 입력해주세요.";
+            return ResponseEntity.ok().body(xHtml);
         }else{
             String okHtml = "(O) 사용 가능한 이메일입니다!";
             return ResponseEntity.ok().body(okHtml);
@@ -67,7 +70,7 @@ public class SignupRestController {
         }catch (Exception e){
 
         }
-        if((user != null) || (vender != null)){
+        if((user != null) || (vender != null) ||email.isEmpty()){
 
             return false;
         }else{

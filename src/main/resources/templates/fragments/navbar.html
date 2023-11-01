@@ -16,7 +16,7 @@
 </script>
 
 <th:block th:fragment="navbarFragment">
-    <nav>
+    <nav class="main_hd">
         <div class="container">
             <div>
                 <ul style="display: flex" class="menu">
@@ -27,21 +27,12 @@
                     </li>
                     <li><a href="/" class="menuBtn">공고보기</a></li>
                     <li>|</li>
-                    <li><a href="#" class="menuBtn">기업정보보기</a></li>
+                    <li><a href="/job_post/venderList" class="menuBtn">기업정보보기</a></li>
                     <li>|</li>
                     <li><a href="/adviceboard/list" class="menuBtn">커뮤니티</a></li>
-                    <li>
-                        <div class="search">
-                            <form th:action="@{/job_post/jobSearch}" method="get">
-                                <a th:href="@{/job_post/jobSearch}"><i class="fa-solid fa-magnifying-glass"></i></a>
-                                <input type="text" name="keyword" placeholder="검색">
-                            </form>
-
-                        </div>
-                    </li>
-                    <li>
-                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${not #strings.isEmpty(userId)}">로그인</a>
-                        <a class="logBtn" id="logoutBtn" href="#" th:if="${#strings.isEmpty(userId)}">로그아웃</a>
+                    <li class="navgator">
+                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${#strings.isEmpty(userId)}">로그인</a>
+                        <a class="logBtn" id="logoutBtn" href="/logout" th:if="${not #strings.isEmpty(userId)}">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>
