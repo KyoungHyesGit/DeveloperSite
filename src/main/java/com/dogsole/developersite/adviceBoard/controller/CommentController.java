@@ -114,15 +114,12 @@ public class CommentController {
 //        System.out.println(commentReqDTO);
 //        return new ModelAndView("/adviceboard/view", "commentss", commentResDTO);
 //    }
-
     @GetMapping("/editComment/{id}")
     public String editComment(@PathVariable Long id, Model model) {
         CommentResDTO comment = commentService.getCommentById(id);
         model.addAttribute("commentToEdit", comment);
         return "editComment";
     }
-
-
 //    @PostMapping("/updateComment/{id}")
 //    public String updateComment(@PathVariable Long id, @ModelAttribute CommentReqDTO comment) {
 //        commentService.updateComment(id, comment);

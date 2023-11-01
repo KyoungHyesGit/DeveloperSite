@@ -14,12 +14,12 @@ public interface AdviceBoardRepository extends JpaRepository<AdviceBoard, Long> 
 
     public Page<AdviceBoard> findAllByOrderByRegDateDesc(Pageable pageable);
 
-    public Page<AdviceBoard> findAll(Pageable pageable);
+//    public Page<AdviceBoard> findAll(Pageable pageable);
 
     public Page<AdviceBoard> findAllByOrderByViewsDesc(Pageable pageable);
 
     public Page<AdviceBoard> findAllByOrderByViewsAsc(Pageable pageable);
     Page<AdviceBoard> findByCategory(String category, Pageable pageable);
-    public Page<AdviceBoard> findByCategoryAndTitleContaining(String category, String searchKeyword, Pageable pageable);
+//    public Page<AdviceBoard> findByCategoryAndTitleContaining(String category, String searchKeyword, Pageable pageable);
 
 }

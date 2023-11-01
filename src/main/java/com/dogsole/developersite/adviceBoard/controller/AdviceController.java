@@ -83,7 +83,6 @@ public class AdviceController {
         // 게시글 업데이트 메서드를 호출하여 수정을 적용
         adviceBoardService.update(id, board);
         attributes.addAttribute("isRedirect", true);
-
         return "redirect:/adviceboard/view/{id}";
     }
 

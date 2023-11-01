@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Page<Comment> findByContentContaining(String searchKeyword, Pageable pageable);
+//    Page<Comment> findByContentContaining(String searchKeyword, Pageable pageable);
     List<Comment> findByAdviceboardsId(Long adviceBoardId);
 //    void deleteBySeq(Long seq);
 
