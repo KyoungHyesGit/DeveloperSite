@@ -35,16 +35,46 @@
             <input type="button" value="submit" onclick="this.form.submit()">
         </form>
         <p th:if="${keyword}"><span th:text="${keyword}"></span>에 대한 취업정보</p>
-        <div th:each="jobPost : ${jobSearch.content}">
-            <a th:href="@{/job_post/jobDetail/{id}(id=${jobPost.id})}">
-                <img th:if="${jobPost.venderResDTO != null}" th:src="@{/img/vender/} + ${jobPost.venderResDTO.photo}" alt="회사로고이미지"/>
-                <p th:if="${jobPost.venderResDTO != null}" th:text="${jobPost.venderResDTO.venderName}"></p>
-                <p th:text="${#temporals.format(jobPost.endTime, 'yyyy.MM.dd HH:mm')}"></p>
-                <p>현재 날짜 및 시간: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy.MM.dd HH:mm')}"></span></p>
+        <table class="search_tb">
+            <thead>
+            <tr>
+                <th></th>
+                <th>기업이름</th>
+                <th>공고명</th>
+                <th>직종</th>
+                <th>자격요건</th>
+                <th>급여</th>
+                <th>등록일</th>
+                <th>마감일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="jobList : ${jobSearch.content}">
+                <td><img th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"></td>
+                <td th:text="${jobList.venderResDTO.venderName}"></td>
+                <td>
+                    <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
+                        <span th:text="${jobList.title}"></span>
+                    </a>
+                </td>
+                <td th:text="${jobList.work}"></td>
+                <td th:text="${jobList.req}"></td>
+                <td th:text="${jobList.salary}"></td>
+                <td th:text="${#temporals.format(jobList.createDt, 'yyyy.MM.dd')}"></td>
+                <td th:text="${#temporals.format(jobList.endTime, 'yyyy.MM.dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+<!--        <div th:each="jobPost : ${jobSearch.content}">-->
+<!--            <a th:href="@{/job_post/jobDetail/{id}(id=${jobPost.id})}">-->
+<!--                <img th:if="${jobPost.venderResDTO != null}" th:src="@{/img/vender/} + ${jobPost.venderResDTO.photo}" alt="회사로고이미지"/>-->
+<!--                <p th:if="${jobPost.venderResDTO != null}" th:text="${jobPost.venderResDTO.venderName}"></p>-->
+<!--                <p th:text="${#temporals.format(jobPost.endTime, 'yyyy.MM.dd HH:mm')}"></p>-->
+<!--                <p>현재 날짜 및 시간: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy.MM.dd HH:mm')}"></span></p>-->
 
-                <p th:text="${jobPost.title}"></p>
-            </a>
-        </div>
+<!--                <p th:text="${jobPost.title}"></p>-->
+<!--            </a>-->
+<!--        </div>-->
         <div th:if="${jobSearch.content.empty}">
             <p>검색 결과가 없습니다.</p>
         </div>

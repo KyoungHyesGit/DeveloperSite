@@ -19,3 +19,53 @@
 
 .job_item p:last-child {font-size: 18px;font-weight: 600;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 .main_title{margin-top: 50px; font-size: 24px; font-weight: 500;}
+
+.job_container table{
+    width: 100%;
+    text-align: center;
+}
+.job_container thead tr:first-child{
+    border-bottom: 2px solid #555;
+}
+.job_container th{
+    color: #555;
+}
+.job_container td,.job_container th{
+    padding: 10px;
+}
+.job_container tbody tr:hover{
+    background: #eee;
+}
+.job_container tbody tr,
+.job_container tbody span{
+    font-size: 15px;
+    color: #4d5154;
+}
+.mainBtn{
+    text-align: center;
+    margin-bottom: 50px;
+}
+.mainBtn ul{display: flex;justify-content: center;}
+.btImg{
+    width: 84px;
+    height: 84px;
+    margin: 10px 20px;
+    background: #eff0f1;
+    box-sizing: border-box;
+    border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+}
+.btImg:hover{
+    transform: scale(1.2);
+}
+.btImg i{
+    font-size: 30px;
+    text-align: center;
+}
+.mainBtn span:last-child{
+    font-size: 14px;
+    color: #666;
+}

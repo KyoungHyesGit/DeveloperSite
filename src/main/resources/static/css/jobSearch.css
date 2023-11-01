@@ -1,3 +1,27 @@
 .sch_container{
     margin: 50px auto;
 }
+.search_tb{
+    width: 100%;
+    text-align: center;
+}
+.search_tb thead tr:first-child{
+    border-bottom: 2px solid #555;
+}
+.search_tb th{
+    color: #555;
+}
+.search_tb td,.search_tb th{
+    padding: 10px;
+}
+.search_tb tbody tr:hover{
+    background: #eee;
+}
+.search_tb tbody tr,
+.search_tb tbody span{
+    font-size: 15px;
+    color: #4d5154;
+}
+.search_tb img{
+    width: 100px;
+}
