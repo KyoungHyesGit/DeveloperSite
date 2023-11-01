@@ -40,7 +40,12 @@ public class UserResumeController {
     }
     //이력서 작성
     @PostMapping("/createResume")
-    public String createResume(@ModelAttribute UserResumeReqDTO userResumeReqDTO,@RequestParam("photo") MultipartFile photo,Long userId) throws Exception {
+    public String createResume(@ModelAttribute UserResumeReqDTO userResumeReqDTO,@RequestParam("photo") MultipartFile photo,HttpServletRequest request) throws Exception {
+        Long userId = Arrays.stream(request.getCookies())
+                .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
         UserResumeEntity userResumeEntity = userResumeService.saveUserResume(userResumeReqDTO,photo,userId);
         return "redirect:/userResume/" + userResumeEntity.getUserEntity().getUserId();
     }

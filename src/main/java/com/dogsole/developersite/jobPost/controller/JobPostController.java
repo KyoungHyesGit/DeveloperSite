@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ public class JobPostController {
     private final LovService lovService;
     private final JpApplyService jpApplyService;
 
+    // 전체공고리스트(main)
     @GetMapping("/jobList")
     public String allJobPost(Model model, @PageableDefault(size = 10) Pageable pageable){
         Page<JobPostResDTO> jobList = jobPostService.getAllPost(pageable);
@@ -33,6 +35,7 @@ public class JobPostController {
         return "/job_post/jobList";
     }
 
+    // 공고 상세페이지
     @GetMapping("/jobDetail/{id}")
     public String JobDetail(@PathVariable Long id, Model model, HttpServletRequest request){
         JobPostResDTO jobDetail = jobPostService.getJobDetail(id);
@@ -52,5 +55,72 @@ public class JobPostController {
         model.addAttribute("postWorkList",postWorkList);
         return "/job_post/jobDetail";
     }
+
+    // 검색
+    @GetMapping("/jobSearch")
+    public String getSearchJobPost(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortOption", required = false, defaultValue = "default") String sortOption,
+            @PageableDefault(size = 10) Pageable pageable,
+            Model model
+    ) {
+        Page<JobPostResDTO> jobSearch;
+        if ("dateAsc".equals(sortOption)) {
+            jobSearch = jobPostService.getAllPostByDateAsc(keyword, pageable);
+        } else if ("etDesc".equals(sortOption)) {
+            jobSearch = jobPostService.getEndTimeAsc(keyword, pageable);
+        } else {
+            jobSearch = jobPostService.getSearchJobPost(keyword, pageable);
+        }
+
+        model.addAttribute("jobSearch", jobSearch);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortOption", sortOption);
+
+        return "/job_post/jobSearch";
+    }
+
+    // 검색-등록순
+    @GetMapping("/listByDateAsc")
+    public String listByDateAsc(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortOption", required = false) String sortOption,
+            Model model,
+            @PageableDefault(page = 0, size = 5, sort = "createDt", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<JobPostResDTO> list;
+        if ("dateAsc".equals(sortOption)) {
+            list = jobPostService.getAllPostByDateAsc(keyword, pageable);
+        } else {
+            list = jobPostService.getSearchJobPost(keyword, pageable);
+        }
+        addAttributes(model, list, keyword, sortOption);
+        return "/job_post/jobSearch";
+    }
+
+    // 검색-마감일순
+    @GetMapping("/listByEndTimeAsc")
+    public String listByEndTimeAsc(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sortOption", required = false) String sortOption,
+            Model model,
+            @PageableDefault(page = 0, size = 5, sort = "createDt", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<JobPostResDTO> list;
+        if ("etDesc".equals(sortOption)) {
+            list = jobPostService.getEndTimeAsc(keyword, pageable);
+        } else {
+            list = jobPostService.getSearchJobPost(keyword, pageable);
+        }
+        addAttributes(model, list, keyword, sortOption);
+        return "/job_post/jobSearch";
+    }
+
+    private void addAttributes(Model model, Page<JobPostResDTO> list, String keyword, String sortOption) {
+        model.addAttribute("jobSearch", list);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortOption", sortOption);
+    }
+
+
+
 
 }

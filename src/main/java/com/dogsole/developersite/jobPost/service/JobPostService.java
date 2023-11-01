@@ -71,5 +71,55 @@ public class JobPostService {
         return jobPostResDTO;
     }
 
+    // 검색
+    public Page<JobPostResDTO> getSearchJobPost(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByTitleContaining(keyword, pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+    // 검색-등록순
+    public Page<JobPostResDTO> getAllPostByDateAsc(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findAllByOrderByCreateDtAsc(keyword,pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+    // 검색-마감일순
+    public Page<JobPostResDTO> getEndTimeAsc(String keyword, Pageable pageable) {
+        Page<JobPostEntity> jobPostEntities = jobPostRepository.findByEndTimeSearch(keyword,pageable);
+        return jobPostEntities.map(jobPostEntity -> {
+            JobPostResDTO jobPostResDTO = modelMapper.map(jobPostEntity, JobPostResDTO.class);
+
+            // VenderResDTO를 설정
+            VenderEntity venderEntity = jobPostEntity.getVenderEntity();
+            VenderResDTO venderResDTO = modelMapper.map(venderEntity, VenderResDTO.class);
+
+            jobPostResDTO.setVenderResDTO(venderResDTO);
+
+            return jobPostResDTO;
+        });
+    }
+
+
+
 
 }

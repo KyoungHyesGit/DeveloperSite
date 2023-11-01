@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
 
-</body>
+<th:block layout:fragment="content">
+    <div class="container sch_container" th:if="${jobSearch != null}">
+        <!-- Select 옵션으로 정렬 -->
+        <form th:action="@{/job_post/jobSearch}" method="get">
+            <select id="sortSelect" name="sortOption">
+                <option value="default" th:selected="${sortOption == 'default'}">전체 공고</option>
+                <option value="dateAsc" th:selected="${sortOption == 'dateAsc'}">등록순</option>
+                <option value="etDesc" th:selected="${sortOption == 'etDesc'}">마감일순</option>
+            </select>
+            <select>
+                <option value="default">요구사항</option>
+                <option value="">중졸</option>
+                <option value="">고졸</option>
+                <option value="">초대졸</option>
+                <option value="">대졸</option>
+                <option value="">석사</option>
+                <option value="">박사</option>
+            </select>
+            <select>
+                <option value="default">직종</option>
+                <option value="">SI</option>
+                <option value="">SM</option>
+                <option value="">사내시스템운영</option>
+                <option value="">게임개발</option>
+                <option value="">게임운영</option>
+                <option value="">웹개발</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색" th:value="${keyword}">
+            <input type="button" value="submit" onclick="this.form.submit()">
+        </form>
+        <p th:if="${keyword}"><span th:text="${keyword}"></span>에 대한 취업정보</p>
+        <div th:each="jobPost : ${jobSearch.content}">
+            <a th:href="@{/job_post/jobDetail/{id}(id=${jobPost.id})}">
+                <img th:if="${jobPost.venderResDTO != null}" th:src="@{/img/vender/} + ${jobPost.venderResDTO.photo}" alt="회사로고이미지"/>
+                <p th:if="${jobPost.venderResDTO != null}" th:text="${jobPost.venderResDTO.venderName}"></p>
+                <p th:text="${#temporals.format(jobPost.endTime, 'yyyy.MM.dd HH:mm')}"></p>
+                <p>현재 날짜 및 시간: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy.MM.dd HH:mm')}"></span></p>
+
+                <p th:text="${jobPost.title}"></p>
+            </a>
+        </div>
+        <div th:if="${jobSearch.content.empty}">
+            <p>검색 결과가 없습니다.</p>
+        </div>
+    </div>
+</th:block>
 </html>
