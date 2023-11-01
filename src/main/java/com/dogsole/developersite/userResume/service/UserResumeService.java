@@ -29,29 +29,32 @@ public class UserResumeService {
                 .map(userResume -> modelMapper.map(userResume, UserResumeResDTO.class))
                 .collect(Collectors.toList());
     }
-    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO, MultipartFile file,Long userId) throws Exception{
+
+    public UserResumeEntity saveUserResume(UserResumeReqDTO userResumeReqDTO, MultipartFile file, Long userId) throws Exception {
         UserResumeEntity userResumeEntity = modelMapper.map(userResumeReqDTO, UserResumeEntity.class);
 
         //사진 업로드
-        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\resumeImage";
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\resumeImage";
         UUID uuid = UUID.randomUUID();
-        String fileName = uuid+"_"+file.getOriginalFilename();
+        String fileName = uuid + "_" + file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
         file.transferTo(saveFile);
         userResumeEntity.setPhoto(fileName);
-        userResumeEntity.setPhotoUrl("/resumeImage/"+fileName);
+        userResumeEntity.setPhotoUrl("/resumeImage/" + fileName);
 
-        userId=1L;
+        userId = 1L;
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);
         userResumeEntity.setUserEntity(userEntity);
 
         return userResumeRepository.save(userResumeEntity);
     }
+
     //이력서 상세
-    public UserResumeResDTO getUserResumeByid(Long id){
-        return modelMapper.map(userResumeRepository.findUserResumeEntityById(id),UserResumeResDTO.class);
+    public UserResumeResDTO getUserResumeByid(Long id) {
+        return modelMapper.map(userResumeRepository.findUserResumeEntityById(id), UserResumeResDTO.class);
     }
+
     // 이력서 삭제 메서드
     public void deleteResumeById(Long id) {
         // 이력서 ID로 이력서를 찾아냅니다.
@@ -61,16 +64,5 @@ public class UserResumeService {
         // 이력서를 삭제합니다.
         userResumeRepository.delete(resume);
     }
-    public Long getUserIdByResumeId(Long resumeId) {
-        // 이력서 ID를 사용하여 user_id를 가져오는 메서드
-        UserResumeEntity userResume = userResumeRepository.findById(resumeId).orElse(null);
-        if (userResume != null) {
-            return userResume.getUserEntity().getUserId();
-        } else {
-            return null; // 이력서를 찾지 못한 경우 예외 처리
-        }
-    }
-
-
 
 }

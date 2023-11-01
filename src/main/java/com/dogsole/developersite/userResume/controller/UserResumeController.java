@@ -94,5 +94,4 @@ public class UserResumeController {
         return "/userResume/userResumeSelection";
     }
 
-
 }

@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>이력서 선택</title>
-</head>
-<body>
-<h1>이력서 선택</h1>
-<table>
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>사진</th>
-        <th>이력서 제목</th>
-        <th>선택</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="resume : ${userResumes}">
-        <td th:text="${resume.id}"></td>
-        <td>
-            <img th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
-        </td>
-        <td>
-            <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"  th:text="${resume.resume_title_1}"></a>
-        </td>
-        <td>
-            <!-- 선택 버튼을 추가하고 resume_id를 넘겨줍니다 -->
-            <a th:href="@{'/jpApply/addApply?venderId=' + ${venderId} + '&jobPostId=' + ${jobPostId}+ '&resumeId=' + ${resume.id}}">선택</a>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<th:block layout:fragment="content">
+    <h2 class="text-center">이력서 선택</h2>
+    <div class="table_container">
+        <table class="listTable">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>사진</th>
+                <th>이력서 제목</th>
+                <th>선택</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="resume : ${userResumes}">
+                <td th:text="${resume.id}"></td>
+                <td>
+                    <img th:src="${resume.photoUrl}" alt="증명사진" style="max-width: 100px; height: auto;"/>
+                </td>
+                <td>
+                    <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"
+                       th:text="${resume.resume_title_1}"></a>
+                </td>
+                <td>
+                    <!-- 선택 버튼을 추가하고 resume_id를 넘겨줍니다 -->
+                    <a th:href="@{'/jpApply/addApply?venderId=' + ${venderId} + '&jobPostId=' + ${jobPostId}+ '&resumeId=' + ${resume.id}}"
+                       onclick="return confirm('이 이력서를 선택하시겠습니까?')">선택</a>
 
-        </td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-        <td th:text="${jobPostId}"></td>
+    </div>
+</th:block>
 
-    </tr>
-    </tbody>
-</table>
-
-</body>
 </html>

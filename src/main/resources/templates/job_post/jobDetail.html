@@ -1,28 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
-
-    <!--div class="block">
-        <img class="title_Img" th:src="@{/img/logo/mainImg.jpg}" alt="title background" sizes="100vw" decoding="async" data-nimg="fill">
-    </div-->
-    <div class="container">
-        <div class="block">
-            <div class="job_container">
-                <div class="job_item" th:each="jobList : ${jobList}">
-                    <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-                        <div class="jobBox text-center">
-                            <img class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
-                        </div>
-                        <p th:text="${jobList.venderResDTO.venderName}"></p>
-                        <p th:text="${jobList.title}"></p>
-                    </a>
+    <div class="container det_container">
+        <div class="job_post" style="display: flex; justify-content: space-between;" th:if="${jobDetail != null}">
+            <!-- 타이틀 -->
+            <div class="dt_one">
+                <div>
+                    <h4 th:text="${jobDetail.venderResDTO.venderName}"></h4>
                 </div>
+                <h2 th:text="${jobDetail.title}"></h2>
+            </div>
+            <div class="dt_two">
+                <!--            <a class="btn btn-light"-->
+                <!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
+
+                <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
+                        th:data-job-post-id="${jobDetail.id}" class="like-button">찜등록</button>
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        var $button = $('.like-button');
+                        var venderId = $button.data('vender-id');
+                        var jobPostId = $button.data('job-post-id');
+                        var userId = 1; // 사용자 ID
+
+                        // 페이지 로드 시 찜 상태 확인
+                        $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                            if (status === "success" && data === true) {
+                                // 이미 찜되어 있다면 버튼 색상을 노란색으로 변경
+                                $button.css('background-color', 'yellow');
+                            }
+                        });
+
+                        $button.click(function() {
+                            // 이미 찜되어 있는지 확인
+                            $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                if (status === "success" && data === true) {
+                                    // 이미 찜되어 있다면 찜 취소할 것인지 확인
+                                    if (confirm("찜을 취소하시겠습니까?")) {
+                                        // 사용자가 확인하면 찜 데이터 삭제
+                                        $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                            if (status === "success" && data.message === "success") {
+                                                // 찜 삭제가 성공했으므로 버튼 색상 변경
+                                                $button.css('background-color', '');
+                                                alert("찜이 취소되었습니다.");
+                                            } else if (status === "success" && data.error) {
+                                                alert("오류: " + data.error);
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    // 아직 찜되어 있지 않다면 찜 등록
+                                    if (confirm("찜을 등록하시겠습니까?")) {
+                                        $.post("/api/addLike", {
+                                            userId: userId,
+                                            venderId: venderId,
+                                            jobPostId: jobPostId
+                                        }, function (data, status) {
+                                            if (status === "success" && data.message === "success") {
+                                                // 찜 등록이 성공했으므로 버튼 색상 변경
+                                                $button.css('background-color', 'yellow');
+                                                alert("찜 등록이 성공했습니다.");
+                                            } else if (status === "success" && data.error) {
+                                                alert("오류: " + data.error);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+                <!-- 경로지정해줘야함 -->
+                <!--            <a sec:authorize="isAuthenticated()" class="btn btn-light"-->
+                <!--               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>-->
+                <a sec:authorize="isAuthenticated()" class="job_Dbtn"
+                   th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">입사지원</a>
+            </div>
+
+        </div>
+        <div>
+            <hr>
+            <!-- 요구사항 -->
+            <table class="dt_table">
+                <tr>
+                    <th>직종</th>
+                    <td th:text="${jobDetail.work}"></td>
+                    <th>주소</th>
+                    <td th:text="${jobDetail.detailAddr}"></td>
+                </tr>
+                <tr>
+                    <th>자격요건</th>
+                    <td th:text="${jobDetail.req}"></td>
+                    <th>시작일</th>
+                    <td th:text="${#temporals.format(jobDetail.createDt, 'yyyy.MM.dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th>급여</th>
+                    <td th:text="${jobDetail.salary}"></td>
+                    <th>마감일</th>
+                    <td th:text="${#temporals.format(jobDetail.endTime, 'yyyy.MM.dd HH:mm')}"></td>
+                </tr>
+            </table>
+            <hr>
+            <!-- 내용 -->
+            <div class="content">
+                <!-- 내용 추가 -->
+                <div th:text="${jobDetail.detail}"></div>
             </div>
         </div>
-
     </div>
+
 </th:block>
+
 </html>

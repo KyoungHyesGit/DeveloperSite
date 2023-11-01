@@ -39,6 +39,7 @@ public class JpApplyService {
         return apply.isPresent();
     }
 
+
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
         JpApplyEntity jpApplyEntity = new JpApplyEntity();
 
@@ -68,17 +69,20 @@ public class JpApplyService {
                 .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
         jpApplyRepository.delete(jpApplyEntity);
     }
-
     public Page<JpApplyResDTO> getPostResumeList(Long postId, Pageable pageable){
         Page<JpApplyEntity> postResumeList = jpApplyRepository.findByJobPostEntityId(postId, pageable);
         return postResumeList.map(jpApplyEntity -> modelMapper.map(jpApplyEntity, JpApplyResDTO.class));
     }
 
-    public String changeUserState(Long jpApplyId, String userState){
+    public String changeUserState(Long jpApplyId, String userState) {
         JpApplyEntity jpApplyEntity = jpApplyRepository.findById(jpApplyId)
                 .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
 
         jpApplyEntity.setUserState(userState);
         return userState;
+    }
+    //지원확인
+    public boolean isAlreadyApplied(Long userId, Long jobPostId) {
+        return jpApplyRepository.existsByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
     }
 }
