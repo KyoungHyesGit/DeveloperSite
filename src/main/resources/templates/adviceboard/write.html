@@ -5,27 +5,25 @@
 <meta charset="UTF-8"/>
 <title>AdviceBoardWrite</title>
 <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
-</head>
-
-
 
 
 <body>
 <header></header>
-<div class="container" style="justify-content: center;">
-    <form action="#" th:action="@{/adviceboard/writedo}" th:object="${adviceBoardReqDTO}" method="post">
-        <div class="form-group row">
+<div class="layout container" style="padding-top: 30px">
+    <form style="max-width: 1040px;padding-left: 270px"action="#" th:action="@{/adviceboard/writedo}" th:object="${adviceBoardReqDTO}" method="post">
+
+        <div class="form-group row" style="padding-bottom: 10px">
             <label for="inputTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
             <div class="col-sm-10">
-                <input type="text" required th:field="*{title}" class="form-control" id="inputTitle" style="width: 400px"/>
+                <input type="text" required th:field="*{title}" class="form-control" id="inputTitle" style="width: 100%"/>
                 <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row"style="padding-bottom: 10px;">
             <label for="inputCategory" class="col-sm-2 col-form-label"><strong>카테고리</strong></label>
             <div class="col-sm-10">
-                <select th:field="*{category}" class="form-control" id="inputCategory" style="width: 400px">
+                <select th:field="*{category}" class="form-control" id="inputCategory" style="width: 100%">
                     <option value="IT">IT</option>
                     <option value="디자인">디자인</option>
                     <option value="이직질문">이직질문</option>
@@ -34,10 +32,10 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="inputWriter" class="col-sm-2 col-form-label"><strong>작성자</strong></label>
+        <div class="form-group row" style="padding-bottom: 10px">
+            <label for="inputWriter" class="col-sm-2 col-form-label" ><strong>작성자</strong></label>
             <div class="col-sm-10">
-                <input type="text" required th:field="*{writer}" class="form-control" id="inputWriter" style="width: 400px"/>
+                <input type="text" required th:field="*{writer}" class="form-control" id="inputWriter" style="width: 100%"/>
                 <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}" class="error"></p>
             </div>
         </div>
@@ -46,22 +44,23 @@
             <label for="inputContent" class="col-sm-2 col-form-label"><strong>내용</strong></label>
             <div class="col-sm-10">
                 <textarea required th:field="*{content}" class="form-control" id="inputContent"
-                          style="width: 400px;height: 100px; resize: none;"></textarea>
+                          style="width: 100%;height: 200px; resize: none;"></textarea>
                 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error"></p>
             </div>
         </div>
 
         <div class="row">
             <div class="col-auto mr-auto"></div>
-            <div class="col-auto">
+            <div class="col-auto" style="padding-left:695px; padding-top: 10px; padding-bottom: 80px">
                 <input class="btn btn-primary" type="submit" role="button" value="글쓰기"/>
             </div>
         </div>
 
     </form>
-    <div th:replace="fragments/footer :: footerFragment"></div>
+
 
 </div>
+<div th:replace="fragments/footer :: footerFragment"></div>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>

@@ -1,5 +1,6 @@
 package com.dogsole.developersite.jobPost.service;
 
+
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.common.exception.BusinessException;

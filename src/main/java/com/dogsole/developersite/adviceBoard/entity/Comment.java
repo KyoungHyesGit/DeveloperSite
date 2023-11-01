@@ -9,6 +9,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -44,4 +46,7 @@ public class Comment {
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private UserEntity user;
+
+    @Column
+    private String firstCommentId; //첫 댓글 id
 }
