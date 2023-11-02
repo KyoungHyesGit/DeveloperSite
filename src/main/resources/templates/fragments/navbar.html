@@ -2,20 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header>
 </header>
-<body>
-<script>
-    function updateLinkUrl(url,btnId) {
-        var loginUVenderIdValue = getCookie('loginVenderId');
-        console.log("loginUVenderIdValue:"+loginUVenderIdValue);
-        if (loginUVenderIdValue) {
-            var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
-            likeBtn.href = url + loginUVenderIdValue; // URL을 업데이트
-        }
-    }
-
-</script>
-
 <th:block th:fragment="navbarFragment">
+    <body>
+    <script>
+        function updateLinkUrl(url,btnId) {
+            var loginUVenderIdValue = getCookie('loginVenderId');
+            console.log("loginUVenderIdValue:"+loginUVenderIdValue);
+            if (loginUVenderIdValue) {
+                var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
+                likeBtn.href = url + loginUVenderIdValue; // URL을 업데이트
+            }
+        }
+
+        function checkCookie() {
+            var loginUserId = getCookie("loginUserId");
+            console.log("체크쿠키메서드시작"+loginUserId);
+
+            // "loginUserId"라는 쿠키가 존재하면 로그아웃 버튼을 표시
+            if (loginUserId) {
+                document.getElementById("loginBtn").style.display = "none"; // 로그인 버튼 숨김
+                document.getElementById("logoutBtn").style.display = "inline"; // 로그아웃 버튼 표시
+            } else {
+                document.getElementById("loginBtn").style.display = "inline"; // 로그인 버튼 표시
+                document.getElementById("logoutBtn").style.display = "none"; // 로그아웃 버튼 숨김
+            }
+        }
+
+        function getCookie(name) {
+            var cookies = document.cookie.split(';');
+            console.log("겟쿠키메서드시작"+name);
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(name + '=') === 0) {
+                    return cookie.substring(name.length + 1, cookie.length);
+                }
+            }
+            return null;
+        }
+
+        // 페이지 로드 시 쿠키를 확인
+        window.onload = checkCookie;
+
+    </script>
+
+
     <nav class="main_hd">
         <div class="container">
             <div>
@@ -31,8 +61,8 @@
                     <li>|</li>
                     <li><a href="/adviceboard/list" class="menuBtn">커뮤니티</a></li>
                     <li class="navgator">
-                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${#strings.isEmpty(loginUserId)}">로그인</a>
-                        <a class="logBtn" id="logoutBtn" href="/logout" th:if="${not #strings.isEmpty(loginUserId)}">로그아웃</a>
+                        <a class="logBtn" id="loginBtn" href="/account/loginpage" >로그인</a>
+                        <a class="logBtn" id="logoutBtn" href="/logout">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>
@@ -41,6 +71,7 @@
             </div>
         </div>
     </nav>
+
+    </body>
 </th:block>
-</body>
 </html>
