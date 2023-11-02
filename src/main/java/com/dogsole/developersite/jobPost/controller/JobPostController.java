@@ -57,14 +57,19 @@ public class JobPostController {
         List<LovResDTO> postReqList = lovService.getLovByKind("post_req");
         List<LovResDTO> postWorkList = lovService.getLovByKind("post_work");
 
-        Long userId = Arrays.stream(request.getCookies())
-                .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
-                .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
-                .findFirst() // 첫 번째 일치하는 쿠키 가져오기
-                .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
-        boolean isAlreadyApplied = jpApplyService.isAlreadyApplied(userId, id);
-        model.addAttribute("isAlreadyApplied",isAlreadyApplied);
-        model.addAttribute("userId",userId);
+        try{
+            Long userId = Arrays.stream(request.getCookies())
+                    .filter(cookie -> "loginUserId".equals(cookie.getName())) // 원하는 쿠키 찾기
+                    .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
+                    .findFirst() // 첫 번째 일치하는 쿠키 가져오기
+                    .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+            boolean isAlreadyApplied = jpApplyService.isAlreadyApplied(userId, id);
+            model.addAttribute("isAlreadyApplied",isAlreadyApplied);
+            model.addAttribute("userId",userId);
+        }catch (Exception e){
+            model.addAttribute("isAlreadyApplied",false);
+        }
+
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("postReqList",postReqList);
         model.addAttribute("postWorkList",postWorkList);
