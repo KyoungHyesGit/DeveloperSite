@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-<script>
+<script type="text/javascript">
     function updateLinkUrl(url,btnId) {
         var loginUserIdValue = getCookie('loginUserId');
         console.log("loginUserIdValue:"+loginUserIdValue);
@@ -38,49 +38,40 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <h1 class="text-center">마이페이지</h1>
-    <div class="uPContainer text-center">
+    <h1 class="resumeH2 text-center">마이페이지</h1>
+    <div class="uPContainer">
         <!-- 사용자 정보 수정 버튼 -->
         <a id="myInfoBtn">
             <button onclick="updateLinkUrl('/account/updatepageu/','myInfoBtn')"><i class="fa-solid fa-user-pen"></i>&nbsp;회원 정보 수정</button>
         </a>
-        &nbsp;&nbsp;
         <!-- 탈퇴 버튼 -->
         <a id="myDeleteBtn">
             <button onclick="updateLinkUrl('/account/deletepageu/','myDeleteBtn')"><i class="fa-solid fa-user-slash"></i>&nbsp;회원 탈퇴</button>
         </a>
-        &nbsp;&nbsp;
         <!-- 이력서 관리 버튼 -->
         <a id="myResumeBtn">
             <button onclick="updateLinkUrl('/userResume/','myResumeBtn')"><i class="fa-solid fa-pen-to-square"></i>&nbsp;이력서 관리</button>
         </a>
-        &nbsp;&nbsp;
         <!-- 지원 현황 버튼 -->
         <a id="applyBtn">
             <button onclick="updateLinkUrl('/jpApply/jpApplyList/','applyBtn')"><i class="fa-solid fa-paper-plane"></i>&nbsp;내 지원 현황</button>
         </a>
-        &nbsp;&nbsp;
         <!-- 찜 목록 버튼 -->
         <a id="likeBtn">
             <button onclick="updateLinkUrl('/jpLike/jpLikeList/','likeBtn')"><i class="fa-solid fa-star"></i>&nbsp;내 찜 목록</button>
         </a>
-        &nbsp;&nbsp;
         <a id="postBtn">
             <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')"><i class="fa-solid fa-file-lines"></i>&nbsp;공고 등록</button>
         </a>
-        &nbsp;&nbsp;
         <a>
             <button onclick="window.location.href = '/vender/add'"><i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청</button>
         </a>
-
         <a>
-            <button onclick="window.location.href = '/vender/add'"><i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청</button>
+            <button onclick="window.location.href = '/vender/add'"><i class="fa-solid fa-building-user"></i>&nbsp;회사 정보 수정</button>
         </a>
-
         <a id="venderEditBtn">
             <button onclick="updateLinkUrlVender('/vender/edit/','venderEditBtn')"><i class="fa-solid fa-file-lines"></i>&nbsp; 회사 정보 수정 신청</button>
         </a>
-
     </div>
 </th:block>
 </body>

@@ -7,9 +7,17 @@
 .dt_one{
     float: left;
 }
-.dt_two{
-    float: right;
+.dt_two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.like-button {
+    margin-right: 10px;
+}
+
+
 .dt_one h2{
     font-weight: 900;
 }
