@@ -71,7 +71,7 @@ public class VenderTempService {
 
     @Transactional(readOnly = true)
     public Page<VenderTempResDTO> showVenderTemp(Pageable pageable){
-        Page<VenderTempEntity> venderTempEntityList=venderTempRepository.findAll(pageable);
+        Page<VenderTempEntity> venderTempEntityList=venderTempRepository.findByReqStateIsNot("A",pageable);
         //화면에 뿌려주기 위해
         Page<VenderTempResDTO> venderTempResDTOList = venderTempEntityList
                 .map(vender -> modelMapper.map(vender, VenderTempResDTO.class));
