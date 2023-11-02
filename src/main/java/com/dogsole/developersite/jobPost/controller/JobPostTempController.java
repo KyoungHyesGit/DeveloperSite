@@ -31,7 +31,7 @@ public class JobPostTempController {
 
     @GetMapping("/vendersTempList/{id}")
     public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                     @RequestParam(name = "size", required = false, defaultValue = "2") int size ,
+                                     @RequestParam(name = "size", required = false, defaultValue = "5") int size ,
                                      @PathVariable Long id) {
         Pageable pageable = PageRequest.of(page, size);
         Page<JobPostTempResDTO> tempList = jobPostTempService.getVendersPosts(id, pageable);
@@ -41,7 +41,7 @@ public class JobPostTempController {
 
     @GetMapping("/tempList")
     public String gotoAllJobPostTemp(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                     @RequestParam(name = "size", required = false, defaultValue = "2") int size) {
+                                     @RequestParam(name = "size", required = false, defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<JobPostTempResDTO> tempList = jobPostTempService.getAllPosts(pageable);
         model.addAttribute("tempList", tempList);
