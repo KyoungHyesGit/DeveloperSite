@@ -21,6 +21,8 @@
 .resumeH2{
     font-size: 2rem;
     padding-bottom: 1em;
+    font-weight: bold;
+    margin-top: 50px;
 }
 .resumeSection h3 {
     font-size: 1.2rem;    /* 글자 크기 */
@@ -97,16 +99,23 @@
     cursor: pointer;
     background-color: #fff;
 }
-.uPContainer{
+.uPContainer {
     margin-top: 50px;
+    margin-left: 20%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px; /* 버튼 간 간격 조절 */
+    grid-row-gap: 20px; /* 두 줄 간 간격 조절 */
+    width: 80%;
 }
+
+
 .uPContainer button{
     background-color: #fff;
     border: none;
     padding: 10px;
     text-align: center;
     cursor: pointer;
+    font-size: 20px;
+    margin-bottom: 20px;
 }

@@ -28,7 +28,7 @@
             <tbody>
             <tr class="text-center" th:each="vender, venderState : ${venders}">
                 <th scope="row">
-                <span th:text="${venderState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
+                    <span th:text="${venderState.count}"></span> <!-- index는 0부터 , count가 1부터 -->
                 </th>
 
                 <td>
@@ -41,23 +41,23 @@
                 </td>
 
                 <td>
-                <span th:text="${vender.name}"></span>
+                    <span th:text="${vender.name}"></span>
                 </td>
 
                 <td>
-                <span th:text="${vender.email}"></span>
+                    <span th:text="${vender.email}"></span>
                 </td>
 
                 <td>
-                <span th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></span>
                 </td>
 
                 <td>
-                <span th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></span>
                 </td>
 
                 <td>
-                <span th:text="${vender.photo}"></span>
+                    <span th:text="${vender.photo}"></span>
                 </td>
 
 
@@ -79,113 +79,113 @@
     </div>
 
     <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
-    <div th:if="${venders.totalPages > 1}">
-        <ul class="pagination">
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/admin/showTempVender(page=0, size=${venders.size})}" class="page-link">First</a>
-            </li>
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/admin/showTempVender(page=${venders.number - 1}, size=${venders.size})}"
-                   class="page-link">Previous</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
-                <a th:href="@{/admin/showTempVender(page=${i}, size=${venders.size})}" class="page-link"
-                   th:text="${i + 1}"></a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/admin/showTempVender(page=${venders.number + 1}, size=${venders.size})}"
-                   class="page-link">Next</a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/admin/showTempVender(page=${venders.totalPages - 1}, size=${venders.size})}"
-                   class="page-link">Last</a>
-            </li>
-        </ul>
-    </div>
+        <div th:if="${venders.totalPages > 1}">
+            <ul class="pagination">
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/admin/showTempVender(page=0, size=${venders.size})}" class="page-link">First</a>
+                </li>
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/admin/showTempVender(page=${venders.number - 1}, size=${venders.size})}"
+                       class="page-link">Previous</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                    <a th:href="@{/admin/showTempVender(page=${i}, size=${venders.size})}" class="page-link"
+                       th:text="${i + 1}"></a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/admin/showTempVender(page=${venders.number + 1}, size=${venders.size})}"
+                       class="page-link">Next</a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/admin/showTempVender(page=${venders.totalPages - 1}, size=${venders.size})}"
+                       class="page-link">Last</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </th:block>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const allowButtons = document.querySelectorAll('.allow-button');
-            const refuseButtons = document.querySelectorAll('.refuse-button');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allowButtons = document.querySelectorAll('.allow-button');
+        const refuseButtons = document.querySelectorAll('.refuse-button');
 
-            allowButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    const postId = button.getAttribute('data-id');
-                    updateReqState(postId);
-                });
+        allowButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const postId = button.getAttribute('data-id');
+                updateReqState(postId);
             });
-
-            refuseButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    const postId = button.getAttribute('data-id');
-                    updateRefuseReqState(postId);
-                });
-            });
-
-            function updateReqState(id) {
-                // Send an AJAX request to update the reqState for the specified post
-                const url = '/api/vender/allow/' + id;
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            console.error('Error updating reqState:', data.error);
-                        } else if (data.message === 'success') {
-                            const row = document.getElementById('row_' + postId);
-                            // Example: Update the 'state' column
-                            const reqStateCell = document.getElementById('reqState_' + postId);
-                            if (reqStateCell) {
-                                reqStateCell.textContent = 'A';
-                            } else {
-                                console.error('reqState-column not found in row:', postId);
-                            }
-                        } else {
-                            console.error('Unknown response:', data);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating reqState:', error);
-                    });
-            }
-
-            function updateRefuseReqState(id) {
-                // Send an AJAX request to update the reqState for the specified post
-                const url = '/api/vender/refuse/' + id;
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            console.error('Error updating reqState:', data.error);
-                        } else if (data.message === 'success') {
-                            const row = document.getElementById('row_' + postId);
-                            // Example: Update the 'state' column
-                            const reqStateCell = document.getElementById('reqState_' + postId);
-                            if (reqStateCell) {
-                                reqStateCell.textContent = 'R';
-                            } else {
-                                console.error('reqState-column not found in row:', postId);
-                            }
-                        } else {
-                            console.error('Unknown response:', data);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating reqState:', error);
-                    });
-            }
         });
-    </script>
-    </body>
+
+        refuseButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const postId = button.getAttribute('data-id');
+                updateRefuseReqState(postId);
+            });
+        });
+
+        function updateReqState(id) {
+            // Send an AJAX request to update the reqState for the specified post
+            const url = '/api/vender/allow/' + id;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error updating reqState:', data.error);
+                    } else if (data.message === 'success') {
+                        const row = document.getElementById('row_' + postId);
+                        // Example: Update the 'state' column
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'A';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating reqState:', error);
+                });
+        }
+
+        function updateRefuseReqState(id) {
+            // Send an AJAX request to update the reqState for the specified post
+            const url = '/api/vender/refuse/' + id;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error updating reqState:', data.error);
+                    } else if (data.message === 'success') {
+                        const row = document.getElementById('row_' + postId);
+                        // Example: Update the 'state' column
+                        const reqStateCell = document.getElementById('reqState_' + postId);
+                        if (reqStateCell) {
+                            reqStateCell.textContent = 'R';
+                        } else {
+                            console.error('reqState-column not found in row:', postId);
+                        }
+                    } else {
+                        console.error('Unknown response:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating reqState:', error);
+                });
+        }
+    });
+</script>
+</body>
 </html>
