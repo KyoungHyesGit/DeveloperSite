@@ -21,16 +21,23 @@ nav{width: 100%;z-index: 100;display: block;/* box-sizing: border-box; */positio
 .menu{margin: 0;justify-content: space-between;align-items: center;padding: 0;/* margin-right: 10px; */}
 nav{width: 100%;z-index: 100;/* box-sizing: border-box; */position: sticky;top: 0;/* background-color: #fff; *//* box-shadow: 0 5px 10px -3px #eee; */}
 
+.nav-brand{
+    float: left;
+    height: 50px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
 .menu{margin: 0;justify-content: space-between;align-items: center;}
 .menu li{line-height: 55px;}
 .menu li:nth-child(7){/* margin-top: 5px; */line-height: 0;margin-left: 300px;}
 .menu li:nth-child(3),
 .menu li:nth-child(5){color: #eee;}
 .menuBtn{font-weight: 700;color: #444;margin: 0 10px;}
-.menuBtn:hover{color: #1187CF;}
+.menuBtn:hover{color: #1187CF; text-decoration: none;}
 
-.navgator a{font-size:0.9rem;}
-.navgator a ~ a{margin-left:10px;}
+.navigator a{font-size:16px; color: #444; text-decoration-line: none;}
+.navigator a ~ a{margin-left:10px;}
 
 .search {display:flex;justify-content: center;margin: 100px auto 50px;}
 
@@ -44,6 +51,6 @@ footer{display: block;clear: both;position: relative;z-index: 1;margin-top: 110p
 
 .ftBtn ul{margin: 10px auto;width: 1260px;display: flex;flex-flow: row nowrap;justify-content: space-around;padding: 10px;}
 .ftBtn ul li a{display: inline-flex;color: #333;font-size: 13px;line-height: 24px;letter-spacing: -1px;}
-.inner{position: relative;margin: 0 auto;padding: 60px 0 21px 260px;width: 960px;box-sizing: border-box;}
+.inner{position: relative;margin: 0 auto;padding: 60px 0 21px 260px;width: 960px;box-sizing: border-box;font-size: 18px;font-weight: 500;font-family: 'Pretendard';}
 .inner .logo{display: block;position: absolute;top: 60px;left: 20px;width: 158px;height: 31px;}
 .main_vs{cursor: pointer;}
