@@ -145,9 +145,9 @@
                             url: "/mail",
                             type: "post",
                             crossDomain: true,
-                            headers: { 'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
+                            headers: {'Access-Control-Allow-Origin': 'http://The web site allowed to access'},
                             dataType: "json",
-                            data: { "mail": $("#u_email").val() },
+                            data: {"mail": $("#u_email").val()},
                             success: function (data) {
                                 alert("인증번호가 전송되었습니다。");
                                 var message = data.message;
@@ -268,11 +268,56 @@
                 <br>
                 <span class="err_mobile">* '-'없이 숫자만 입력</span>
             </p>
+<p style="margin-bottom: -1px">이용약관</p>
+        <textarea style="width: 360px; height: 500px; resize: none">
+1. 정의
+
+1.1 "회사"는 이용자에게 제공하는 서비스 및 웹 사이트의 소유자 또는 운영자를 가리킵니다.
+
+1.2 "이용자"는 회사의 서비스 및 웹 사이트를 이용하는 개인 또는 단체를 가리킵니다.
+
+2. 회원가입 및 계정
+
+2.1 이용자는 회사의 서비스를 이용하기 위해 회원으로 가입해야 합니다. 회원가입 시 제공하는 정보는 정확하고 최신 정보이어야 합니다.
+
+2.2 회원은 자신의 계정 정보를 보호하고 비밀번호를 안전하게 보관해야 합니다. 회원의 계정은 개인 정보 보호의 책임입니다.
+
+3. 서비스 이용
+
+3.1 이용자는 회사의 서비스를 이용함에 있어 모든 관련 법률과 규정을 준수해야 합니다.
+
+3.2 회사의 서비스를 이용함으로써, 이용자는 서비스에서 다음과 같은 행동을 삼가해야 합니다:
+
+불법 활동 또는 기타 악의적인 활동을 시도하지 않아야 합니다.
+타인의 개인 정보 또는 저작권을 침해해서는 안됩니다.
+서비스의 안전성 또는 성능을 저해하거나 해킹을 시도해서는 안됩니다.
+4. 개인 정보 보호
+
+4.1 회사는 이용자의 개인 정보를 보호하기 위해 노력하며, 개인 정보 보호에 관한 자세한 내용은 개인 정보 보호 정책에서 확인할 수 있습니다.
+
+5. 책임과 면책사항
+
+5.1 회사는 서비스의 품질과 가용성을 지속적으로 유지하기 위해 최선을 다하지만, 서비스 중단 또는 장애가 발생할 수 있으며 이로 인한 손실 또는 피해에 대해 책임을 지지 않습니다.
+
+5.2 이용자는 회사 서비스를 사용함으로써 발생하는 모든 활동 및 내용에 대해 전적으로 책임을 집니다.
+
+6. 약관 변경
+
+6.1 회사는 본 약관을 변경하거나 수정할 권리를 갖고 있으며, 변경된 약관은 웹 사이트나 앱을 통해 공지됩니다. 변경된 약관은 효력을 발생하기 위해 이용자의 동의가 필요할 수 있습니다.
+
+7. 해지
+
+7.1 이용자는 언제든지 회원 자격을 해지할 수 있습니다. 해지 후에는 회원 정보와 데이터는 삭제될 수 있습니다.
+
+8. 적용법 및 관할권
+
+8.1 본 약관은 국내법과 국제법에 따라 해석되며, 모든 분쟁에 대한 관할 권은 회사의 본사 소재지를 따릅니다.
+        </textarea>
+            </p>
+
+                <input type="checkbox" name="privacyState" id="agree" value="1" style="padding-top: -5px">약관 동의</input>
             <p>
-                <input type="checkbox" name="privacyState" id="agree" value="1">
-                <label for="agree">약관 동의</label>
-                <br>
-                <span class="err_agree">* 필수</span>
+            <span class="err_agree">* 필수</span>
             </p>
             <p class="final_btn">
                 <button type="submit" id="signupButton" class="btn" disabled>회원가입</button>

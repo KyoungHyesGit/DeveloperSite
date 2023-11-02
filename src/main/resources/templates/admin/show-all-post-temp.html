@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/show_all_post_temp.css">
 <!-- -----------------------------------------------------스크립트--------------------------------------------------  -->
 <script type="text/javascript" th:src="@{/js/job_post_temp/test.js}"></script>
 
@@ -58,23 +59,21 @@
 <th:block layout:fragment="content">
     <div class="container" style="max-width: 1120px; padding-top: 30px">
 
-        <<h2 class="resumeH2 text-center">공고글 신청 목록</h2>
+        <h2 class="resumeH2 text-center">공고글 신청 목록</h2>
         <table class="table">
             <thead class="thead-light">
             <tr class="text-center">
                 <th scope="col">ID</th>
-                <th scope="col">STATE</th>
-                <th scope="col">reqState</th>
+                <th scope="col">상태</th>
+                <th scope="col">응답결과</th>
                 <th scope="col">IP</th>
-                <th scope="col">Title</th>
-                <th scope="col">detail</th>
-                <th scope="col">work</th>
-                <th scope="col">req</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Create Date</th>
-                <th scope="col">Update Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">삭제</th>
+                <th scope="col">공고명</th>
+                <th scope="col">공고내용</th>
+                <th scope="col">연봉</th>
+                <th scope="col">공고 생성일</th>
+                <th scope="col">공고 수정일</th>
+                <th scope="col">공고 마감일</th>
+                <th scope="col">/</th>
             </tr>
             </thead>
 
@@ -103,15 +102,6 @@
 
                 <td>
                     <span th:text="${#strings.length(postTemp.detail) <= 50 ? postTemp.detail : #strings.substring(postTemp.detail, 0, 50) + '...'}"></span>
-                </td>
-
-
-                <td>
-                    <span th:text="${postTemp.work}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.req}"></span>
                 </td>
 
                 <td>

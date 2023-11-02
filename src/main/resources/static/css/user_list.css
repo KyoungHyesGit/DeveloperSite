@@ -1,0 +1,58 @@
+
+.container {
+    max-width: 1120px;
+    padding-top: 30px;
+    margin: 0 auto; /* 페이지 중앙 정렬 */
+}
+
+/* 제목 스타일 */
+.resumeH2 {
+    color: #000000; /* 짙은 파란색 텍스트 색상 */
+    text-align: center;
+}
+
+/* 테이블 스타일 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ffffff; /* 테이블 테두리 파란색 */
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #c0c0c0; /* 셀 테두리 파란색 */
+    text-align: center;
+}
+
+/* 테이블 헤더 스타일 */
+.thead-light {
+    background-color: #87ceeb; /* 하늘색 배경색 */
+    color: #00008b; /* 짙은 파란색 텍스트 색상 */
+}
+
+/* 테이블 헤더 셀 스타일 */
+.table th {
+    font-weight: bold;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    background-color: #7A7A7A; /* 머리글 배경색 설정 */
+    color: #ffffff; /* 글자색 설정 */
+}
+
+/* 테이블 셀 스타일 */
+.table td {
+    background-color: #ffffff; /* 테이블 셀 배경색 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 버튼 스타일 */
+.allow-button {
+    background-color: #7A7A7A;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.allow-button:hover {
+    background-color: #7A7A7A; /* 더 진한 파란색 배경색 */
+}

@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/user_list.css">
+<body>
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
 
     <div class="container" style="max-width: 1120px; padding-top: 30px">
-        <<h2 class="resumeH2 text-center">일반 회원 목록</h2>
-        <button onclick="location.href='/account/loginpage'" class="btn btn-primary"
-                style="float: right; margin-bottom: 10px">로그아웃
-        </button>
+        <h2 class="resumeH2 text-center">일반 회원 목록</h2>
+
         <table border="1" class="table">
 
             <thead class="thead-light">
             <tr class="text-center">
                 <th scope="col">SEQ</th>
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>
+                <th scope="col">이름</th>
                 <th scope="col">Email</th>
                 <th scope="col">CreatedAt</th>
-                <th scope="col">birth</th>
-                <th scope="col">userImage</th>
+                <th scope="col">생년월일</th>
                 <th scope="col">유저 차단</th>
             </tr>
             </thead>
@@ -51,11 +50,6 @@
                 <td>
                     <span th:text="${user.birth}"></span>
                 </td>
-
-                <td>
-                    <span th:text="${user.photo}"></span>
-                </td>
-
                 <td>
                     <button th:id="'allowButton_' + ${user.userId}" th:attr="data-id=${user.userId}"
                             class="allow-button">차단
@@ -69,7 +63,7 @@
 
     <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
     <div th:if="${users.totalPages > 1}">
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
             <li th:if="${users.hasPrevious}" class="page-item">
                 <a th:href="@{/admin/show(page=0, size=${users.size})}" class="page-link">First</a>
             </li>
@@ -138,4 +132,6 @@
 
     });
 </script>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

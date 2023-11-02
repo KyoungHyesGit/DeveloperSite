@@ -65,7 +65,7 @@ public class JobPostTempService {
         JobPostTempEntity jobPostTempEntity = jobPostTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
         jobPostTempEntity.setState("D"); // D Delete
         jobPostTempEntity.setReqState("R");
-
+        jobPostTempRepository.deleteById(id);
         return modelMapper.map(jobPostTempEntity, JobPostTempResDTO.class);
     }
 }

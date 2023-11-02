@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<body>
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<div class="container search">
+    <form class="sch" th:action="@{/job_post/jobSearch}" method="get">
+        <input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력해주세요">
+    </form>
+    <form class="schBtn" th:action="@{/job_post/jobSearch}" method="get">
+        <button type="button" id="searchButton">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </form>
+</div>
+<div class="container">
+    <div class="job_container">
+        <div class="job_item" th:each="jobList : ${jobList}">
+            <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
+                <div class="jobBox text-center">
+                    <img th:if="${jobList.venderResDTO != null}" class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
+                </div>
+                <p class="veName" th:if="${jobList.venderResDTO != null}"  th:text="${jobList.venderResDTO.venderName}"></p>
+                <p class="ellipsis" th:text="${jobList.title}"></p>
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</html>
