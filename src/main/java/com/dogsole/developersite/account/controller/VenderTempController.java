@@ -1,8 +1,10 @@
 package com.dogsole.developersite.account.controller;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderResDTO;
 import com.dogsole.developersite.account.dto.vender.VenderTempReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderTempResDTO;
+import com.dogsole.developersite.account.service.vender.VenderService;
 import com.dogsole.developersite.account.service.vender.VenderTempService;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +38,9 @@ import java.util.List;
 public class VenderTempController {
 
     private final VenderTempService venderTempService;
+    private final VenderService venderService;
+
+    private final ModelMapper modelMapper;
 
     @GetMapping("/add")
     public String gotoAddJobPostTempPage(VenderTempReqDTO venderTempReqDTO, Model model){
@@ -63,7 +69,10 @@ public class VenderTempController {
 
     @GetMapping("/edit/{id}")
     public String gotoEditJobPostTempPage(@PathVariable Long id, Model model){
-        VenderTempResDTO venderTemp = venderTempService.findById(id);
+//        VenderTempResDTO venderTemp = venderTempService.findById(id);
+        VenderResDTO vender = venderService.showVenderById(id);
+
+        VenderTempResDTO venderTemp = vender.orgToTemp(vender);
 
         model.addAttribute("venderTemp",venderTemp);
 
@@ -86,6 +95,20 @@ public class VenderTempController {
 
         return "redirect:/userMypage";
     }
+
+//    @PostMapping("/edit/{id}")
+//    public String addJobPostTemp(@ModelAttribute("venderTemp") @Valid VenderReqDTO venderTemp, @RequestParam("photo") MultipartFile photo, BindingResult result, Model model, HttpServletRequest request, @PathVariable Long id){
+//        if(result.hasErrors()){
+//
+//            model.addAttribute("venderTemp",venderTemp);
+//            return "/account/edit_vender_temp";
+//        }
+//        try{
+//            venderService.updateVenderTemp(id, venderTemp, photo);
+//        }catch (Exception e){}
+//
+//        return "redirect:/userMypage";
+//    }
 
     @GetMapping("/delete/{id}")
     public String deleteJobPostTemp(@PathVariable Long id) {

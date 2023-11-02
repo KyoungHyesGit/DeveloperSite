@@ -18,7 +18,7 @@ public class VenderTempResDTO {
 
     private String name;
 
-    private MultipartFile photo;
+    private String photo;
 
     private String email;
 

@@ -4,7 +4,6 @@
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <body>
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
-<th:block layout:fragment="content">
 <div class="container search" >
     <form class="sch" th:action="@{/job_post/jobSearch}" method="get">
         <input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력해주세요">
@@ -102,38 +101,8 @@
             </table>
         </div>
     </div>
-    <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
-        <div th:if="${jobList.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${jobList.hasPrevious}" class="page-item">
-                    <a th:href="@{/job_post/jobList(page=0, size=${jobList.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${jobList.hasPrevious}" class="page-item">
-                    <a th:href="@{/job_post/jobList(page=${jobList.number - 1}, size=${jobList.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, jobList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/job_post/jobList(page=${i}, size=${jobList.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${jobList.hasNext}" class="page-item">
-                    <a th:href="@{/job_post/jobList(page=${jobList.number + 1}, size=${jobList.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${jobList.hasNext}" class="page-item">
-                    <a th:href="@{/job_post/jobList(page=${jobList.totalPages - 1}, size=${jobList.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
-        </div>
-    </div>
 </div><!--container>-->
-</th:block>
+
 </body>
-
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
-
 </html>
-
-
-

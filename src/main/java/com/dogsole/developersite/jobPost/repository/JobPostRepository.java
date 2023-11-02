@@ -19,20 +19,20 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
 
     //전체검색
     @Query("SELECT j FROM JobPostEntity j " +
-            "JOIN vender v ON j.id = v.venderId " +
+            "JOIN vender v ON j.venderEntity.venderId = v.venderId " +
             "WHERE j.title LIKE %:keyword% OR v.venderName LIKE %:keyword%")
     Page<JobPostEntity> findByTitleContaining(@Param("keyword") String keyword, Pageable pageable);
 
     // 등록순으로 공고 목록 조회
     @Query("SELECT j FROM JobPostEntity j " +
-            "JOIN vender v ON j.id = v.venderId " +
+            "JOIN vender v ON j.venderEntity.venderId = v.venderId " +
             "WHERE j.title LIKE %:keyword% OR v.venderName LIKE %:keyword% order by j.createDt asc")
     Page<JobPostEntity> findAllByOrderByCreateDtAsc(@Param("keyword") String keyword,Pageable pageable);
 
     // 마감일순으로 공고 목록 조회
     @Query("SELECT j FROM JobPostEntity j " +
-            "JOIN vender v ON j.id = v.venderId " +
-            "WHERE j.title LIKE %:keyword% OR v.venderName LIKE %:keyword% order by j.endTime asc")
+            "JOIN vender v ON j.venderEntity.venderId = v.venderId " +
+            "WHERE j.title LIKE %:keyword% OR v.venderName LIKE %:keyword% order by j.endTime desc")
     Page<JobPostEntity> findByEndTimeSearch(@Param("keyword") String keyword,Pageable pageable);
 
 

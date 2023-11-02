@@ -1,6 +1,7 @@
 package com.dogsole.developersite.account.entity.vender;
 
 
+import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +36,6 @@ public class VenderEntity {
     private String venderPasswd;
 
     @Column(name = "create_dt")
-    @CreationTimestamp
     private LocalDateTime createDt =LocalDateTime.now();
 
     @Column(name = "update_dt")
@@ -81,6 +81,20 @@ public class VenderEntity {
         this.streetAddr = venderTempEntity.getStreetAddr();
         this.detailAddr = venderTempEntity.getDetailAddr();
         this.extraAddr = venderTempEntity.getExtraAddr();
+
+    }
+
+    public void setTempToReal(VenderReqDTO venderEntity){
+        this.venderId = venderEntity.getVenderId();
+        this.venderName = venderEntity.getVenderName();
+        this.photo = venderEntity.getPhoto();
+        this.venderEmail = venderEntity.getVenderEmail();
+        this.phone = venderEntity.getPhone();
+        this.bNo = venderEntity.getBNo();
+        this.zipcode = venderEntity.getZipcode();
+        this.streetAddr = venderEntity.getStreetAddr();
+        this.detailAddr = venderEntity.getDetailAddr();
+        this.extraAddr = venderEntity.getExtraAddr();
 
     }
 }
