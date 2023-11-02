@@ -1,73 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<header>
-</header>
-<th:block th:fragment="navbarFragment">
-    <body>
-    <script>
-        function checkCookie() {
-            var loginUserId = getCookie("loginUserId");
-            console.log("체크쿠키메서드시작"+loginUserId);
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<script type="text/javascript">
+    function updateLinkUrl(url,btnId) {
+        var loginUserIdValue = getCookie('loginUserId');
+        console.log("loginUserIdValue:"+loginUserIdValue);
+        if (loginUserIdValue) {
+            var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
+            likeBtn.href = url + loginUserIdValue; // URL을 업데이트
+        }
+    }
 
-            // "loginUserId"라는 쿠키가 존재하면 로그아웃 버튼을 표시
-            if (loginUserId) { //회원상태
-                document.getElementById("loginBtn").style.display = "none"; // 로그인 버튼 숨김
-                document.getElementById("logoutBtn").style.display = "inline"; // 로그아웃 버튼 표시
-                document.getElementById("admin").style.display = "inline";
-                document.getElementById("my").style.display = "inline";
+    function updateLinkUrlVender(url,btnId) {
+        var loginUVenderIdValue = getCookie('loginVenderId');
+        console.log("loginUVenderIdValue:"+loginUVenderIdValue);
+        if (loginUVenderIdValue) {
+            var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
+            console.log("url:"+url + loginUVenderIdValue);
+            likeBtn.href = url + loginUVenderIdValue; // URL을 업데이트
+        }
+    }
 
-            } else { //비회원 상태
-                document.getElementById("loginBtn").style.display = "inline"; // 로그인 버튼 표시
-                document.getElementById("logoutBtn").style.display = "none"; // 로그아웃 버튼 숨김
-                document.getElementById("admin").style.display = "none";
-                document.getElementById("my").style.display = "none";
+    // 쿠키에서 loginUserIdValue 값을 가져오는 함수 (이미 있는 코드)
+    function getCookie(name) {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.indexOf(name + '=') === 0) {
+                return cookie.substring(name.length + 1, cookie.length);
             }
         }
+        return null; // 해당 쿠키가 없을 경우
+    }
+</script>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<th:block layout:fragment="content">
+    <h1 class="resumeH2 text-center">마이페이지</h1>
+    <div class="uPContainer">
+        <!-- 사용자 정보 수정 버튼 -->
+        <a id="myInfoBtn">
+            <button onclick="updateLinkUrl('/account/updatepageu/','myInfoBtn')"><i class="fa-solid fa-user-pen"></i>&nbsp;회원 정보 수정</button>
+        </a>
+        <!-- 지원 현황 버튼 -->
+        <a id="applyBtn">
+            <button onclick="updateLinkUrl('/jpApply/jpApplyList/','applyBtn')"><i class="fa-solid fa-paper-plane"></i>&nbsp;내 지원 현황</button>
+        </a>
+        <!-- 이력서 관리 버튼 -->
+        <a id="myResumeBtn">
+            <button onclick="updateLinkUrl('/userResume/','myResumeBtn')"><i class="fa-solid fa-pen-to-square"></i>&nbsp;이력서 관리</button>
+        </a>
+        <!-- 탈퇴 버튼 -->
+        <a id="myDeleteBtn">
+            <button onclick="updateLinkUrl('/account/deletepageu/','myDeleteBtn')"><i class="fa-solid fa-user-slash"></i>&nbsp;회원 탈퇴</button>
+        </a>
+        <!-- 찜 목록 버튼 -->
+        <a id="likeBtn">
+            <button onclick="updateLinkUrl('/jpLike/jpLikeList/','likeBtn')"><i class="fa-solid fa-star"></i>&nbsp;내 찜 목록</button>
+        </a>
 
-        function getCookie(name) {
-            var cookies = document.cookie.split(';');
-            console.log("겟쿠키메서드시작"+name);
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (cookie.indexOf(name + '=') === 0) {
-                    return cookie.substring(name.length + 1, cookie.length);
-                }
-            }
-            return null;
-        }
+        <!-- Java 변수 값을 HTML로 렌더링 -->
+        <a id="postBtn" th:if="${venderId != null}">
+            <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')">
+                <i class="fa-solid fa-file-lines"></i>&nbsp;공고 등록
+            </button>
+        </a>
+        <a>
+            <button onclick="window.location.href = '/vender/add'">
+                <i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청
+            </button>
+        </a>
+        <a th:if="${venderId != null}" th:href="@{/vender/edit/{id}(id=${venderId})}">
+            <button>
+                <i class="fa-solid fa-building-user"></i>&nbsp;회사 수정 신청
+            </button>
+        </a>
+        <!--        <a id="venderEditBtn">-->
+        <!--            <button onclick="window.location.href = '/vender/add'">-->
+        <!--                <i class="fa-solid fa-building"></i>&nbsp;회사 수정 신청-->
+        <!--            </button>-->
+        <!--        </a>-->
 
-        // 페이지 로드 시 쿠키를 확인
-        window.onload = checkCookie;
-
-    </script>
-
-
-    <nav class="main_hd">
-        <div class="container">
-            <div>
-                <ul style="display: flex" class="menu">
-                    <li>
-                        <a class="nav-brand" th:href="@{/job_post/jobList}">
-                            <img th:src="@{/img/logo/title_header.png}" alt="logo" style="width: 150px;"/>
-                        </a>
-                    </li>
-                    <li><a href="/" class="menuBtn">공고보기</a></li>
-                    <li>|</li>
-                    <li><a href="/job_post/venderList" class="menuBtn">기업정보보기</a></li>
-                    <li>|</li>
-                    <li><a href="/adviceboard/list" class="menuBtn">커뮤니티</a></li>
-                    <li class="navigator">
-                        <a class="logBtn" id="loginBtn" href="/account/loginpage" >로그인</a>
-                        <a class="logBtn" id="logoutBtn" href="/logout">로그아웃</a>
-                        <a href="/userMypage">마이페이지</a>
-                        <a href="/adminPage">관리자페이지</a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    </body>
+    </div>
 </th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
 </html>
