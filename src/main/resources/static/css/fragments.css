@@ -34,11 +34,11 @@ nav{width: 100%;z-index: 100;/* box-sizing: border-box; */position: sticky;top: 
 
 .search {display:flex;justify-content: center;margin: 100px auto 50px;}
 
-.search form{position: relative;width: 750px;border: 3px solid #0097f3;border-radius: 20px 0 0 20px;padding: 20px 30px;box-sizing: border-box;background: #fff;}
+.sch{position: relative;width: 750px;border: 3px solid #0097f3;border-radius: 20px 0 0 20px;padding: 20px 30px;box-sizing: border-box;background: #fff;}
 .search input {width: 100%;border: none;font-size: 20px;outline: none;}
 .search img {position : absolute;width: 17px;top: 10px;right: 12px;margin: 0;}
-.search button{background-color:#0097f3;/* margin-left: 10px; */width: 76px;border-radius: 0 20px 20px 0;}
-.search i{color: #fff; font-size: 35px;}
+.schBtn{background-color:#0097f3;/* margin-left: 10px; */width: 76px;border-radius: 0 20px 20px 0; display: flex; justify-content: center;}
+.schBtn i{color: #fff; font-size: 35px;}
 /*footer*/
 footer{display: block;clear: both;position: relative;z-index: 1;margin-top: 110px;width: 100%;min-width: 960px;height: 297px;}
 

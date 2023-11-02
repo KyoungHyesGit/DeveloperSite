@@ -6,7 +6,6 @@
     width: 100%;
     margin: 50px auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -16,6 +15,7 @@
     border-radius: 8px;
     background: #fff;
     padding: 10px;
+    margin-right: 10px;
 }
 
 .sch_container select {
@@ -48,7 +48,7 @@
     padding: 10px;
 }
 
-.search_tb tbody tr:hover {
+.search_tby tbody tr:hover {
     background: #eee;
 }
 
@@ -63,11 +63,18 @@
 }
 
 .sch_container button {
-    background-color: #0097f3; /* margin-left: 10px; */
-    width: 76px;
-    border-radius: 0 20px 20px 0;
+    background-color: #0097f3;
+    /* margin-left: 10px; */
+    width: 50px;
+    border-radius: 0 10px 10px 0;
 }
 .sch_container button i{
-    font-size: 35px;
+    font-size: 20px;
     color: #fff;
+}
+.sch_container input{
+    padding: 0 10px;
+    border:1px solid #333;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
 }

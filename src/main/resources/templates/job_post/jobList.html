@@ -1,111 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">
-<meta charset="UTF-8">
-<script>
-
-</script>
-
-<th:block layout:fragment="content">
-    <div class="container search">
-        <form th:action="@{/job_post/jobSearch}" method="get">
-            <input type="text" name="keyword" placeholder="검색어를 입력해주세요">
-        </form>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<body>
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<div class="container search" >
+    <form class="sch" th:action="@{/job_post/jobSearch}" method="get">
+        <input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력해주세요">
+    </form>
+    <form class="schBtn" th:action="@{/job_post/jobSearch}" method="get">
         <button type="button" id="searchButton">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-    </div>
+    </form>
+</div>
 
-    <div class="container mainBtn">
-        <ul>
-            <li>
-                <a th:href="@{/}">
-                    <span class="btImg"><i class="fa-solid fa-note-sticky"></i></span>
-                    <span>공고보기</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/job_post/venderList}">
-                    <span class="btImg"><i class="fa-solid fa-building"></i></span>
-                    <span>기업정보보기</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/adviceboard/list}">
-                    <span class="btImg"><i class="fa-solid fa-people-line"></i></span>
-                    <span>커뮤니티</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/account/signuppage}">
-                    <span class="btImg"><i class="fa-solid fa-user-plus"></i></span>
-                    <span>회원가입</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/userMypage}">
-                    <span class="btImg"><i class="fa-solid fa-user"></i></span>
-                    <span>마이페이지</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+<div class="container mainBtn">
+    <ul>
+        <li>
+            <a th:href="@{/}">
+                <span class="btImg"><i class="fa-solid fa-note-sticky"></i></span>
+                <span>공고보기</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/job_post/venderList}">
+                <span class="btImg"><i class="fa-solid fa-building"></i></span>
+                <span>기업정보보기</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/adviceboard/list}">
+                <span class="btImg"><i class="fa-solid fa-people-line"></i></span>
+                <span>커뮤니티</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/account/signuppage}">
+                <span class="btImg"><i class="fa-solid fa-user-plus"></i></span>
+                <span>회원가입</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/userMypage}">
+                <span class="btImg"><i class="fa-solid fa-user"></i></span>
+                <span>마이페이지</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
-    <div class="main_vs container">
-        <img th:src="@{/img/banner.png}">
-    </div>
+<div class="main_vs container">
+    <img th:src="@{/img/banner.png}">
+</div>
 
-    <div class="container">
+<div class="container">
 
-        <div class="block">
-            <p class="main_title">추천공고</p>
-            <div class="job_container">
-                <div class="job_item" th:each="jobList : ${jobList}">
-                    <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-                        <div class="jobBox text-center">
-                            <img class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
-                        </div>
-                        <p class="veName" th:text="${jobList.venderResDTO.venderName}"></p>
-                        <p class="ellipsis" th:text="${jobList.title}"></p>
-                    </a>
-                </div>
+    <div class="block">
+        <p class="main_title">추천공고</p>
+        <div class="job_container">
+            <div class="job_item" th:each="jobList : ${jobList}">
+                <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
+                    <div class="jobBox text-center">
+                        <img th:if="${jobList.venderResDTO != null}" class="jobBoxImg" th:src="@{/img/vender/} + ${jobList.venderResDTO.photo}" alt="회사로고이미지"/>
+                    </div>
+                    <p class="veName" th:if="${jobList.venderResDTO != null}"  th:text="${jobList.venderResDTO.venderName}"></p>
+                    <p class="ellipsis" th:text="${jobList.title}"></p>
+                </a>
             </div>
         </div>
-        <div class="block">
-            <p class="main_title">채용정보</p>
-            <div class="job_container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>기업이름</th>
-                            <th>공고명</th>
-                            <th>직종</th>
-                            <th>자격요건</th>
-                            <th>급여</th>
-                            <th>마감일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="jobList : ${jobList}">
-                            <td th:text="${jobList.venderResDTO.venderName}"></td>
-                            <td>
-                                <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
-                                    <span th:text="${jobList.title}"></span>
-                                </a>
-                            </td>
-                            <td th:text="${jobList.work}"></td>
-                            <td th:text="${jobList.req}"></td>
-                            <td th:text="${jobList.salary}"></td>
-                            <td th:text="${#temporals.format(jobList.endTime, 'yyyy.MM.dd')}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
+    </div>
+    <div class="block">
+        <p class="main_title">채용정보</p>
+        <div class="job_container">
+            <table>
+                <thead>
+                <tr>
+                    <th>기업이름</th>
+                    <th>공고명</th>
+                    <th>직종</th>
+                    <th>자격요건</th>
+                    <th>급여</th>
+                    <th>마감일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="jobList : ${jobList}">
+                    <td th:text="${jobList.venderResDTO.venderName}"></td>
+                    <td>
+                        <a th:href="@{/job_post/jobDetail/{id}(id=${jobList.id})}">
+                            <span th:text="${jobList.title}"></span>
+                        </a>
+                    </td>
+                    <td th:text="${jobList.work}"></td>
+                    <td th:text="${jobList.req}"></td>
+                    <td th:text="${jobList.salary}"></td>
+                    <td th:text="${#temporals.format(jobList.endTime, 'yyyy.MM.dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+</div><!--container>-->
 
-    </div><!--container-->
-</th:block>
-
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>
