@@ -39,7 +39,7 @@ public class AdminController {
 
     @GetMapping("/show")
     public ModelAndView userShow(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                 @RequestParam(name = "size", required = false, defaultValue = "2") int size){
+                                 @RequestParam(name = "size", required = false, defaultValue = "5") int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<UserResDTO> userResDTOList = userService.showUser(pageable);
         return new ModelAndView("admin/userList","users",userResDTOList);
@@ -47,14 +47,14 @@ public class AdminController {
 
     @GetMapping("/showv")
     public ModelAndView venderShow(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                   @RequestParam(name = "size", required = false, defaultValue = "2") int size){
+                                   @RequestParam(name = "size", required = false, defaultValue = "5") int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<VenderResDTO> venderResDTOList = venderService.showVender(pageable);
         return new ModelAndView("admin/venderList","venders",venderResDTOList);
     }
     @GetMapping("/showTempVender")
     public ModelAndView showTempVender(Model model,@RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                       @RequestParam(name = "size", required = false, defaultValue = "2") int size){
+                                       @RequestParam(name = "size", required = false, defaultValue = "5") int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<VenderTempResDTO> venderTempResDTOList = venderTempService.showVenderTemp(pageable);
         return new ModelAndView("admin/venderTempList","venders",venderTempResDTOList);

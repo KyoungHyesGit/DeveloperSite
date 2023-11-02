@@ -94,7 +94,9 @@
                     <th>직종</th>
                     <td th:text="${jobDetail.work}"></td>
                     <th>주소</th>
-                    <td th:text="${jobDetail.detailAddr}"></td>
+                    <td th:text="${jobDetail.streetAddr}+' '
+                                +${jobDetail.extraAddr}+' '
+                                +${jobDetail.detailAddr}"></td>
                 </tr>
                 <tr>
                     <th>자격요건</th>
