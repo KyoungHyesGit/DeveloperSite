@@ -1,120 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">
-
-<th:block layout:fragment="content">
-    <div class="container" style="max-width: 1120px; padding-top: 30px">
-
-        <h1 style="text-align: center; margin-bottom: 30px">Post List</h1>
-        <table class="table">
-            <thead class="thead-light" s>
-            <tr class="text-center">
-                <th scope="col">ID</th>
-                <th scope="col">STATE</th>
-                <th scope="col">reqState</th>
-                <th scope="col">IP</th>
-                <th scope="col">Title</th>
-                <th scope="col">detail</th>
-                <th scope="col">work</th>
-                <th scope="col">req</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Create Date</th>
-                <th scope="col">Update Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">삭제</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr class="text-center" th:each="postTemp : ${tempList}" id="row_${postTemp.id}">
-                <th scope="row">
-                    <span th:text="${postTemp.id}"></span>
-                </th>
-
-                <td>
-                    <span th:text="${postTemp.state}"></span>
-                </td>
-
-                <td>
-                    <span th:id="'reqState_' + ${postTemp.id}" th:text="${postTemp.reqState}"
-                          data-postid="${postTemp.id}"></span>
-                </td>
-
-                <td>
-                    span th:text="${postTemp.ip}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.title}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.detail}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.work}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.req}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.salary}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span>
-                </td>
-
-                <td>
-                    <button th:id="'allowButton_' + ${postTemp.id}" th:attr="data-id=${postTemp.id}"
-                            class="allow-button">허가
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-<!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
-        <div th:if="${tempList.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.number - 1}, size=${tempList.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${i}, size=${tempList.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.number + 1}, size=${tempList.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-</th:block>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
 <!-- -----------------------------------------------------스크립트--------------------------------------------------  -->
-<script>
+<script type="text/javascript" th:src="@{/js/job_post_temp/test.js}"></script>
+
+<script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         const allowButtons = document.querySelectorAll('.allow-button');
 
@@ -159,9 +52,121 @@
 
     });
 </script>
-<script type="text/javascript" th:src="@{/js/job_post_temp/test.js}"></script>
+<body>
+<!--Header 영역을 참조합니다.-->
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+<th:block layout:fragment="content">
+    <div class="container" style="max-width: 1120px; padding-top: 30px">
 
-<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
-<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <h1 style="text-align: center; margin-bottom: 30px">Post List</h1>
+        <table class="table">
+            <thead class="thead-light" s>
+            <tr class="text-center">
+                <th scope="col">ID</th>
+                <th scope="col">STATE</th>
+                <th scope="col">reqState</th>
+                <th scope="col">IP</th>
+                <th scope="col">Title</th>
+                <th scope="col">detail</th>
+                <th scope="col">work</th>
+                <th scope="col">req</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Create Date</th>
+                <th scope="col">Update Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">삭제</th>
+            </tr>
+            </thead>
 
+            <tbody>
+            <tr class="text-center" th:each="postTemp : ${tempList}" id="row_${postTemp.id}">
+                <th scope="row">
+                    <span th:text="${postTemp.id}"></span>
+                </th>
+
+                <td>
+                    <span th:text="${postTemp.state}"></span>
+                </td>
+
+                <td>
+                    <span th:id="'reqState_' + ${postTemp.id}" th:text="${postTemp.reqState}"
+                          data-postid="${postTemp.id}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${postTemp.ip}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${postTemp.title}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${#strings.length(postTemp.detail) <= 50 ? postTemp.detail : #strings.substring(postTemp.detail, 0, 50) + '...'}"></span>
+                </td>
+
+
+                <td>
+                    <span th:text="${postTemp.work}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${postTemp.req}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${postTemp.salary}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </td>
+
+                <td>
+                    <span th:text="${#temporals.format(postTemp.endTime, 'yyyy-MM-dd')}"></span>
+                </td>
+
+                <td>
+                    <button th:id="'allowButton_' + ${postTemp.id}" th:attr="data-id=${postTemp.id}"
+                            class="allow-button">허가
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
+        <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
+            <div th:if="${tempList.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
+                    </li>
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.number - 1}, size=${tempList.size})}"
+                           class="page-link">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${i}, size=${tempList.size})}" class="page-link"
+                           th:text="${i + 1}"></a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.number + 1}, size=${tempList.size})}"
+                           class="page-link">Next</a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}"
+                           class="page-link">Last</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>
