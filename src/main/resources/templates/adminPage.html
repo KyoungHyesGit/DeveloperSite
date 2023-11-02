@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <script>
     function updateLinkUrl(url,btnId) {
@@ -29,23 +28,23 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <h1 style="text-align: center; margin-bottom: 50px; margin-top: 80px">관리자페이지</h1>
-    <div class="container" style="text-align: center;margin-bottom: 200px">
+    <h2 class="resumeH2 text-center">관리자페이지</h2>
+    <div class="container" style="text-align: center">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/jobPostTemp/tempList"> 지원 요청글 보기 </a>
+                <a class="nav-link" href="/jobPostTemp/tempList"> 공고 요청 목록 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/show"> 사용자 목록 보기 </a>
+                <a class="nav-link" href="/admin/show"> 사용자 목록 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/showTempVender"> 지원 요청글 회사 목록 보기 </a>
+                <a class="nav-link" href="/admin/showTempVender"> 허가 신청 회사 목록</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/showv"> 회사 목록 보기 </a>
+                <a class="nav-link" href="/admin/showv"> 회사 목록 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/statistics"> 사용자 통계 보기 </a>
+                <a class="nav-link" href="/statistics"> 사용자 통계 </a>
             </li>
         </ul>
     </div>

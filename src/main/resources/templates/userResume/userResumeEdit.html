@@ -6,21 +6,16 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <h2 class="text-center">이력서 수정</h2>
+    <h2 class="resumeH2 text-center">이력서 수정</h2>
     <form action="/userResume/createResume" method="POST" enctype="multipart/form-data">
         <div class="resumeIform">
             <input type="hidden" name="id" th:value="${resume.id}"/>
             <label for="resume_title_1">이력서 제목:</label>
             <input type="text" id="resume_title_1" name="resume_title_1" th:value="${resume.resume_title_1}" required>
             <br/>
-            <label for="addr_num">우편번호:</label>
-            <input type="text" id="addr_num" name="addr_num" th:value="${resume.addr_num}" required>
-            <br/>
-            <label for="addr_basic">도로명주소:</label>
-            <input type="text" id="addr_basic" name="addr_basic" th:value="${resume.addr_basic}" required>
-            <br/>
-            <label for="addr_detail">상세주소:</label>
-            <input type="text" id="addr_detail" name="addr_detail" th:value="${resume.addr_detail}" required>
+            <label for="resume_content_1">자기소개:</label>
+            <input type="text" id="resume_content_1" name="resume_content_1" th:value="${resume.resume_content_1}"
+                   required>
             <br/>
             <label for="skill">스킬:</label>
             <input type="text" id="skill" name="skill" th:value="${resume.skill}">
@@ -50,9 +45,14 @@
             <label for="military_service">병역:</label>
             <input type="text" id="military_service" name="military_service" th:value="${resume.military_service}">
             <br/>
-            <label for="resume_content_1">자기소개:</label>
-            <input type="text" id="resume_content_1" name="resume_content_1" th:value="${resume.resume_content_1}"
-                   required>
+            <label for="addr_num">우편번호:</label>
+            <input type="text" id="addr_num" name="addr_num" th:value="${resume.addr_num}" required>
+            <br/>
+            <label for="addr_basic">도로명주소:</label>
+            <input type="text" id="addr_basic" name="addr_basic" th:value="${resume.addr_basic}" required>
+            <br/>
+            <label for="addr_detail">상세주소:</label>
+            <input type="text" id="addr_detail" name="addr_detail" th:value="${resume.addr_detail}" required>
             <br/>
             <label for="state_resume1">이력서 공개여부:</label>
 
