@@ -80,22 +80,22 @@
         <div th:if="${tempList.totalPages > 1}">
             <ul class="pagination">
                 <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=0, size=${tempList.size})}" class="page-link">First</a>
+                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=0, size=${tempList.size})}" class="page-link">First</a>
                 </li>
                 <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number - 1}, size=${tempList.size})}"
+                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number - 1}, size=${tempList.size})}"
                        class="page-link">Previous</a>
                 </li>
                 <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${i}, size=${tempList.size})}" class="page-link"
+                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${i}, size=${tempList.size})}" class="page-link"
                        th:text="${i + 1}"></a>
                 </li>
                 <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number + 1}, size=${tempList.size})}"
+                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number + 1}, size=${tempList.size})}"
                        class="page-link">Next</a>
                 </li>
                 <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.totalPages - 1}, size=${tempList.size})}"
+                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.totalPages - 1}, size=${tempList.size})}"
                        class="page-link">Last</a>
                 </li>
             </ul>

@@ -3,6 +3,8 @@ package com.dogsole.developersite.account.service.vender;
 
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+import com.dogsole.developersite.account.dto.vender.VenderTempReqDTO;
+import com.dogsole.developersite.account.dto.vender.VenderTempResDTO;
 import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.entity.vender.VenderEntity;
 import com.dogsole.developersite.account.entity.vender.VenderTempEntity;
@@ -27,10 +29,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +52,25 @@ public class VenderService {
     private PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenRepository tokenRepository;
+
+    public VenderTempResDTO updateVenderTemp(Long id, VenderReqDTO venderTemp, MultipartFile file) throws Exception {
+        VenderEntity venderEntity = venderRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));
+//        VenderTempEntity venderTempEntity =
+//                modelMapper.map(venderTemp, VenderTempEntity.class);
+
+        //사진 업로드
+        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\img\\vender";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid+"_"+file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+        venderEntity.setPhoto(fileName);
+
+        venderEntity.setState("수정");
+        venderEntity.setTempToReal(venderTemp);
+
+        return modelMapper.map(venderEntity, VenderTempResDTO.class);
+    }
 
     public void allowReq(Long id) {
         // 임시테이블에서 본 테이블로 복사

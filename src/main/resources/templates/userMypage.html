@@ -44,34 +44,45 @@
         <a id="myInfoBtn">
             <button onclick="updateLinkUrl('/account/updatepageu/','myInfoBtn')"><i class="fa-solid fa-user-pen"></i>&nbsp;회원 정보 수정</button>
         </a>
-        <!-- 탈퇴 버튼 -->
-        <a id="myDeleteBtn">
-            <button onclick="updateLinkUrl('/account/deletepageu/','myDeleteBtn')"><i class="fa-solid fa-user-slash"></i>&nbsp;회원 탈퇴</button>
+        <!-- 지원 현황 버튼 -->
+        <a id="applyBtn">
+            <button onclick="updateLinkUrl('/jpApply/jpApplyList/','applyBtn')"><i class="fa-solid fa-paper-plane"></i>&nbsp;내 지원 현황</button>
         </a>
         <!-- 이력서 관리 버튼 -->
         <a id="myResumeBtn">
             <button onclick="updateLinkUrl('/userResume/','myResumeBtn')"><i class="fa-solid fa-pen-to-square"></i>&nbsp;이력서 관리</button>
         </a>
-        <!-- 지원 현황 버튼 -->
-        <a id="applyBtn">
-            <button onclick="updateLinkUrl('/jpApply/jpApplyList/','applyBtn')"><i class="fa-solid fa-paper-plane"></i>&nbsp;내 지원 현황</button>
+        <!-- 탈퇴 버튼 -->
+        <a id="myDeleteBtn">
+            <button onclick="updateLinkUrl('/account/deletepageu/','myDeleteBtn')"><i class="fa-solid fa-user-slash"></i>&nbsp;회원 탈퇴</button>
         </a>
         <!-- 찜 목록 버튼 -->
         <a id="likeBtn">
             <button onclick="updateLinkUrl('/jpLike/jpLikeList/','likeBtn')"><i class="fa-solid fa-star"></i>&nbsp;내 찜 목록</button>
         </a>
-        <a id="postBtn">
-            <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')"><i class="fa-solid fa-file-lines"></i>&nbsp;공고 등록</button>
+
+        <!-- Java 변수 값을 HTML로 렌더링 -->
+        <a id="postBtn" th:if="${venderId != null}">
+            <button onclick="updateLinkUrlVender('/jobPostTemp/vendersTempList/','postBtn')">
+                <i class="fa-solid fa-file-lines"></i>&nbsp;공고 등록
+            </button>
         </a>
         <a>
-            <button onclick="window.location.href = '/vender/add'"><i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청</button>
+            <button onclick="window.location.href = '/vender/add'">
+                <i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청
+            </button>
         </a>
-        <a>
-            <button onclick="window.location.href = '/vender/add'"><i class="fa-solid fa-building-user"></i>&nbsp;회사 정보 수정</button>
+        <a th:if="${venderId != null}" th:href="@{/vender/edit/{id}(id=${venderId})}">
+            <button>
+                <i class="fa-solid fa-building-user"></i>&nbsp;회사 수정 신청
+            </button>
         </a>
-        <a id="venderEditBtn">
-            <button onclick="updateLinkUrlVender('/vender/edit/','venderEditBtn')"><i class="fa-solid fa-file-lines"></i>&nbsp; 회사 정보 수정 신청</button>
-        </a>
+<!--        <a id="venderEditBtn">-->
+<!--            <button onclick="window.location.href = '/vender/add'">-->
+<!--                <i class="fa-solid fa-building"></i>&nbsp;회사 수정 신청-->
+<!--            </button>-->
+<!--        </a>-->
+
     </div>
 </th:block>
 </body>
