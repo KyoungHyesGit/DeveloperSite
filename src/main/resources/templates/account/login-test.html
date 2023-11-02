@@ -42,11 +42,14 @@
         <form id="login" action="/account/login" method="post">
             <input type="text" name="userEmail" placeholder="이메일@aaa" class="in" id="userEmail">
             <input type="password" name="passwd" placeholder="비밀번호" class="in">
-            <input type="submit" id="btn" value="로그인"><br>
+            <input type="submit" id="btn" value="로그인">
             <button type="button" onclick="location.href='http://localhost/account/signuppage'">회원가입</button>
         </form>
         <hr>
-        <a href="/oauth2/authorization/google">구글 로그인</a>
+        <div class="g_login">
+            <img src="https://resource.miricanvas.com/image/logo/asset-google-symbol-96-96-new.png">
+            <a href="/oauth2/authorization/google">구글 로그인</a>
+        </div>
         <br><br>
     </div>
 </body>

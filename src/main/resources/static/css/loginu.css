@@ -38,8 +38,9 @@ h1 {
     border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
+    width: 110px;
+    margin-top: 10px;
 }
-
 
 button[type="button"] {
     background-color: #007bff;
@@ -47,13 +48,24 @@ button[type="button"] {
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
-    margin-top: 10px;
     cursor: pointer;
+    width: 110px;
+    margin-top: 10px;
 }
 
-
-a[href="/oauth2/authorization/google"] {
-    color: #007bff;
+.g_login{
+    width: 250px;
+    height: 40px;
+    margin: 0 auto;
+    line-height: 40px;
+    border: 2px solid #444;
+    border-radius: 10px;
+}
+.g_login img{
+    width: 15px;
+}
+.g_login a {
+    color: #444;
     text-decoration: none;
     font-weight: bold;
 }
