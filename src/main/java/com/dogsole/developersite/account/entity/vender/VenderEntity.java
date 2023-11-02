@@ -35,7 +35,6 @@ public class VenderEntity {
     private String venderPasswd;
 
     @Column(name = "create_dt")
-    @CreationTimestamp
     private LocalDateTime createDt =LocalDateTime.now();
 
     @Column(name = "update_dt")
