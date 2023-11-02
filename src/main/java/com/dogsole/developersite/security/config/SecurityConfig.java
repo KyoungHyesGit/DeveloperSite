@@ -61,11 +61,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/userMypage"),
                                 new AntPathRequestMatcher("/userMypage/**"),
-//                                new AntPathRequestMatcher("/account/update/**"),
-//                                new AntPathRequestMatcher("/account/delete/**"),
-//                                new AntPathRequestMatcher("/userResume/**"),
-//                                new AntPathRequestMatcher("/jpApply/**"),
-//                                new AntPathRequestMatcher("/jpLike/**"),
+                                new AntPathRequestMatcher("/account/update/**"),
+                                new AntPathRequestMatcher("/account/delete/**"),
+                                new AntPathRequestMatcher("/userResume/**"),
+                                new AntPathRequestMatcher("/jpApply/**"),
+                                new AntPathRequestMatcher("/jpLike/**"),
                                 new AntPathRequestMatcher("/vender/**")
                         ).authenticated()
                         .anyRequest().permitAll() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
@@ -77,9 +77,14 @@ public class SecurityConfig {
                             .defaultSuccessUrl("/")
                             .successHandler((request, response, authentication) -> {
                                 System.out.println("성공?");
-                                if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+                                if (authentication != null && authentication.getPrincipal() instanceof PrincipalDetails) {
                                     PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
                                     String userEmail = userDetails.getUsername();
+                                    String userState = userDetails.getUserState();
+                                    if ("d".equals(userState)) {
+                                        System.out.println("계정비활성화 짜식아");
+                                        throw new DisabledException("계정이 비활성화되었습니다.");
+                                    }
                                     String myToken = jwtTokenProvider.createToken(userEmail);
 
                                     Cookie cookie = new Cookie("myTokenCookie", myToken);
@@ -88,10 +93,9 @@ public class SecurityConfig {
                                     cookie.setDomain("");
 
                                     Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
-                                    loginUserId.setMaxAge(18000);
+                                    loginUserId.setMaxAge(1800);
                                     loginUserId.setPath("/") ;
                                     loginUserId.setDomain("");
-
 
                                     if(userDetails.getVenderId()!=null){
                                         Cookie loginVenderId = new Cookie("loginVenderId", userDetails.getVenderId().toString());
@@ -107,6 +111,7 @@ public class SecurityConfig {
 
                                     System.out.println("쿠키 설정됨: " + myToken);
                                     response.sendRedirect("/"); // 리다이렉트
+
                                 }
                             });
                 }).formLogin(login -> login

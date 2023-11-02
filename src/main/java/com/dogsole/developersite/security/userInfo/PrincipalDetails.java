@@ -16,6 +16,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     private String name;
     private Long venderId;
     private String password;
+
+    private String state;
+
     private List<GrantedAuthority> authorities;
 
     public PrincipalDetails(UserEntity userEntity) {
@@ -23,6 +26,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         password=userEntity.getPasswd();
         id=userEntity.getUserId();
         venderId=userEntity.getVenderId();
+        state=userEntity.getState();
     }
 
     @Override
@@ -53,6 +57,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return venderId;
     }
 
+    public String getUserState(){return state;}
 
     @Override
     public boolean isAccountNonExpired() {

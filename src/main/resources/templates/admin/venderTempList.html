@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/vender_temp_list.css">
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         const allowButtons = document.querySelectorAll('.allow-button');
@@ -59,44 +60,44 @@
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
     <h2 class="resumeH2 text-center">기업 신청 목록</h2>
-    <table border="1">
-        <tr>
-            <th>SEQ</th>
-            <th>reqState</th>
-            <th>ID</th>
-            <th>Vender Name</th>
-            <th>Vender Email</th>
-            <th>Vender CreatedDt</th>
-            <th>Vender UpdateDt</th>
-            <th>Vender Logo</th>
-            <th>Vender IMG</th>
-            <th>허가</th>
-            <th>거절</th>
+    <div class="container">
+        <table border="1">
+            <tr>
+                <th>SEQ</th>
+                <th>reqState</th>
+                <th>ID</th>
+                <th>회사명</th>
+                <th>회사 Email</th>
+                <th>CreatedDt</th>
+                <th>UpdateDt</th>
+                <th>회사 로고</th>
+                <th>허가</th>
+                <th>거절</th>
 
-        </tr>
-        <tr th:each="vender, venderState : ${venders}">
-            <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
-            <td th:id="'reqState_' + ${vender.id}" th:text="${vender.reqState}" data-postid="${vender.id}"></td>
-            <td th:text="${vender.id}"></td>
-            <td th:text="${vender.name}"></td>
-            <td th:text="${vender.email}"></td>
-            <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${vender.photo}">
-            <td>
-                <img class="jobBoxImg" th:src="@{/img/vender/} + ${vender.photo}" alt="회사로고이미지"/>
-            </td>
-            <td>
-                <button th:id="'allowButton_' + ${vender.id}" th:attr="data-id=${vender.id}" class="allow-button">허가
-                </button>
-            </td>
-            <td>
-                <button th:id="'refuseButton_' + ${vender.id}" th:attr="data-id=${vender.id}" class="refuse-button">거절
-                </button>
-            </td>
+            </tr>
+            <tr th:each="vender, venderState : ${venders}">
+                <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
+                <td th:id="'reqState_' + ${vender.id}" th:text="${vender.reqState}" data-postid="${vender.id}"></td>
+                <td th:text="${vender.id}"></td>
+                <td th:text="${vender.name}"></td>
+                <td th:text="${vender.email}"></td>
+                <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <img class="jobBoxImg" th:src="@{/img/vender/} + ${vender.photo}" alt="회사로고이미지"/>
+                </td>
+                <td>
+                    <button th:id="'allowButton_' + ${vender.id}" th:attr="data-id=${vender.id}" class="allow-button">허가
+                    </button>
+                </td>
+                <td>
+                    <button th:id="'refuseButton_' + ${vender.id}" th:attr="data-id=${vender.id}" class="refuse-button">거절
+                    </button>
+                </td>
 
-        </tr>
-    </table>
+            </tr>
+        </table>
+    </div>
     <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
         <div th:if="${venders.totalPages > 1}">
             <ul class="pagination">
