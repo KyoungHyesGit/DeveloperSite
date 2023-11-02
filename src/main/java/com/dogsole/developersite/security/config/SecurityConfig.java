@@ -61,11 +61,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 new AntPathRequestMatcher("/userMypage"),
                                 new AntPathRequestMatcher("/userMypage/**"),
-                                new AntPathRequestMatcher("/account/update/**"),
-                                new AntPathRequestMatcher("/account/delete/**"),
-                                new AntPathRequestMatcher("/userResume/**"),
-                                new AntPathRequestMatcher("/jpApply/**"),
-                                new AntPathRequestMatcher("/jpLike/**"),
+//                                new AntPathRequestMatcher("/account/update/**"),
+//                                new AntPathRequestMatcher("/account/delete/**"),
+//                                new AntPathRequestMatcher("/userResume/**"),
+//                                new AntPathRequestMatcher("/jpApply/**"),
+//                                new AntPathRequestMatcher("/jpLike/**"),
                                 new AntPathRequestMatcher("/vender/**")
                         ).authenticated()
                         .anyRequest().permitAll() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
