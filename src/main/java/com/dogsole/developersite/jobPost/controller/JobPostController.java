@@ -137,7 +137,7 @@ public class JobPostController {
 
     @GetMapping("/venderList")
     public ModelAndView venderShow(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-                                   @RequestParam(name = "size", required = false, defaultValue = "2") int size){
+                                   @RequestParam(name = "size", required = false, defaultValue = "5") int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<VenderResDTO> venderResDTOList = venderService.showVender(pageable);
         return new ModelAndView("job_post/venderList","venders",venderResDTOList);

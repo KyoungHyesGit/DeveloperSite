@@ -92,14 +92,14 @@ public class SecurityConfig {
                                     loginUserId.setPath("/") ;
                                     loginUserId.setDomain("");
 
-                                    Cookie loginVenderId = new Cookie("loginVenderId", userDetails.geVenderId().toString());
-                                    loginUserId.setMaxAge(1800);
-                                    loginUserId.setPath("/") ;
-                                    loginUserId.setDomain("");
+                                    Cookie loginVenderId = new Cookie("loginVenderId", userDetails.getVenderId().toString());
+                                    loginVenderId.setMaxAge(1800);
+                                    loginVenderId.setPath("/");
+                                    loginVenderId.setDomain("");
 
+                                    response.addCookie(loginVenderId);
                                     response.addCookie(cookie);
                                     response.addCookie(loginUserId);
-                                    response.addCookie(loginVenderId);
 
                                     System.out.println("쿠키 설정됨: " + myToken);
                                     response.sendRedirect("/"); // 리다이렉트
@@ -132,8 +132,14 @@ public class SecurityConfig {
                                 loginUserId.setPath("/") ;
                                 loginUserId.setDomain("");
 
+                                Cookie loginVenderId = new Cookie("loginVenderId", userDetails.getVenderId().toString());
+                                loginVenderId.setMaxAge(1800);
+                                loginVenderId.setPath("/");
+                                loginVenderId.setDomain("");
+
                                 response.addCookie(cookie);
                                 response.addCookie(loginUserId);
+                                response.addCookie(loginVenderId);
 
                                 System.out.println("쿠키 설정됨: " + myToken);
                                 response.sendRedirect("/"); // 리다이렉트

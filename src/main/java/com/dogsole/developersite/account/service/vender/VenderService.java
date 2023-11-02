@@ -60,13 +60,15 @@ public class VenderService {
         venderEntity.setTempToReal(venderTempEntity);
 
         VenderEntity saveVenderEntity = venderRepository.save(venderEntity);
-        UserEntity userEntity = userRepository.findByVenderId(venderTempEntity.getUserId());
+        UserEntity userEntity = userRepository.findById(venderTempEntity.getUserId()).get();
 
-        if(userEntity.getVenderId()!=null){
+        if(userEntity!=null && userEntity.getVenderId()!=null){
             userEntity.setVenderId(saveVenderEntity.getVenderId());
         }
 
         venderTempEntity.setReqState("A"); // A Allow
+
+        venderTempEntity.setVenderId(saveVenderEntity.getVenderId());
     }
 
     public void refuseReq(Long id) {

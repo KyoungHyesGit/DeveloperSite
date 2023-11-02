@@ -53,6 +53,7 @@ public class VenderTempController {
                     .map(cookie -> Long.parseLong(cookie.getValue())) // 쿠키 값(String)을 Long으로 변환
                     .findFirst() // 첫 번째 일치하는 쿠키 가져오기
                     .orElse(null); // 쿠키를 찾지 못하면 기본값(null) 사용
+
             venderTempService.createVenderTemp(venderTempReqDTO,photo,userId);
         }catch (Exception e){
 
