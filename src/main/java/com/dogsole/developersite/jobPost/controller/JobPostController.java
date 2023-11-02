@@ -6,6 +6,7 @@ import com.dogsole.developersite.account.service.vender.VenderService;
 import com.dogsole.developersite.common.dto.res.LovResDTO;
 import com.dogsole.developersite.common.service.LovService;
 import com.dogsole.developersite.jobPost.dto.res.JobPostResDTO;
+import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jobPost.service.JobPostService;
 
 import com.dogsole.developersite.jp_apply.service.JpApplyService;
