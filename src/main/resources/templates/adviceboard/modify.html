@@ -7,7 +7,7 @@
 <th:block layout:fragment="content">
 <div class="layout container" style="max-width: 1000px; margin-top: 20px">
     <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
-        <h2 style="font-size: 1.5rem">카테고리</h2>
+        <h2 class="resumeH2 text-center">카테고리</h2>
         <select name="category" class="form-control">
             <option value="신입" th:selected="${adviceboard.category == '신입'}">신입</option>
             <option value="취준" th:selected="${adviceboard.category == '취준'}">취준</option>

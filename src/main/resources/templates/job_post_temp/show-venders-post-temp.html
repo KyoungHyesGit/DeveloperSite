@@ -9,7 +9,7 @@
 <th:block layout:fragment="content">
     <div class="container" style="max-width: 1120px; padding-top: 30px">
 
-        <h1 style="text-align: center; margin-bottom: 30px">Post List</h1>
+        <h2 class="resumeH2 text-center">신청한 공고글 목록</h2>
         <table class="table">
             <thead class="thead-light">
             <tr class="text-center">
@@ -41,11 +41,9 @@
                 <td>
                     <span th:text="${postTemp.title}"></span>
                 </td>
-
                 <td>
-                    <span th:text="${postTemp.detail}"></span>
+                    <span th:text="${#strings.length(postTemp.detail) <= 50 ? postTemp.detail : #strings.substring(postTemp.detail, 0, 50) + '...'}"></span>
                 </td>
-
                 <td>
                     <span th:text="${postTemp.work}"></span>
                 </td>
