@@ -7,7 +7,7 @@
 <th:block layout:fragment="content">
     <div class="container sch_container" th:if="${jobSearch != null}">
         <!-- Select 옵션으로 정렬 -->
-        <form th:action="@{/job_post/jobSearch}" method="get">
+        <form class="text-center" th:action="@{/job_post/jobSearch}" method="get">
             <select id="sortSelect" name="sortOption">
                 <option value="default" th:selected="${sortOption == 'default'}">전체 공고</option>
                 <option value="dateAsc" th:selected="${sortOption == 'dateAsc'}">등록순</option>
@@ -30,11 +30,13 @@
                 <option value="">게임개발</option>
                 <option value="">게임운영</option>
                 <option value="">웹개발</option>
-            </select>
-            <input type="text" name="keyword" placeholder="검색" th:value="${keyword}">
-            <input type="button" value="submit" onclick="this.form.submit()">
+            </select><br>
+            <input class="bottom" type="text" name="keyword" placeholder="검색어를 입력해주세요" th:value="${keyword}">
+            <button type="button" id="searchButton" onclick="this.form.submit()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
         </form>
-        <p th:if="${keyword}"><span th:text="${keyword}"></span>에 대한 취업정보</p>
+        <p th:if="${keyword}"><span th:text="${keyword}"></span> 에 대한 취업정보</p>
         <table class="search_tb">
             <thead>
             <tr>

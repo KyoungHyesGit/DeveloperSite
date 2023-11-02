@@ -3,13 +3,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
+<script>
+
+</script>
 
 <th:block layout:fragment="content">
     <div class="container search">
         <form th:action="@{/job_post/jobSearch}" method="get">
             <input type="text" name="keyword" placeholder="검색어를 입력해주세요">
         </form>
-        <button th:onclick="'window.location.href = \'/job_post/jobSearch/{keyword}\''">
+        <button type="button" id="searchButton">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>

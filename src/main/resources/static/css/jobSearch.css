@@ -1,27 +1,73 @@
-.sch_container{
+.sch_container {
     margin: 50px auto;
 }
-.search_tb{
+
+.sch_container form {
+    width: 100%;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sch_container select {
+    width: 150px;
+    height: 50px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+}
+
+.sch_container select {
+    width: 150px;
+}
+
+.sch_container p {
+    margin-top: 20px;
+}
+
+.sch_container p span {
+    color: #2d65f2;
+    font-weight: 600;
+}
+
+.search_tb {
     width: 100%;
     text-align: center;
 }
-.search_tb thead tr:first-child{
+
+.search_tb thead tr:first-child {
     border-bottom: 2px solid #555;
 }
-.search_tb th{
+
+.search_tb th {
     color: #555;
 }
-.search_tb td,.search_tb th{
+
+.search_tb td, .search_tb th {
     padding: 10px;
 }
-.search_tb tbody tr:hover{
+
+.search_tb tbody tr:hover {
     background: #eee;
 }
+
 .search_tb tbody tr,
-.search_tb tbody span{
+.search_tb tbody span {
     font-size: 15px;
     color: #4d5154;
 }
-.search_tb img{
+
+.search_tb img {
     width: 100px;
+}
+
+.sch_container button {
+    background-color: #0097f3; /* margin-left: 10px; */
+    width: 76px;
+    border-radius: 0 20px 20px 0;
+}
+.sch_container button i{
+    font-size: 35px;
+    color: #fff;
 }
