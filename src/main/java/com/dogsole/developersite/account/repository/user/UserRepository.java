@@ -32,4 +32,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT SUBSTRING(u.birth, 1, 4) AS LABEL, COUNT(*) AS Y FROM user u WHERE u.birth IS NOT NULL GROUP BY LABEL")
     List<Object[]> countUsersByBirthYear();
 
+    @Query(value = "SELECT CONCAT(CAST(FLOOR(CAST(SUBSTRING(u.birth, 1, 4) AS SIGNED) / 5) * 5 AS CHAR), ' - ', CAST(FLOOR(CAST(SUBSTRING(u.birth, 1, 4) AS SIGNED) / 5) * 5 + 4 AS CHAR)) AS LABEL, COUNT(*) AS Y FROM user u  WHERE u.birth IS NOT NULL GROUP BY LABEL ORDER BY LABEL", nativeQuery = true)
+    List<Object[]> countUsersByBirth5Year();
+
 }
