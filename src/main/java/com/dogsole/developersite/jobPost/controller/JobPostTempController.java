@@ -149,7 +149,7 @@ public class JobPostTempController {
         return "redirect:/jobPostTemp/vendersTempList/"+loginVenderId;
     }
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteJobPostTemp(@PathVariable Long id, HttpServletRequest request){
         jobPostTempService.deleteJobPostTemp(id);
 

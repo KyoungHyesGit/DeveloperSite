@@ -10,21 +10,21 @@
     <div class="container" style="max-width: 1120px; padding-top: 30px">
 
         <h2 class="resumeH2 text-center">신청한 공고글 목록</h2>
+        <div class="col-auto" >
+            <a href="/jobPostTemp/add" class="btn btn-primary ml-2" style="float: right">임시 등록글 등록</a>
+        </div>
         <table class="table">
             <thead class="thead-light">
             <tr class="text-center">
-                <th scope="col">ID</th>
-                <th scope="col">IP</th>
-                <th scope="col">Title</th>
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
                 <th scope="col">detail</th>
-                <th scope="col">work</th>
-                <th scope="col">req</th>
-                <th scope="col">salary</th>
-                <th scope="col">Create Date</th>
-                <th scope="col">Update Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">수정</th>
-                <th scope="col">삭제</th>
+                <th scope="col">급여</th>
+                <th scope="col">등록일</th>
+                <th scope="col">수정일</th>
+                <th scope="col">만료일</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -35,33 +35,21 @@
                 </th>
 
                 <td>
-                    <span th:text="${postTemp.ip}"></span>
-                </td>
-
-                <td>
                     <span th:text="${postTemp.title}"></span>
                 </td>
                 <td>
                     <span th:text="${#strings.length(postTemp.detail) <= 50 ? postTemp.detail : #strings.substring(postTemp.detail, 0, 50) + '...'}"></span>
                 </td>
                 <td>
-                    <span th:text="${postTemp.work}"></span>
-                </td>
-
-                <td>
-                    <span th:text="${postTemp.req}"></span>
-                </td>
-
-                <td>
                     <span th:text="${postTemp.salary}"></span>
                 </td>
 
                 <td>
-                    <span th:text="${#temporals.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:text="${#temporals.format(postTemp.createDt, 'yyyy-MM-dd')}"></span>
                 </td>
 
                 <td>
-                    <span th:text="${#temporals.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:text="${#temporals.format(postTemp.updateDt, 'yyyy-MM-dd')}"></span>
                 </td>
 
 
@@ -70,37 +58,47 @@
                 </td>
 
                 <td><a th:href="@{/jobPostTemp/edit/{id}(id=${postTemp.id})}">수정</a></td>
-                <td><a th:href="@{/jobPostTemp/delete/{id}(id=${postTemp.id})}">삭제</a></td>
+                <td>
+                    <a href="#" th:onclick="'return confirmDelete(\'' + @{/jobPostTemp/delete/{id}(id=${postTemp.id})} + '\');'">삭제</a>
+                </td>
+
+                <script>
+                    function confirmDelete(deleteUrl) {
+                        var shouldDelete = confirm("정말로 삭제하시겠습니까?");
+                        if (shouldDelete) {
+                            window.location.href = deleteUrl;
+                        }
+                        return false; // 취소 버튼을 누른 경우 기본 동작(링크 이동)을 막습니다.
+                    }
+                </script>
             </tr>
             </tbody>
         </table>
         <!-- TODO 회사별 추출 _ id : vender_id로 변경 -->
-        <div th:if="${tempList.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=0, size=${tempList.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number - 1}, size=${tempList.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${i}, size=${tempList.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number + 1}, size=${tempList.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.totalPages - 1}, size=${tempList.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="col-auto" style="padding-left: 960px">
-            <a href="/jobPostTemp/add" class="btn btn-primary ml-2">임시 등록글 등록</a>
+        <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
+            <div th:if="${tempList.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=0, size=${tempList.size})}" class="page-link">First</a>
+                    </li>
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number - 1}, size=${tempList.size})}"
+                           class="page-link">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${i}, size=${tempList.size})}" class="page-link"
+                           th:text="${i + 1}"></a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.number + 1}, size=${tempList.size})}"
+                           class="page-link">Next</a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/{id}(id=${loginVenderId},page=${tempList.totalPages - 1}, size=${tempList.size})}"
+                           class="page-link">Last</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </div>

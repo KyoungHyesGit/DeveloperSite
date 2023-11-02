@@ -44,6 +44,15 @@ public class JobPostController {
         model.addAttribute("jobList", jobList);
         return "/job_post/jobList";
     }
+    //페이징된 잡리스트
+    @GetMapping("/jobListPage")
+    public String allJobPost2(Model model,  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                             @RequestParam(name = "size", required = false, defaultValue = "45") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<JobPostResDTO> jobList = jobPostService.getAllPost(pageable);
+        model.addAttribute("jobList", jobList);
+        return "/job_post/jobListPage";
+    }
 
     @GetMapping("/venderJobList/{venderId}")
     public String venderJobList(@PathVariable Long venderId, Model model, @PageableDefault(size = 10) Pageable pageable){
