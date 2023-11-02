@@ -6,85 +6,86 @@
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
     <div class="container det_container">
-    <div class="job_post" style="display: flex; justify-content: space-between;" th:if="${jobDetail != null}">
-        <!-- 타이틀 -->
-        <div class="dt_one">
-            <div>
-                <h4 th:text="${jobDetail.venderResDTO.venderName}"></h4>
+        <div class="job_post" style="display: flex; justify-content: space-between;" th:if="${jobDetail != null}">
+            <!-- 타이틀 -->
+            <div class="dt_one">
+                <div>
+                    <h4 th:text="${jobDetail.venderResDTO.venderName}"></h4>
+                </div>
+                <h2 th:text="${jobDetail.title}"></h2>
             </div>
-            <h2 th:text="${jobDetail.title}"></h2>
-        </div>
-        <div class="dt_two">
-            <!--            <a class="btn btn-light"-->
-            <!--               th:href="@{/jpLike/addLike(userId=1,venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">관심등록</a>-->
+            <div class="dt_two">
+                <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
+                        th:data-job-post-id="${jobDetail.id}" th:data-user-id="${userId}" class="like-button"><i class="fa-solid fa-star" style="color: #c8c8c8; font-size: 30px;"></i>
+                </button>&nbsp;&nbsp;
 
-            <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
-                    th:data-job-post-id="${jobDetail.id}" class="like-button">찜등록</button>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        var $button = $('.like-button');
+                        var $star = $button.find('i.fa-solid.fa-star'); // 아이콘 요소를 찾습니다
+                        var venderId = $button.data('vender-id');
+                        var jobPostId = $button.data('job-post-id');
+                        var userId = $button.data('user-id'); // 사용자 ID
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                $(document).ready(function() {
-                    var $button = $('.like-button');
-                    var venderId = $button.data('vender-id');
-                    var jobPostId = $button.data('job-post-id');
-                    var userId = 1; // 사용자 ID
-
-                    // 페이지 로드 시 찜 상태 확인
-                    $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
-                        if (status === "success" && data === true) {
-                            // 이미 찜되어 있다면 버튼 색상을 노란색으로 변경
-                            $button.css('background-color', 'yellow');
-                        }
-                    });
-
-                    $button.click(function() {
-                        // 이미 찜되어 있는지 확인
+                        // 페이지 로드 시 찜 상태 확인
                         $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
                             if (status === "success" && data === true) {
-                                // 이미 찜되어 있다면 찜 취소할 것인지 확인
-                                if (confirm("찜을 취소하시겠습니까?")) {
-                                    // 사용자가 확인하면 찜 데이터 삭제
-                                    $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
-                                        if (status === "success" && data.message === "success") {
-                                            // 찜 삭제가 성공했으므로 버튼 색상 변경
-                                            $button.css('background-color', '');
-                                            alert("찜이 취소되었습니다.");
-                                        } else if (status === "success" && data.error) {
-                                            alert("오류: " + data.error);
-                                        }
-                                    });
-                                }
-                            } else {
-                                // 아직 찜되어 있지 않다면 찜 등록
-                                if (confirm("찜을 등록하시겠습니까?")) {
-                                    $.post("/api/addLike", {
-                                        userId: userId,
-                                        venderId: venderId,
-                                        jobPostId: jobPostId
-                                    }, function (data, status) {
-                                        if (status === "success" && data.message === "success") {
-                                            // 찜 등록이 성공했으므로 버튼 색상 변경
-                                            $button.css('background-color', 'yellow');
-                                            alert("찜 등록이 성공했습니다.");
-                                        } else if (status === "success" && data.error) {
-                                            alert("오류: " + data.error);
-                                        }
-                                    });
-                                }
+                                // 이미 찜되어 있다면 버튼 색상을 노란색으로 변경
+                                $star.css('color', '#FFD400');
                             }
                         });
+
+                        $button.click(function() {
+                            // 이미 찜되어 있는지 확인
+                            $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                if (status === "success" && data === true) {
+                                    // 이미 찜되어 있다면 찜 취소할 것인지 확인
+                                    if (confirm("찜을 취소하시겠습니까?")) {
+                                        // 사용자가 확인하면 찜 데이터 삭제
+                                        $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                            if (status === "success" && data.message === "success") {
+                                                // 찜 삭제가 성공했으므로 버튼 색상 변경
+                                                $star.css('color', '#c8c8c8');
+                                                alert("찜이 취소되었습니다.");
+                                            } else if (status === "success" && data.error) {
+                                                alert("오류: " + data.error);
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    // 아직 찜되어 있지 않다면 찜 등록
+                                    if (confirm("찜을 등록하시겠습니까?")) {
+                                        $.post("/api/addLike", {
+                                            userId: userId,
+                                            venderId: venderId,
+                                            jobPostId: jobPostId
+                                        }, function (data, status) {
+                                            if (status === "success" && data.message === "success") {
+                                                // 찜 등록이 성공했으므로 버튼 색상 변경
+                                                $star.css('color', '#FFD400');
+                                                alert("찜 등록이 성공했습니다.");
+                                            } else if (status === "success" && data.error) {
+                                                alert("오류: " + data.error);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
                     });
-                });
-            </script>
+                </script>
 
-            <!-- 경로지정해줘야함 -->
-            <!--            <a sec:authorize="isAuthenticated()" class="btn btn-light"-->
-            <!--               th:href="@{/userResume/selectResume/{id}( venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">지원하기</a>-->
-            <a sec:authorize="isAuthenticated()" class="job_Dbtn"
-               th:href="@{/userResume/selectResume/{id}(id=1, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}">입사지원</a>
+                <a sec:authorize="isAuthenticated()" class="job_Dbtn"
+                   th:href="@{/userResume/selectResume/{id}(id=${userId}, venderId=${jobDetail.venderResDTO.venderId}, jobPostId=${jobDetail.id})}"
+                   th:if="${!isAlreadyApplied}">입사지원</a>
+                <a sec:authorize="isAuthenticated()" th:if="${isAlreadyApplied}"
+                   th:href="@{/jpApply/jpApplyList/{id}(id=${userId})}" class="job_Dbtn2">지원완료</a>
+
+
+
+            </div>
         </div>
-
-    </div>
         <div>
             <hr>
             <!-- 요구사항 -->
@@ -116,7 +117,5 @@
             </div>
         </div>
     </div>
-
 </th:block>
-
 </html>

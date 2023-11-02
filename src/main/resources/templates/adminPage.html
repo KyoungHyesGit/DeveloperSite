@@ -29,11 +29,25 @@
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
     <h1>관리자페이지</h1>
-
-    <a href="/jobPostTemp/tempList"> 지원 요청글 보기 </a>
-
-    <a href="/statistics"> 사용자 통계 보기 </a>
-
+    <div class="container">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="/jobPostTemp/tempList"> 지원 요청글 보기 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/show"> 사용자 목록 보기 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/showTempVender"> 지원 요청글 회사 목록 보기 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/showv"> 회사 목록 보기 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/statistics"> 사용자 통계 보기 </a>
+            </li>
+        </ul>
+    </div>
 </th:block>
 </body>
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>

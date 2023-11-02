@@ -18,7 +18,6 @@ public class AdviceBoardResDTO {
     private String title;
     private String writer;
     private String content;
-    private String kind;
     private LocalDateTime regDate;
     private List<Comment> comments;
 

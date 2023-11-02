@@ -1,6 +1,8 @@
 package com.dogsole.developersite.jobPost.dto.res;
 
+
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
+
 import lombok.*;
 
 import java.time.LocalDate;

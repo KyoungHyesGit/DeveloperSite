@@ -5,10 +5,14 @@ import com.dogsole.developersite.account.dto.user.UserReqDTO;
 import com.dogsole.developersite.account.dto.user.UserResDTO;
 import com.dogsole.developersite.account.dto.vender.VenderReqDTO;
 import com.dogsole.developersite.account.dto.vender.VenderResDTO;
-import com.dogsole.developersite.account.entity.user.UserEntity;
 import com.dogsole.developersite.account.service.user.UserService;
 import com.dogsole.developersite.account.service.vender.VenderService;
+
+import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +33,8 @@ public class SignupController {
 
     private final UserService userService;
     private final VenderService venderService;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
 //일반유저의 회원가입 처리 ---------------------------------------------------------------------------
 
@@ -46,7 +52,7 @@ public class SignupController {
 
     //회원가입처리-----------------------------------------------------------------
     @PostMapping("/signuptest")
-    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result,  Model model){
+    public String signupTest(@Valid UserReqDTO userReqDTO, BindingResult result, Model model){
         //입력 항목 검증 시 오류발생 -> 다시 회원가입 페이지로
         if(result.hasErrors()){
             //검증오류 메세지 alert 띄우기
@@ -91,7 +97,7 @@ public class SignupController {
         if(isLogin){
             //로그인 성공 시 (로그인 성공 alert 띄우기)
             model.addAttribute("loginok","로그인 성공!");
-            model.addAttribute("userId", "userId");
+            model.addAttribute("userId", userId);
             System.out.println(isLogin);
             return "redirect:/account/show";
         }
@@ -114,20 +120,34 @@ public class SignupController {
     }
 
     //유저의 로그아웃 (할예정....)0------------------------------
-    @PostMapping("/logout")
-    public String userLogout(Model model){
-        //로그아웃 완료 alert창
-        model.addAttribute("logout","로그아웃 되었습니다."); //이거지금 안됨
+    @GetMapping("/logout")
+    public String userLogout(Model model, HttpServletResponse response, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0); // 쿠키를 만료시켜 삭제
+                response.addCookie(cookie);
+            }
+        }
+        // 로그아웃 성공 메시지를 JavaScript로 생성하여 반환
+        model.addAttribute("logout","로그아웃");
+
         return "account/login-test";
     }
 
-    //회원탈퇴 처리 (예정)-----------------------------------------------------------------------------
-    @GetMapping("/delete/{id}")
-    public UserReqDTO userLeave(UserReqDTO userReqDTO, String id){
+    //회원탈퇴 페이지로 이동
+    @GetMapping("deletepageu/{id}")
+    public  ModelAndView userLeavePage(@PathVariable Long id){
+        UserResDTO deleteUser = userService.showUserById(id);
+        return new ModelAndView("account/accountdel","user",deleteUser);
+    }
+    //회원탈퇴 처리(예정)-----------------------------------------------------------------------------
+    @PostMapping("/deleteu/{id}")
+    public String userLeaveTest(@PathVariable Long id){
         //탈퇴처리 (state 값 -> 'd'로)
-        userService.userLeave(userReqDTO.getUserEmail());
+        userService.userLeaveTest(id);
         //탈퇴회원 객체 반환
-        return userReqDTO;
+        return "redirect:/userMypage";
     }
     //회원탈퇴처리 테스트 컨트롤러
     @GetMapping("deletetest/{id}")
@@ -139,15 +159,30 @@ public class SignupController {
         return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
     }
 
-    //회원 수정 처리
+    //회원 수정 페이지 이동
+    @GetMapping("/updatepageu/{id}")
+    public ModelAndView userUpdatePage(@PathVariable Long id){
+    UserResDTO updateUser = userService.showUserById(id);
+        return new ModelAndView("account/mypageu","user",updateUser);
+    }
 
     //회원 수정처리 테스트
-    @GetMapping("/update/{id}")
-    public ResponseEntity<UserReqDTO> userUpdateTest(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
-        userService.userUpdateTest(id ,userReqDTO);
+//    @PostMapping("/updateu/{id}")
+//    public ResponseEntity<UserReqDTO> userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO){
+//        userService.userUpdateTest(id ,userReqDTO);
+//
+//        return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
+//    }
 
-        return new ResponseEntity<>(userReqDTO, HttpStatus.OK);
+    //실제 업데이트(수정) 이거로 진행중!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @PostMapping("/updateu/{id}")
+    public String userUpdateTest(@PathVariable Long id, @ModelAttribute UserReqDTO userReqDTO) {
+        userService.userUpdateTest(id ,userReqDTO);
+        System.out.println("컨트롤러에서//////////////////////"+userReqDTO);
+        return "redirect:/userMypage";
     }
+
+
 
 //-------------여기서 부터는 회사회원의 컨트롤러--------------------------------------------------------------------------------
 
@@ -190,16 +225,35 @@ public class SignupController {
 
     //회사회원 로그인 처리--------------------------------------------------------------------
     @PostMapping("/loginv")
-    public String venderLogin(VenderReqDTO venderReqDTO, Model model){
-        boolean isLogin = venderService.venderLogin(venderReqDTO);
+    public String venderLogin(VenderReqDTO venderReqDTO, Model model, HttpServletResponse response) {
+        VenderResDTO isLogin = venderService.venderLogin(venderReqDTO);
         System.out.println(venderReqDTO);
         System.out.println(isLogin);
-        if(isLogin){
+        if(isLogin!=null){
             //로그인 성공시 메인페이지로
             model.addAttribute("loginok","로그인 성공!");
             System.out.println("기업로긴성공");
-            return "redirect:/account/showv";
+            String myToken = jwtTokenProvider.createToken(venderReqDTO.getVenderEmail());
+            // 쿠키 생성
+            Cookie myTokenCookie = new Cookie("myTokenCookie", myToken);
+            myTokenCookie.setMaxAge(1800); // 쿠키 유효 시간 설정 (초 단위)
+            myTokenCookie.setPath("/"); // 쿠키 경로 설정
+            myTokenCookie.setDomain(""); // 쿠키 도메인 설정
 
+            Cookie loginVenderId = new Cookie("loginVenderId", isLogin.getVenderId().toString());
+            loginVenderId.setMaxAge(1800);
+            loginVenderId.setPath("/") ;
+            loginVenderId.setDomain("");
+
+
+            // 쿠키를 응답에 추가
+            response.addCookie(myTokenCookie);
+            response.addCookie(loginVenderId);
+
+            System.out.println("쿠키 설정됨: " + myToken);
+
+            // 리다이렉트
+            return "redirect:/"; // 리다이렉트할 경로를 지정
         }else{
             //로글인 실패 alert띄우기.!!
             model.addAttribute("loginx","로그인 실패!");
@@ -207,6 +261,7 @@ public class SignupController {
             return "/account/loginv";
         }
     }
+
 
     //로그인 성공 시 페이지이동 처리(예비) ------------------------------------------------------
     @GetMapping("/showv")
@@ -224,6 +279,27 @@ public class SignupController {
         //탈퇴회원 객체 반환
         return venderReqDTO;
     }
+
+    //회사 회원 수정 페이지 이동
+//    @GetMapping("/updatepagev")
+//    public String venderUpdatePage(){
+//        return "account/mypagev";
+//    }
+
+    //회원 수정 페이지 이동
+    @GetMapping("/updatepagev/{id}")
+    public ModelAndView venderUpdatePage(@PathVariable Long id){
+        VenderResDTO updateVender = venderService.showVenderById(id);
+        return  new ModelAndView("account/mypagev","vender",updateVender);
+    }
+    //회원 수정처리 테스트
+    @PostMapping("/updatev/{id}")
+    public String venderUpdateTest(@PathVariable Long id, @ModelAttribute VenderReqDTO venderReqDTO){
+        venderService.venderUpdate(id ,venderReqDTO);
+
+        return "redirect:/venderMypage";
+    }
+
 
 
 }

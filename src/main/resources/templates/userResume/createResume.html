@@ -1,76 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="fragments/header :: headerFragment"></th:block>
-<body>
-<!--Header 영역을 참조합니다.-->
-<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
 <th:block layout:fragment="content">
-    <form action="/userResume/createResume"  method="POST" enctype="multipart/form-data">
-        <!-- 이력서 정보 입력 필드 -->
-        <label for="addr_num">우편번호:</label>
-        <input type="text" id="addr_num" name="addr_num" required>
-        <br/>
-        <label for="addr_basic">도로명주소:</label>
-        <input type="text" id="addr_basic" name="addr_basic" required>
-        <br/>
-        <label for="addr_detail">상세주소:</label>
-        <input type="text" id="addr_detail" name="addr_detail" required>
-        <br/>
-        <label for="skill">스킬:</label>
-        <input type="text" id="skill" name="skill" >
-        <br/>
-        <label for="final_education">최종학력:</label>
-        <input type="text" id="final_education" name="final_education" required>
-        <br/>
-        <label for="state_resume">이력서 공개여부:</label>
-        <input type="radio" id="state_resume" name="state_resume" value="Y" required> 공개
-        <input type="radio" id="state_resume" name="state_resume" value="N" required> 비공개
-        <br/>
-        <label for="state_contact">연락처 공개여부:</label>
-        <input type="radio" id="state_contact" name="state_contact" value="Y" required> 공개
-        <input type="radio" id="state_contact" name="state_contact" value="N" required> 비공개
-        <label for="state_resume1">이력서 공개여부:</label>
-        <input type="radio" id="state_resume1" name="state_resume" value="Y" required> 공개
-        <input type="radio" id="state_resume2" name="state_resume" value="N" required> 비공개
-        <br/>
-        <label for="state_contact1">연락처 공개여부:</label>
-        <input type="radio" id="state_contact1" name="state_contact" value="Y" required> 공개
-        <input type="radio" id="state_contact2" name="state_contact" value="N" required> 비공개
-        <br/>
-        <label for="certification">자격증:</label>
-        <input type="text" id="certification" name="certification">
-        <br/>
-        <label for="work_exp">경력:</label>
-        <input type="text" id="work_exp" name="work_exp" >
-        <br/>
-        <label for="overseas_exp">해외경험:</label>
-        <input type="text" id="overseas_exp" name="overseas_exp" >
-        <br/>
-        <label for="language_skill">어학:</label>
-        <input type="text" id="language_skill" name="language_skill" >
-        <br/>
-        <label for="portfolio">포트폴리오:</label>
-        <input type="text" id="portfolio" name="portfolio" >
-        <br/>
-        <label for="git_addr">깃주소:</label>
-        <input type="text" id="git_addr" name="git_addr" >
-        <br/>
-        <label for="military_service">병역:</label>
-        <input type="text" id="military_service" name="military_service" >
-        <br/>
-        <label for="resume_title_1">자소서이름:</label>
-        <input type="text" id="resume_title_1" name="resume_title_1" required>
-        <br/>
-        <label for="resume_content_1">자소서내용:</label>
-        <input type="text" id="resume_content_1" name="resume_content_1" required>
-        <br/>
-        <label for="photo">증명사진 업로드:</label>
-        <input type="file" id="photo" name="photo">
-        <br/>
-        <button type="submit">Submit</button>
+    <h2 class="text-center">이력서 작성</h2>
+    <form action="/userResume/createResume" method="POST" enctype="multipart/form-data">
+        <div class="resumeIform">
+            <!-- 이력서 정보 입력 필드 -->
+            <label for="resume_title_1">이력서 제목:</label>
+            <input type="text" id="resume_title_1" name="resume_title_1" required>
+            <br/>
+            <label for="addr_num">우편번호:</label>
+            <input type="text" id="addr_num" name="addr_num" required>
+            <br/>
+            <label for="addr_basic">도로명주소:</label>
+            <input type="text" id="addr_basic" name="addr_basic" required>
+            <br/>
+            <label for="addr_detail">상세주소:</label>
+            <input type="text" id="addr_detail" name="addr_detail" required>
+            <br/>
+            <label for="skill">스킬:</label>
+            <input type="text" id="skill" name="skill">
+            <br/>
+            <label for="final_education">최종학력:</label>
+            <input type="text" id="final_education" name="final_education" required>
+            <br/>
+            <label for="certification">자격증:</label>
+            <input type="text" id="certification" name="certification">
+            <br/>
+            <label for="work_exp">경력:</label>
+            <input type="text" id="work_exp" name="work_exp">
+            <br/>
+            <label for="overseas_exp">해외경험:</label>
+            <input type="text" id="overseas_exp" name="overseas_exp">
+            <br/>
+            <label for="language_skill">어학:</label>
+            <input type="text" id="language_skill" name="language_skill">
+            <br/>
+            <label for="portfolio">포트폴리오:</label>
+            <input type="text" id="portfolio" name="portfolio">
+            <br/>
+            <label for="git_addr">깃주소:</label>
+            <input type="text" id="git_addr" name="git_addr">
+            <br/>
+            <label for="military_service">병역:</label>
+            <input type="text" id="military_service" name="military_service">
+            <br/>
+            <label for="resume_content_1">자기소개:</label>
+            <input type="text" id="resume_content_1" name="resume_content_1" required>
+            <br/>
+            <label for="state_resume1">이력서 공개여부:</label>
+            <div class="rdBtn">
+                <input type="radio" id="state_resume1" name="state_resume" value="Y" required> 공개
+                <input type="radio" id="state_resume2" name="state_resume" value="N" required> 비공개
+            </div>
+            <br/>
+            <label for="state_contact1">연락처 공개여부:</label>
+            <div class="rdBtn">
+                <input type="radio" id="state_contact1" name="state_contact" value="Y" required> 공개
+                <input type="radio" id="state_contact2" name="state_contact" value="N" required> 비공개
+            </div>
+            <br/>
+            <label for="photo">증명사진 업로드:</label>
+            <input type="file" id="photo" name="photo">
+            <br/>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장</button>
+            &nbsp;&nbsp;
+            <a th:href="@{/userResume/{id}(id=${userId})}" class="resumeIbtn"><i class="fa-solid fa-rotate-left"></i>취소</a>
+        </div>
     </form>
 </th:block>
-</body>
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+<script>
+    document.getElementById("saveButton").addEventListener("click", function() {
+        if (confirm("이력서을 저장하시겠습니까?")) {
+            // 사용자가 "확인"을 선택한 경우 폼을 제출합니다.
+            document.querySelector("form").submit();
+        }
+    });
+</script>
 </html>

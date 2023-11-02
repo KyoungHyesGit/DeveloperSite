@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/vender_list.css">
+    <title>Title</title>
+</head>
+<th:block layout:fragment="content">
+
+    <body>
+    <div class="container">
+        <table border="1">
+            <tr>
+                <th>SEQ</th>
+                <th>회사명</th>
+                <th>회사 Email</th>
+                <th>CreatedDt</th>
+                <th>UpdateDt</th>
+                <th>회사 로고</th>
+
+            </tr>
+            <tr th:each="vender, venderState : ${venders}">
+                <td th:text="${venderState.count}"></td> <!-- index는 0부터 , count가 1부터 -->
+                <td th:text="${vender.venderName}"></td>
+                <td th:text="${vender.venderEmail}"></td>
+                <td th:text="${#temporals.format(vender.createDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(vender.updateDt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <img class="jobBoxImg" th:src="@{/img/vender/} + ${vender.photo}" alt="회사로고이미지"/>
+                </td>
+
+            </tr>
+        </table>
+
+    </div>
+    <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
+    <div th:if="${venders.totalPages > 1}">
+        <ul class="pagination">
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/job_post/venderList(page=0, size=${venders.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/job_post/venderList(page=${venders.number - 1}, size=${venders.size})}"
+                   class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                <a th:href="@{/job_post/venderList(page=${i}, size=${venders.size})}" class="page-link"
+                   th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/job_post/venderList(page=${venders.number + 1}, size=${venders.size})}"
+                   class="page-link">Next</a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/job_post/venderList(page=${venders.totalPages - 1}, size=${venders.size})}"
+                   class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
+    </body>
+</th:block>
+</html>

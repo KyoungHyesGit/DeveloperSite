@@ -19,6 +19,7 @@ public class DeveloperSiteApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
 	@Bean
 	public JavaMailSender javaMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -30,8 +31,6 @@ public class DeveloperSiteApplication {
 		Properties props = mailSender.getJavaMailProperties();
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.starttls.required", "true");
-
-
 		return mailSender;
 	}
 }

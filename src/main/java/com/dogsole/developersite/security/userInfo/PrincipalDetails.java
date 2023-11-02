@@ -14,6 +14,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private Long id;
     private String name;
+    private Long venderId;
     private String password;
     private List<GrantedAuthority> authorities;
 
@@ -21,9 +22,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
         id=userEntity.getUserId();
-//        authorities= Arrays.stream(userEntity.getRoles().split(","))
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
+        venderId=userEntity.getVenderId();
     }
 
     @Override
@@ -49,6 +48,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public Long getUserId() {
         return id;
     }
+
+    public Long getVenderId() {
+        return venderId;
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {

@@ -18,4 +18,6 @@ public interface VenderRepository extends JpaRepository<VenderEntity, Long> {
     //비밀번호 확인 메서드(로그인)
     public boolean existsByVenderPasswd(String vender_passwd);
 
+    public VenderEntity findByTempId(Long tempId);
+
 }

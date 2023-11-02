@@ -6,6 +6,7 @@ import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqDTO;
 import com.dogsole.developersite.jobPost.dto.req.JobPostTempReqFormDTO;
 import com.dogsole.developersite.jobPost.dto.res.JobPostTempResDTO;
 import com.dogsole.developersite.jobPost.service.JobPostTempService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -45,7 +45,7 @@ public class JobPostTempController {
         Pageable pageable = PageRequest.of(page, size);
         Page<JobPostTempResDTO> tempList = jobPostTempService.getAllPosts(pageable);
         model.addAttribute("tempList", tempList);
-        return "/job_post_temp/show-all-post-temp";
+        return "/admin/show-all-post-temp";
     }
 
     @GetMapping("/add")

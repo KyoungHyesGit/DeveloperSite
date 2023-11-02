@@ -15,14 +15,18 @@ public class UserInfoUserDetails implements UserDetails {
 
 
     private Long id;
+    private Long venderId;
     private String name;
     private String password;
+    private String state;
     private List<GrantedAuthority> authorities;
 
     public UserInfoUserDetails(UserEntity userEntity) {
         name=userEntity.getUserEmail();
         password=userEntity.getPasswd();
         id=userEntity.getUserId();
+        venderId=userEntity.getVenderId();
+        state=userEntity.getState();
 //        authorities= Arrays.stream(userEntity.getRoles().split(","))
 //                .map(SimpleGrantedAuthority::new)
 //                .collect(Collectors.toList());
@@ -46,6 +50,11 @@ public class UserInfoUserDetails implements UserDetails {
     public Long getUserId() {
         return id;
     }
+    public Long getVenderId() {
+        return venderId;
+    }
+
+    public String getUserState(){return state;}
 
     @Override
     public boolean isAccountNonExpired() {

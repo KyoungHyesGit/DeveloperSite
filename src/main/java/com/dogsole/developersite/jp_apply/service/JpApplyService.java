@@ -7,9 +7,12 @@ import com.dogsole.developersite.jobPost.entity.JobPostEntity;
 import com.dogsole.developersite.jp_apply.dto.JpApplyResDTO;
 import com.dogsole.developersite.jp_apply.entity.JpApplyEntity;
 import com.dogsole.developersite.jp_apply.repository.JpApplyRepository;
+import com.dogsole.developersite.userResume.dto.UserResumeResDTO;
 import com.dogsole.developersite.userResume.entity.UserResumeEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +33,13 @@ public class JpApplyService {
                 .map(jpApplyEntity -> modelMapper.map(jpApplyEntity, JpApplyResDTO.class))
                 .collect(Collectors.toList());
     }
+
     //지원했는지 확인 T/F
     public boolean isJpApplydByUser(Long userId, Long jobPostId) {
         Optional<JpApplyEntity> apply = jpApplyRepository.findByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
         return apply.isPresent();
     }
+
 
     public boolean addAapplyJp(Long userId, Long venderId, Long jobPostId,Long resumeId) {
         JpApplyEntity jpApplyEntity = new JpApplyEntity();
@@ -64,5 +69,21 @@ public class JpApplyService {
         JpApplyEntity jpApplyEntity = jpApplyRepository.findById(jpApplyId)
                 .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
         jpApplyRepository.delete(jpApplyEntity);
+    }
+    public Page<JpApplyResDTO> getPostResumeList(Long postId, Pageable pageable){
+        Page<JpApplyEntity> postResumeList = jpApplyRepository.findByJobPostEntityId(postId, pageable);
+        return postResumeList.map(jpApplyEntity -> modelMapper.map(jpApplyEntity, JpApplyResDTO.class));
+    }
+
+    public String changeUserState(Long jpApplyId, String userState) {
+        JpApplyEntity jpApplyEntity = jpApplyRepository.findById(jpApplyId)
+                .orElseThrow(() -> new BusinessException("지원글을 찾을 수 없음", HttpStatus.NOT_FOUND));
+
+        jpApplyEntity.setUserState(userState);
+        return userState;
+    }
+    //지원확인
+    public boolean isAlreadyApplied(Long userId, Long jobPostId) {
+        return jpApplyRepository.existsByUserEntityUserIdAndJobPostEntityId(userId, jobPostId);
     }
 }

@@ -1,5 +1,6 @@
 package com.dogsole.developersite.security.config;
 
+import com.dogsole.developersite.security.handler.CustomLogoutHandler;
 import com.dogsole.developersite.security.service.UserInfoUserDetailsService;
 import com.dogsole.developersite.jwt.provider.JwtTokenProvider;
 import com.dogsole.developersite.security.filter.JwtAuthFilter;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -51,29 +53,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChainOrder(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http.cors(withDefaults()) // CORS 설정 활성화
+                .csrf().disable()
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 인증없이 허용되는 URL지정
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//아래는 모든 사용자에게 허용되는 URL지정
                         .requestMatchers(
-                                new AntPathRequestMatcher("/"),
-                                new AntPathRequestMatcher("/css/**"),
-                                new AntPathRequestMatcher("/img/**"),
-                                new AntPathRequestMatcher("/js/**"),
-                                new AntPathRequestMatcher("/h2-console/**"),
-                                new AntPathRequestMatcher("/login"),
-                                new AntPathRequestMatcher("/loginpagev"),
-                                new AntPathRequestMatcher("/account/**"),
-                                new AntPathRequestMatcher("/checkToken"),
-                                new AntPathRequestMatcher("/adviceboard/list"),
-                                new AntPathRequestMatcher("/job_post/**"),
-                                new AntPathRequestMatcher("/tokenCreate/**"),
-                                new AntPathRequestMatcher("/checkToken/**"),
-                                new AntPathRequestMatcher("/api/account/**"),
-                                new AntPathRequestMatcher("/account/**"),
-                                new AntPathRequestMatcher("/mail/**")
-                        ).permitAll()
-                        .anyRequest().authenticated() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
+                                new AntPathRequestMatcher("/userMypage"),
+                                new AntPathRequestMatcher("/userMypage/**"),
+                                new AntPathRequestMatcher("/account/update/**"),
+                                new AntPathRequestMatcher("/account/delete/**"),
+                                new AntPathRequestMatcher("/userResume/**"),
+                                new AntPathRequestMatcher("/jpApply/**"),
+                                new AntPathRequestMatcher("/jpLike/**"),
+                                new AntPathRequestMatcher("/vender/**")
+                        ).authenticated()
+                        .anyRequest().permitAll() //위에 지정한 url패턴과 일치 하지않는 모든 요청에 인증을 요구한다.
+
                 )
                 .oauth2Login(oauth2Login -> {
                     oauth2Login
@@ -96,6 +92,12 @@ public class SecurityConfig {
                                     loginUserId.setPath("/") ;
                                     loginUserId.setDomain("");
 
+                                    Cookie loginVenderId = new Cookie("loginVenderId", userDetails.getVenderId().toString());
+                                    loginVenderId.setMaxAge(1800);
+                                    loginVenderId.setPath("/");
+                                    loginVenderId.setDomain("");
+
+                                    response.addCookie(loginVenderId);
                                     response.addCookie(cookie);
                                     response.addCookie(loginUserId);
 
@@ -113,6 +115,11 @@ public class SecurityConfig {
                             if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
                                 UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
                                 String userEmail = userDetails.getUsername();
+                                String userState = userDetails.getUserState();
+                                if ("d".equals(userState)) {
+                                    System.out.println("계정비활성화 짜식아");
+                                    throw new DisabledException("계정이 비활성화되었습니다.");
+                                }
                                 String myToken = jwtTokenProvider.createToken(userEmail);
 
                                 Cookie cookie = new Cookie("myTokenCookie", myToken);
@@ -125,8 +132,14 @@ public class SecurityConfig {
                                 loginUserId.setPath("/") ;
                                 loginUserId.setDomain("");
 
+                                Cookie loginVenderId = new Cookie("loginVenderId", userDetails.getVenderId().toString());
+                                loginVenderId.setMaxAge(1800);
+                                loginVenderId.setPath("/");
+                                loginVenderId.setDomain("");
+
                                 response.addCookie(cookie);
                                 response.addCookie(loginUserId);
+                                response.addCookie(loginVenderId);
 
                                 System.out.println("쿠키 설정됨: " + myToken);
                                 response.sendRedirect("/"); // 리다이렉트
@@ -135,7 +148,12 @@ public class SecurityConfig {
                         })
                         .permitAll()
                 )
-                .logout(withDefaults());
+                .logout()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(new CustomLogoutHandler());
+
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .logoutSuccessHandler(new CustomLogoutHandler());
         // '/logout'이라는 url로 POST 요청을 보내면 로그아웃 처리됨.
         //스프링시큐리티는 로그아웃 요청 시 CSRF 토큰을 요구함, 보안 목적으로 사용되며 요청 실행 시 CSRF토큰을 함께 제공해야함
         // 로그아웃 버튼     <form th:action="@{/logout}" method="post">

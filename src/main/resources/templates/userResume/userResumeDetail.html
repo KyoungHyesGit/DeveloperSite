@@ -1,97 +1,110 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<script src="https://kit.fontawesome.com/a9a68f8b3f.js" crossorigin="anonymous"></script>
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <body>
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <table>
-        <tr>
-            <th>증명사진:</th>
-            <td><img th:src="${resume.photoUrl}"  style="max-width: 100px; height: auto;"/></td>
-        </tr>
-        <tr>
-            <th>이름:</th>
-<!--            <td th:text="${resume.userEntity.name}"></td>-->
-        </tr>
-        <tr>
-            <th>우편번호:</th>
-            <td th:text="${resume.addr_num}"></td>
-        </tr>
-        <tr>
-            <th>도로명주소:</th>
-            <td th:text="${resume.addr_basic}"></td>
-        </tr>
-        <tr>
-            <th>상세주소:</th>
-            <td th:text="${resume.addr_detail}"></td>
-        </tr>
-        <tr>
-            <th>스킬:</th>
-            <td th:text="${resume.skill}"></td>
-        </tr>
-        <tr>
-            <th>최종학력:</th>
-            <td th:text="${resume.final_education}"></td>
-        </tr>
-        <tr>
-            <th>이력서 공개여부:</th>
-            <td th:text="${resume.state_resume}"></td>
-        </tr>
-        <tr>
-            <th>연락처 공개여부:</th>
-            <td th:text="${resume.state_contact}"></td>
-        </tr>
-        <tr>
-            <th>자격증:</th>
-            <td th:text="${resume.certification}"></td>
-        </tr>
-        <tr>
-            <th>경력:</th>
-            <td th:text="${resume.work_exp}"></td>
-        </tr>
-        <tr>
-            <th>해외경험:</th>
-            <td th:text="${resume.overseas_exp}"></td>
-        </tr>
-        <tr>
-            <th>어학:</th>
-            <td th:text="${resume.language_skill}"></td>
-        </tr>
-        <tr>
-            <th>포트폴리오:</th>
-            <td th:text="${resume.portfolio}"></td>
-        </tr>
-        <tr>
-            <th>깃주소:</th>
-            <td th:text="${resume.git_addr}"></td>
-        </tr>
-        <tr>
-            <th>병역:</th>
-            <td th:text="${resume.military_service}"></td>
-        </tr>
-        <tr>
-            <th>자소서이름:</th>
-            <td th:text="${resume.resume_title_1}"></td>
-        </tr>
-        <tr>
-            <th>자소서내용:</th>
-            <td th:text="${resume.resume_content_1}"></td>
-        </tr>
+    <main class="resumeMain">
+        <article id="mainLeft">
+            <section class="resumeSection">
+                <h2 class="resumeH2">인적사항</h2>
+                <img th:src="${resume.photoUrl}" style="max-width: 100px; height: auto;">
+                <!--                <h3>기본사항</h3>-->
+                <li th:text="'이름 : ' +${resume.userEntity.userName}"></li>
+                <li th:text="'전화번호 : '+${resume.userEntity.phone}"></li>
+                <li th:text="'생년월일 : '+${resume.userEntity.birth}"></li>
+                <li th:text="'주소 : '+${resume.addr_basic} +'  '+ ${resume.addr_detail}"></li>
+                <br/>
+                <h3>최종학력</h3>
+                <!-- 학력 -->
+                <ul>
+                    <li th:text="${resume.final_education}"></li>
+                </ul>
+                <h3>자격증</h3>
+                <ul>
+                    <li th:text="${resume.certification}"></li>
+                </ul>
+                <h3>병역사항</h3>
+                <ul>
+                    <li th:text="${resume.military_service}"></li>
+                </ul>
+            </section>
 
-    </table>
-    <a th:href="@{/userResume/edit/{id}(id=${resume.id})}">>>>>>>이력서수정</a>
-    <br/>
-    <a th:href="@{'/userResume/delete/' + ${resume.id}}" th:onclick="'return confirmDelete(\'' + ${resume.id} + '\');'" >이력서삭제</a>
+            <section class="resumeSection">
+                <h2 class="resumeH2">기타</h2>
+                <!-- 소셜 미디어를 비롯한 연락처 정보 -->
+                <p>
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <a href="${resume.userEntity.userEmail}" th:text="${resume.userEntity.userEmail}"></a>
+                </p>
+                <p>
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                    <a th:href="${resume.git_addr}" th:text="${resume.git_addr}"/>
+                </p>
+                <p>
+                    <i class="fa fa-id-card-clip" aria-hidden="true"></i>
+                    <a th:href="${resume.portfolio}" th:text="${resume.portfolio}"/>
+                </p>
+            </section>
 
+        </article>
+        <article id="mainRight">
+            <section class="resumeSection">
+                <h2 class="resumeH2">자기소개</h2>
+                <!-- 자기 소개 -->
+                <p th:text="${resume.resume_content_1}"></p>
 
+            </section>
+            <section class="resumeSection">
+                <h2 class="resumeH2">보유 기술</h2>
+                <!-- 자신이 잘할 수 있는 분야 -->
+                <h3>프로그래밍 기술</h3>
+                <ul>
+                    <li th:text="${resume.skill}"></li>
+                </ul>
+                <h3>어학</h3>
+                <ul>
+                    <li th:text="${resume.language_skill}"></li>
+                </ul>
+
+            </section>
+            <section class="resumeSection">
+                <h2 class="resumeH2">경력</h2>
+                <!-- 경력 작성 -->
+                <h3>근무 경력</h3>
+                <p></p>
+                <ul>
+                    <li th:text="${resume.work_exp}"></li>
+                    <li></li>
+                </ul>
+                <h3>해외 경력</h3>
+                <ul>
+                    <li th:text="${resume.overseas_exp}"></li>
+                </ul>
+            </section>
+            <div class="resumeBtn">
+                <i class="fa-regular fa-pen-to-square"></i>
+                <a th:href="@{/userResume/edit/{id}(id=${resume.id})}">이력서수정</a>
+                &nbsp;&nbsp;
+                <i class="fa-regular fa-trash-can"></i>
+                <a href="#" th:onclick="'return confirmDelete(\'' + ${resume.id} + '\');'">이력서삭제</a>
+                &nbsp;&nbsp;
+                <a th:href="@{/userResume/{id}(id=${resume.userEntity.userId})}"><i class="fa-solid fa-rotate-left"></i>돌아가기</a>
+            </div>
+        </article>
+
+    </main>
 </th:block>
 </body>
 <script>
     function confirmDelete(id) {
         if (confirm("정말로 삭제하시겠습니까?")) {
             window.location.href = '/userResume/delete/' + id;
+        }else{
+
         }
     }
 </script>

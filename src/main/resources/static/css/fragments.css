@@ -19,6 +19,9 @@ body {letter-spacing:-.025em; overflow-y: scroll;}
 nav{width: 100%;z-index: 100;display: block;/* box-sizing: border-box; */position: sticky;top: 0;/* background-color: #fff; */box-shadow: 0 5px 10px -8px #eee;}
 
 .menu{margin: 0;justify-content: space-between;align-items: center;padding: 0;/* margin-right: 10px; */}
+nav{width: 100%;z-index: 100;/* box-sizing: border-box; */position: sticky;top: 0;/* background-color: #fff; *//* box-shadow: 0 5px 10px -3px #eee; */}
+
+.menu{margin: 0;justify-content: space-between;align-items: center;}
 .menu li{line-height: 55px;}
 .menu li:nth-child(7){/* margin-top: 5px; */line-height: 0;margin-left: 300px;}
 .menu li:nth-child(3),

@@ -1,0 +1,75 @@
+h1 {
+    color: #000000;
+    text-align: center;
+    margin-top: 80px;
+}
+
+#subm {
+    margin: 80px auto 0;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 225px;
+    color: #000000;
+}
+
+#subm input[type="text"],
+form input[type="email"] {
+    width: 50%;
+    padding: 8px;
+    margin-bottom: 10px;
+    margin-left: 225px;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+}
+
+form input[type="button"],
+form input[type="submit"],
+form button,
+#nameCheckButton,
+#bNoCheckButton {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#photo {
+    margin-left: 225px;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+#nameCheckButton:hover,
+#bNoCheckButton:hover,
+button:hover {
+    background-color: #2676b3;
+}
+
+span {
+    color: red;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+#map {
+    margin-left: 225px;
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+#subbtn {
+    margin-left: 225px;
+}
+#bNoMessage, #nameMessage{
+    margin-left: 225px;
+}

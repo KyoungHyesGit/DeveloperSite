@@ -18,6 +18,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(name = "vender_id")
+    private Long venderId;
+
     @Column(name = "user_email", unique = true)
     private String userEmail;
 
@@ -43,6 +46,9 @@ public class UserEntity {
     @Column(name="state")
     private String state;
 
-    @Column(name="photo")
+    @Column(name = "photo")
     private String photo;
+
+    @Column(name="photourl")
+    private String photoUrl;
 }

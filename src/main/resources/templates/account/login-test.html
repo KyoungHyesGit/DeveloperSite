@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<html lang="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<meta charset="UTF-8">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/loginu.css">
 </head>
+
+<th:block layout:fragment="content">
+
 <body>
 
 
@@ -23,15 +28,18 @@
 
 </script>
 
+<script th:if="${logout}">
+    alert("로그아웃 되었습니다");
+</script>
+
 <!--로그아웃 메세지-->
 <script th:if="${logout}">
-
     alert("로그아웃 되었습니다");
-
 </script>
+
 <h1>일반회원 로그인</h1>
     <div> <!--th:object="${}"-->
-        <form action="/account/login" method="post">
+        <form id="login" action="/account/login" method="post">
             <input type="text" name="userEmail" placeholder="이메일@aaa" class="in" id="userEmail">
             <input type="password" name="passwd" placeholder="비밀번호" class="in">
             <input type="submit" id="btn" value="로그인"><br>
@@ -44,17 +52,47 @@
 </body>
 <script>
 
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + value + expires + "; path=/";
+    // Function to parse and collect all cookies into an object
+    function getAllCookies() {
+        var cookies = document.cookie.split('; ');
+        var cookieObject = {};
+
+        cookies.forEach(function(cookie) {
+            var parts = cookie.split('=');
+            var name = parts[0];
+            var value = parts[1];
+            cookieObject[name] = value;
+        });
+
+        return cookieObject;
     }
 
-    // 위의 함수를 호출하여 쿠키를 설정
-    setCookie("myTokenCookie", myToken, 30); // 30은 쿠키의 유효 기간을 나타냅니다. 필요에 따라 조절할 수 있습니다.
+    // Call the function to get all cookies
+    var allCookies = getAllCookies();
+
+    // Now 'allCookies' is an object containing all cookies by name and value
+    // You can access individual cookies like this:
+    var myTokenCookie = allCookies.myTokenCookie;
+    var loginUserId = allCookies.loginUserId;
+    var loginVenderId = allCookies.loginVenderId;
+
+    // Use the cookies as needed
+    console.log('Value of myTokenCookie:', myTokenCookie);
+    console.log('Value of loginUserId:', loginUserId);
+    console.log('Value of loginVenderId:', loginVenderId);
+
+    // function setCookie(name, value, days) {
+    //     var expires = "";
+    //     if (days) {
+    //         var date = new Date();
+    //         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    //         expires = "; expires=" + date.toUTCString();
+    //     }
+    //     document.cookie = name + "=" + value + expires + "; path=/";
+    // }
+    //
+    // // 위의 함수를 호출하여 쿠키를 설정
+    // setCookie("myTokenCookie", myToken, 30); // 30은 쿠키의 유효 기간을 나타냅니다. 필요에 따라 조절할 수 있습니다.
 </script>
+</th:block>
 </html>
