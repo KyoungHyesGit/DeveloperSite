@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout/default_layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<link rel="stylesheet" type="text/css" href="/css/admin_vender_list.css">
 
+
+<body>
+<th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
 
     <div class="container" style="max-width: 1120px; padding-top: 30px">
-        <<h2 class="resumeH2 text-center">기업 회원 목록</h2>
-        <button onclick="location.href='/account/loginpage'" class="btn btn-primary"
-                style="float: right; margin-bottom: 10px">로그아웃
-        </button>
+        <h2 class="resumeH2 text-center">기업 회원 목록</h2>
+
         <table border="1" class="table">
 
             <thead class="thead-light">
             <tr class="text-center">
                 <th>SEQ</th>
                 <th>ID</th>
-                <th>Vender Name</th>
-                <th>Vender Email</th>
-                <th>Vender CreatedDt</th>
-                <th>Vender UpdateDt</th>
-                <th>Vender Logo</th>
+                <th>회사명</th>
+                <th>회사 Email</th>
+                <th>CreatedDt</th>
+                <th>UpdateDt</th>
+                <th>회사 로고</th>
 
             </tr>
             </thead>
@@ -53,7 +55,7 @@
                 </td>
 
                 <td>
-                    <span><img th:src="${vender.photo}" alt="기업로고"/></span>
+                    <img class="jobBoxImg" th:src="@{/img/vender/} + ${vender.photo}" alt="회사로고이미지"/>
                 </td>
             </tr>
             </tbody>
@@ -62,31 +64,32 @@
     </div>
 
     <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
-    <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
-        <div th:if="${venders.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${venders.hasPrevious}" class="page-item">
-                    <a th:href="@{/admin/showv(page=0, size=${venders.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${venders.hasPrevious}" class="page-item">
-                    <a th:href="@{/admin/showv(page=${venders.number - 1}, size=${venders.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/admin/showv(page=${i}, size=${venders.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${venders.hasNext}" class="page-item">
-                    <a th:href="@{/admin/showv(page=${venders.number + 1}, size=${venders.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${venders.hasNext}" class="page-item">
-                    <a th:href="@{/admin/showv(page=${venders.totalPages - 1}, size=${venders.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
-        </div>
+
+    <div th:if="${venders.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/showv(page=0, size=${venders.size})}" class="page-link">First</a>
+            </li>
+            <li th:if="${venders.hasPrevious}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.number - 1}, size=${venders.size})}"
+                   class="page-link">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                <a th:href="@{/admin/showv(page=${i}, size=${venders.size})}" class="page-link"
+                   th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.number + 1}, size=${venders.size})}"
+                   class="page-link">Next</a>
+            </li>
+            <li th:if="${venders.hasNext}" class="page-item">
+                <a th:href="@{/admin/showv(page=${venders.totalPages - 1}, size=${venders.size})}"
+                   class="page-link">Last</a>
+            </li>
+        </ul>
     </div>
 
 </th:block>
+</body>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </html>

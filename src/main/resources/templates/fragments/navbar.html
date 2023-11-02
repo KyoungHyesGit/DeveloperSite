@@ -5,15 +5,6 @@
 <th:block th:fragment="navbarFragment">
     <body>
     <script>
-        function updateLinkUrl(url,btnId) {
-            var loginUVenderIdValue = getCookie('loginVenderId');
-            console.log("loginUVenderIdValue:"+loginUVenderIdValue);
-            if (loginUVenderIdValue) {
-                var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
-                likeBtn.href = url + loginUVenderIdValue; // URL을 업데이트
-            }
-        }
-
         function checkCookie() {
             var loginUserId = getCookie("loginUserId");
             console.log("체크쿠키메서드시작"+loginUserId);
