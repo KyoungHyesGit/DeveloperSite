@@ -4,11 +4,12 @@
       layout:decorate="layout/default_layout">
 
 <th:block layout:fragment="content">
-    <div class="container" style="max-width: 1120px; padding-top: 30px">
 
-        <h1 style="text-align: center; margin-bottom: 30px">Post List</h1>
-        <table class="table">
-            <thead class="thead-light" s>
+    <div class="container" style="max-width: 1120px; padding-top: 30px">
+        <h1 style="text-align: center; margin-bottom: 30px">지원 요청글</h1>
+        <table border="1" class="table">
+
+            <thead class="thead-light">
             <tr class="text-center">
                 <th scope="col">ID</th>
                 <th scope="col">STATE</th>
@@ -42,7 +43,7 @@
                 </td>
 
                 <td>
-                    span th:text="${postTemp.ip}"></span>
+                    <span th:text="${postTemp.ip}"></span>
                 </td>
 
                 <td>
@@ -85,32 +86,34 @@
             </tr>
             </tbody>
         </table>
-
-<!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
-        <div th:if="${tempList.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.number - 1}, size=${tempList.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${i}, size=${tempList.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.number + 1}, size=${tempList.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
-        </div>
     </div>
+
+        <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
+        <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
+            <div th:if="${tempList.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=0, size=${tempList.size})}" class="page-link">First</a>
+                    </li>
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.number - 1}, size=${tempList.size})}"
+                           class="page-link">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${i}, size=${tempList.size})}" class="page-link"
+                           th:text="${i + 1}"></a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.number + 1}, size=${tempList.size})}"
+                           class="page-link">Next</a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/tempList(page=${tempList.totalPages - 1}, size=${tempList.size})}"
+                           class="page-link">Last</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
 </th:block>
 <!-- -----------------------------------------------------스크립트--------------------------------------------------  -->
@@ -163,5 +166,6 @@
 
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
 
 </html>

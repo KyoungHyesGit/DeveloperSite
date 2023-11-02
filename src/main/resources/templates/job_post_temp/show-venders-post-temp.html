@@ -77,35 +77,38 @@
             </tbody>
         </table>
         <!-- TODO 회사별 추출 _ id : vender_id로 변경 -->
-        <div th:if="${tempList.totalPages > 1}">
-            <ul class="pagination">
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=0, size=${tempList.size})}" class="page-link">First</a>
-                </li>
-                <li th:if="${tempList.hasPrevious}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number - 1}, size=${tempList.size})}"
-                       class="page-link">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${i}, size=${tempList.size})}" class="page-link"
-                       th:text="${i + 1}"></a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number + 1}, size=${tempList.size})}"
-                       class="page-link">Next</a>
-                </li>
-                <li th:if="${tempList.hasNext}" class="page-item">
-                    <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.totalPages - 1}, size=${tempList.size})}"
-                       class="page-link">Last</a>
-                </li>
-            </ul>
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <div th:if="${tempList.totalPages > 1}">
+                <ul class="pagination">
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/1(page=0, size=${tempList.size})}" class="page-link">First</a>
+                    </li>
+                    <li th:if="${tempList.hasPrevious}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number - 1}, size=${tempList.size})}"
+                           class="page-link">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, tempList.totalPages - 1)}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/1(page=${i}, size=${tempList.size})}"
+                           class="page-link"
+                           th:text="${i + 1}"></a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.number + 1}, size=${tempList.size})}"
+                           class="page-link">Next</a>
+                    </li>
+                    <li th:if="${tempList.hasNext}" class="page-item">
+                        <a th:href="@{/jobPostTemp/vendersTempList/1(page=${tempList.totalPages - 1}, size=${tempList.size})}"
+                           class="page-link">Last</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
 
         <div class="col-auto" style="padding-left: 960px">
             <a href="/jobPostTemp/add" class="btn btn-primary ml-2">임시 등록글 등록</a>
         </div>
 
-    </div>
 </th:block>
 
 </body>
