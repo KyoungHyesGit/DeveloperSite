@@ -63,7 +63,6 @@
     </script>
 </head>
 <body>
-<body>
 <style type="text/css">
     form {
         width: 600px;
@@ -107,7 +106,7 @@
 
 <form name="join_form" th:action="@{/account/signuptestv}" th:object="${venderReqDTO}" method="post" id="join_form" onsubmit="return form_check()">
     <fieldset>
-        <legend>회사 회원가입</legend>
+        <<h2 class="resumeH2 text-center">회사 회원가입</h2>
         <p>
             <label for="u_name">회사이름</label>
             <input type="text" name="venderName" id="u_name">
