@@ -3,9 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <script>
-    function updateLinkUrl(url,btnId) {
+    function updateLinkUrl(url, btnId) {
         var loginUserIdValue = getCookie('loginUserId');
-        console.log("loginUserIdValue:"+loginUserIdValue);
+        console.log("loginUserIdValue:" + loginUserIdValue);
         if (loginUserIdValue) {
             var likeBtn = document.getElementById(btnId); // ID로 하이퍼링크 요소 가져오기
             likeBtn.href = url + loginUserIdValue; // URL을 업데이트

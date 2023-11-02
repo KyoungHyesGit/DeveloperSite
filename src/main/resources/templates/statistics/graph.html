@@ -13,20 +13,20 @@
     <body>
 
     <script th:inline="javascript">
-        window.onload =  function() {
+        window.onload = function () {
             var pontos = [[${pontos}]];
-            drawChart(pontos,'line');
+            drawChart(pontos, 'line');
         }
 
-        function drawChart(pontos,myType) {
+        function drawChart(pontos, myType) {
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
-                title:{
+                title: {
                     text: "사용자 통계"
                 },
-                axisY:{
+                axisY: {
                     includeZero: false
                 },
                 data: [{
@@ -41,14 +41,15 @@
             chart.render();
 
         }
-        function fetchDataFromServer(myUrl,myType) {
+
+        function fetchDataFromServer(myUrl, myType) {
             $.ajax({
                 type: "GET",
                 url: myUrl,
-                success: function(data) {
-                    drawChart(data,myType)
+                success: function (data) {
+                    drawChart(data, myType)
                 },
-                error: function() {
+                error: function () {
                     // 오류 발생 시 처리
                     console.log("Error fetching data from the server.");
                 }

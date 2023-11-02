@@ -11,7 +11,7 @@
     <!--    <script type="text/javascript" th:src="@{/boot/js/skel.min.js}"></script>-->
     <!--    <script type="text/javascript" th:src="@{/boot/js/skel-layers.min.js}"></script>-->
     <!--    <script type="text/javascript" th:src="@{/boot/js/init.js}"></script>-->
-    <link th:href="@{/css/view.css}" rel="stylesheet" />
+    <link th:href="@{/css/view.css}" rel="stylesheet"/>
     <title>AdviceDetailView</title>
 </head>
 <body>
@@ -26,27 +26,31 @@
         <div class="bodyContent">
             <div class="marginTopLeft_1">
                 <span class="headTxt" th:text="${adviceboard.title}"></span>
-                <a th:href="@{/adviceboard/modify/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;" class="paddingLeft5">글 수정</a>
-                <a th:href="@{/adviceboard/delete/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;">글 삭제 | </a>
+                <a th:href="@{/adviceboard/modify/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;"
+                   class="paddingLeft5">글 수정</a>
+                <a th:href="@{/adviceboard/delete/{id}(id=${adviceboard.id})}" style="float: right; font-size: 10px;">글
+                    삭제 | </a>
             </div>
 
             <div class="marginTopLeft_1">
                 <span class="profileTxt" th:text="${adviceboard.writer}"></span>
                 <br/>
-                <span class="profileTxt" th:text="${#temporals.format(adviceboard.regDate, 'yyyy.MM.dd')} + ' 작성'"></span>
+                <span class="profileTxt"
+                      th:text="${#temporals.format(adviceboard.regDate, 'yyyy.MM.dd')} + ' 작성'"></span>
             </div>
 
             <div class="marginTopLeft_1 bodyLast">
-                <span th:utext="${#strings.replace(adviceboard.content, nlString, '&lt;br /&gt;')}"></span>            </div>
+                <span th:utext="${#strings.replace(adviceboard.content, nlString, '&lt;br /&gt;')}"></span></div>
         </div>
 
         <!-- 댓글 작성 란 -->
         <div class="bodyContent">
             <form id="textForm" th:action="@{/comments/addComment}" th:object="${commentReqDTO}" method="post">
-                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}"/>
                 <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
                 <div>
-                    <input type="text" class="inputSize" id="writer" th:field="*{writer}" placeholder="작성자를 입력해주세요." required />
+                    <input type="text" class="inputSize" id="writer" th:field="*{writer}" placeholder="작성자를 입력해주세요."
+                           required/>
                 </div>
 
                 <!-- 댓글 내용 -->
@@ -60,7 +64,7 @@
         <!-- 댓글 수정 란 -->
         <div id="updateForm" class="bodyContent" style="display: none">
             <form th:action="@{/comments/updateComment}" th:object="${commentReqDTO}" method="post">
-                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}" />
+                <input type="hidden" name="adviceboardId" th:value="${adviceboard.id}"/>
                 <input type="hidden" name="id" id="id"/>
                 <!-- 로그인 후 세션 변수 정해지면 hidden으로 처리 하면 됨 -->
                 <div>
@@ -68,7 +72,8 @@
                 </div>
 
                 <!-- 댓글 내용 -->
-                <textarea name="content" id="updateContent" placeholder="댓글 내용" class="inputSize textAreaSize"></textarea>
+                <textarea name="content" id="updateContent" placeholder="댓글 내용"
+                          class="inputSize textAreaSize"></textarea>
                 <div class="submitDiv">
                     <button type="button" class="submitBtn" th:onclick="|closeNoIdx()|">수정취소</button>
                     <button type="submit" class="submitBtn">댓글 수정</button>
@@ -80,8 +85,10 @@
             <div class="commentContent">
                 <div>
                     <div>
-                        <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}" class="paddingLeft5 borderRound" style="float: right">삭제</a>
-                        <a href="#none" style="float: right" class="borderRound" th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
+                        <a th:href="@{/comments/deleteComment/{commentId}/{boardId}(commentId=${comment.id}, boardId=${adviceboard.id})}"
+                           class="paddingLeft5 borderRound" style="float: right">삭제</a>
+                        <a href="#none" style="float: right" class="borderRound"
+                           th:onclick="|javascript:showUpdateForm('${stat.index}')|">수정 |</a>
                     </div>
                     <div class="commentBd">
                         <span th:utext="${#strings.replace(comment.content, nlString, '&lt;br /&gt;')}">댓글내용</span>
@@ -90,8 +97,10 @@
 
                 <div class="bottomInfo">
                     <span style="font-size:12px;">^____^</span>
-                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate == null}" th:text="${#temporals.format(comment.createdDate, 'yyyy.MM.dd')} + ' 작성'">작성 날짜</span>
-                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate != null}" th:text="${#temporals.format(comment.updatedDate, 'yyyy.MM.dd')} + ' 작성'">수정 날짜</span>
+                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate == null}"
+                          th:text="${#temporals.format(comment.createdDate, 'yyyy.MM.dd')} + ' 작성'">작성 날짜</span>
+                    <span class="bottomTxt paddingLeft5" th:if="${comment.updatedDate != null}"
+                          th:text="${#temporals.format(comment.updatedDate, 'yyyy.MM.dd')} + ' 작성'">수정 날짜</span>
                     <span class="bottomTxt" th:text="${comment.writer} + ' 님이'">댓글 작성자</span>
                 </div>
             </div>

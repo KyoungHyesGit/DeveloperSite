@@ -12,7 +12,8 @@
     <div class="layout container">
         <h1 style="text-align: center; margin-bottom: 50px;margin-top: 30px">임시 공고 등록</h1>
 
-        <form style="max-width: 1040px;padding-left: 180px" action="#" th:action="@{/jobPostTemp/add}" th:object="${jobPostTempReqDTO}" method="post">
+        <form style="max-width: 1040px;padding-left: 180px" action="#" th:action="@{/jobPostTemp/add}"
+              th:object="${jobPostTempReqDTO}" method="post">
             <!-- TODO 유저로 뽑기 -->
 
             <div class="form-group row" style="padding-bottom: 10px">
@@ -33,7 +34,8 @@
             <div class="form-group row" style="padding-bottom: 10px;">
                 <label for="detail" class="col-sm-4 col-form-label">detail *</label>
                 <div class="col-sm-8">
-                    <textarea th:field="*{detail}" id="detail" class="form-control" style="height: 500px; resize:none"></textarea>
+                    <textarea th:field="*{detail}" id="detail" class="form-control"
+                              style="height: 500px; resize:none"></textarea>
                     <span th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></span>
                 </div>
             </div>

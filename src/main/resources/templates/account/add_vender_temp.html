@@ -26,68 +26,70 @@
 
 <body>
 <th:block layout:fragment="content">
-<h2 class="resumeH2 text-center">회사 등록</h2>
-<div class="container">
-<form id="subm" action="#" th:action="@{/vender/add}" th:object="${venderTempReqDTO}" method="post" enctype="multipart/form-data">
-    <label for="name">회사명 *</label><br>
-    <input type="text" th:field="*{name}" id="name" required >
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-    <button type="button" id="nameCheckButton">이름 중복확인</button>
-    <div id="nameMessage"></div>
-    <br/>
-    <label for="bNo">사업자 등록 번호 *</label><br>
-    <input type="text" th:field="*{bNo}" id="bNo" required >
-    <span th:if="${#fields.hasErrors('bNo')}" th:errors="*{bNo}"></span>
-    <button type="button" id="bNoCheckButton">사업자 등록번호 인증</button>
-    <div id="bNoMessage"></div>
-    <br/>
-    <label for="photo">대표사진</label>
-    <input type="file" id="photo" name="photo">
-    <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
-    <br>
-    <label for="email">이메일 *</label><br>
-    <input type="email" th:field="*{email}" id="email" required>
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-    <br/>
+    <h2 class="resumeH2 text-center">회사 등록</h2>
+    <div class="container">
+        <form id="subm" action="#" th:action="@{/vender/add}" th:object="${venderTempReqDTO}" method="post"
+              enctype="multipart/form-data">
+            <label for="name">회사명 *</label><br>
+            <input type="text" th:field="*{name}" id="name" required>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <button type="button" id="nameCheckButton">이름 중복확인</button>
+            <div id="nameMessage"></div>
+            <br/>
+            <label for="bNo">사업자 등록 번호 *</label><br>
+            <input type="text" th:field="*{bNo}" id="bNo" required>
+            <span th:if="${#fields.hasErrors('bNo')}" th:errors="*{bNo}"></span>
+            <button type="button" id="bNoCheckButton">사업자 등록번호 인증</button>
+            <div id="bNoMessage"></div>
+            <br/>
+            <label for="photo">대표사진</label>
+            <input type="file" id="photo" name="photo">
+            <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></span>
+            <br>
+            <label for="email">이메일 *</label><br>
+            <input type="email" th:field="*{email}" id="email" required>
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <br/>
 
-    <label for="phone">전화번호</label><br>
-    <input type="text" th:field="*{phone}" id="phone" required>
-    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
-    <br/>
-
-
-    <label for="zipcode">우편번호</label><br>
-    <input type="text" th:field="*{zipcode}" id="zipcode" required>
-    <span th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"></span>
-    <input type="button" value="우편번호 검색" onclick="findAddr()">
-    <br/>
-    <label for="streetAddr">도로명주소</label><br>
-    <input type="text" th:field="*{streetAddr}" id="streetAddr">
-    <span th:if="${#fields.hasErrors('streetAddr')}" th:errors="*{streetAddr}"></span>
-    <br/>
-    <label for="detailAddr">상세주소</label><br>
-    <input type="text" th:field="*{detailAddr}" id="detailAddr" required>
-    <span th:if="${#fields.hasErrors('detailAddr')}" th:errors="*{detailAddr}"></span>
-    <br/>
-    <label for="extraAddr">참고항목</label><br>
-    <input type="text" th:field="*{extraAddr}" id="extraAddr">
-    <span th:if="${#fields.hasErrors('extraAddr')}" th:errors="*{extraAddr}"></span>
-    <br/>
-    <hr>
-    <div id="map" style="width:500px;height:400px;"></div>
-    <hr>
+            <label for="phone">전화번호</label><br>
+            <input type="text" th:field="*{phone}" id="phone" required>
+            <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+            <br/>
 
 
-    <input type="submit" id="subbtn" value="등록신청">
+            <label for="zipcode">우편번호</label><br>
+            <input type="text" th:field="*{zipcode}" id="zipcode" required>
+            <span th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"></span>
+            <input type="button" value="우편번호 검색" onclick="findAddr()">
+            <br/>
+            <label for="streetAddr">도로명주소</label><br>
+            <input type="text" th:field="*{streetAddr}" id="streetAddr">
+            <span th:if="${#fields.hasErrors('streetAddr')}" th:errors="*{streetAddr}"></span>
+            <br/>
+            <label for="detailAddr">상세주소</label><br>
+            <input type="text" th:field="*{detailAddr}" id="detailAddr" required>
+            <span th:if="${#fields.hasErrors('detailAddr')}" th:errors="*{detailAddr}"></span>
+            <br/>
+            <label for="extraAddr">참고항목</label><br>
+            <input type="text" th:field="*{extraAddr}" id="extraAddr">
+            <span th:if="${#fields.hasErrors('extraAddr')}" th:errors="*{extraAddr}"></span>
+            <br/>
+            <hr>
+            <div id="map" style="width:500px;height:400px;"></div>
+            <hr>
 
-</form>
-</div>
+
+            <input type="submit" id="subbtn" value="등록신청">
+
+        </form>
+    </div>
 
     <!-- TODO JS로 분리하기 -->
     <!-- TODO <script type="text/javascript" th:src="@{/js/job_post_temp/add-post-temp.js}"></script>-->
     <script>
 
         var findAddrFlag = false;
+
         function findAddr() {
             findAddrFlag = true;
             console.log("findAddr");
@@ -189,11 +191,11 @@
                     name: name
                 },
                 success: function (response) {
-                    console.log("response"+response);
+                    console.log("response" + response);
                     if (response === "사용 가능한!") {
-                        nameMessage.textContent  = response;
+                        nameMessage.textContent = response;
                     } else {
-                        nameMessage.textContent  = response;
+                        nameMessage.textContent = response;
                     }
                 },
                 error: function (error) {
@@ -212,18 +214,18 @@
             // AJAX 요청을 보냅니다.
             $.ajax({
                 type: "POST",
-                url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey="+serviceKey,
+                url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + serviceKey,
                 data: JSON.stringify({b_no: [bNo]}),
                 contentType: "application/json", // 데이터 형식을 JSON으로 설정
                 success: function (response) {
-                    console.log("response"+response);
+                    console.log("response" + response);
                     // API 응답에서 tax_type 값을 추출
                     var taxType = response.data[0].tax_type;
 
                     // tax_type 값을 bNoMessage.textContent에 설정
-                    if(taxType=='국세청에 등록되지 않은 사업자등록번호입니다.'){
+                    if (taxType == '국세청에 등록되지 않은 사업자등록번호입니다.') {
                         bNoMessage.textContent = taxType;
-                    }else{
+                    } else {
                         bNoMessage.textContent = '인증 완료';
                     }
                 },

@@ -10,17 +10,19 @@
 <body>
 <header></header>
 <div class="layout container" style="padding-top: 30px">
-    <form style="max-width: 1040px;padding-left: 180px"action="#" th:action="@{/adviceboard/writedo}" th:object="${adviceBoardReqDTO}" method="post">
+    <form style="max-width: 1040px;padding-left: 180px" action="#" th:action="@{/adviceboard/writedo}"
+          th:object="${adviceBoardReqDTO}" method="post">
 
         <div class="form-group row" style="padding-bottom: 10px">
             <label for="inputTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
             <div class="col-sm-10">
-                <input type="text" required th:field="*{title}" class="form-control" id="inputTitle" style="width: 100%"/>
+                <input type="text" required th:field="*{title}" class="form-control" id="inputTitle"
+                       style="width: 100%"/>
                 <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
             </div>
         </div>
 
-        <div class="form-group row"style="padding-bottom: 10px;">
+        <div class="form-group row" style="padding-bottom: 10px;">
             <label for="inputCategory" class="col-sm-2 col-form-label"><strong>카테고리</strong></label>
             <div class="col-sm-10">
                 <select th:field="*{category}" class="form-control" id="inputCategory" style="width: 100%">
@@ -38,9 +40,10 @@
         </div>
 
         <div class="form-group row" style="padding-bottom: 10px">
-            <label for="inputWriter" class="col-sm-2 col-form-label" ><strong>작성자</strong></label>
+            <label for="inputWriter" class="col-sm-2 col-form-label"><strong>작성자</strong></label>
             <div class="col-sm-10">
-                <input type="text" required th:field="*{writer}" class="form-control" id="inputWriter" style="width: 100%"/>
+                <input type="text" required th:field="*{writer}" class="form-control" id="inputWriter"
+                       style="width: 100%"/>
                 <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}" class="error"></p>
             </div>
         </div>

@@ -5,28 +5,28 @@
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<!--가입성공 메세지-->
-<script th:if="${successMessage}">
-    alert("회원가입 완료!");
-</script>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+    <!--가입성공 메세지-->
+    <script th:if="${successMessage}">
+        alert("회원가입 완료!");
+    </script>
 
-<!--로그인 실패 메세지-->
-<script th:if="${loginx}">
-    alert("로그인 실패!\n이메일 또는 비밀번호 확인");
-</script>
-<h2 class="resumeH2 text-center">회사회원 로그인</h2>
-<form action="/account/loginv" method="post">
-    <input type="text" name="venderEmail" placeholder="이메일@aaa" class="in">
-    <input type="password" name="venderPasswd" placeholder="비밀번호" class="in">
-    <input type="submit" id="btn" value="로그인"><br>
-    <button type="button" onclick="location.href='http://localhost/account/signuppagev'">회원가입</button>
-</form>
-</body>
+    <!--로그인 실패 메세지-->
+    <script th:if="${loginx}">
+        alert("로그인 실패!\n이메일 또는 비밀번호 확인");
+    </script>
+    <h2 class="resumeH2 text-center">회사회원 로그인</h2>
+    <form action="/account/loginv" method="post">
+        <input type="text" name="venderEmail" placeholder="이메일@aaa" class="in">
+        <input type="password" name="venderPasswd" placeholder="비밀번호" class="in">
+        <input type="submit" id="btn" value="로그인"><br>
+        <button type="button" onclick="location.href='http://localhost/account/signuppagev'">회원가입</button>
+    </form>
+    </body>
 </th:block>
 <script>
     function setCookie(name, value, days) {

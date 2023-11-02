@@ -5,34 +5,34 @@
 <meta charset="UTF-8">
 
 <th:block layout:fragment="content">
-<div class="layout container" style="max-width: 1000px; margin-top: 20px">
-    <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
-        <h2 class="resumeH2 text-center">카테고리</h2>
-        <select name="category" class="form-control">
-            <option value="신입" th:selected="${adviceboard.category == '신입'}">신입</option>
-            <option value="취준" th:selected="${adviceboard.category == '취준'}">취준</option>
-            <option value="이직" th:selected="${adviceboard.category == '이직'}">이직</option>
-            <option value="면접" th:selected="${adviceboard.category == '면접'}">면접</option>
-            <option value="자소서" th:selected="${adviceboard.category == '자소서'}">자소서</option>
-            <option value="Q&A" th:selected="${adviceboard.category == 'Q&A'}">Q&A</option>
-            <option value="잡담" th:selected="${adviceboard.category == '잡담'}">잡담</option>
-            <option value="채용공고" th:selected="${adviceboard.category == '채용공고'}">채용공고</option>
-        </select>
-        <br>
-        <h2 style="font-size: 1.5rem">제목</h2>
-        <input name="title" type="text" th:value="${adviceboard.title}" class="form-control">
-        <br>
-        <h2 style="font-size: 1.5rem">작성자</h2>
-        <input name="writer" type="text" th:value="${adviceboard.writer}" class="form-control">
-        <br>
-        <h2 style="font-size: 1.5rem">내용</h2>
-        <textarea name="content" th:text="${adviceboard.content}" class="form-control"
-                  style="resize: none; height: 200px"></textarea>
-        <br>
+    <div class="layout container" style="max-width: 1000px; margin-top: 20px">
+        <form th:action="@{/adviceboard/update/{id}(id=${adviceboard.id})}" method="post">
+            <h2 class="resumeH2 text-center">카테고리</h2>
+            <select name="category" class="form-control">
+                <option value="신입" th:selected="${adviceboard.category == '신입'}">신입</option>
+                <option value="취준" th:selected="${adviceboard.category == '취준'}">취준</option>
+                <option value="이직" th:selected="${adviceboard.category == '이직'}">이직</option>
+                <option value="면접" th:selected="${adviceboard.category == '면접'}">면접</option>
+                <option value="자소서" th:selected="${adviceboard.category == '자소서'}">자소서</option>
+                <option value="Q&A" th:selected="${adviceboard.category == 'Q&A'}">Q&A</option>
+                <option value="잡담" th:selected="${adviceboard.category == '잡담'}">잡담</option>
+                <option value="채용공고" th:selected="${adviceboard.category == '채용공고'}">채용공고</option>
+            </select>
+            <br>
+            <h2 style="font-size: 1.5rem">제목</h2>
+            <input name="title" type="text" th:value="${adviceboard.title}" class="form-control">
+            <br>
+            <h2 style="font-size: 1.5rem">작성자</h2>
+            <input name="writer" type="text" th:value="${adviceboard.writer}" class="form-control">
+            <br>
+            <h2 style="font-size: 1.5rem">내용</h2>
+            <textarea name="content" th:text="${adviceboard.content}" class="form-control"
+                      style="resize: none; height: 200px"></textarea>
+            <br>
 
-        <button type="submit" class="btn btn-primary" style="float: right">수정</button>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary" style="float: right">수정</button>
+        </form>
+    </div>
 
 </th:block>
 </html>

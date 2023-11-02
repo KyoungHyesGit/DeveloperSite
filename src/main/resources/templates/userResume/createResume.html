@@ -68,14 +68,16 @@
             <br/>
         </div>
         <div class="text-center">
-            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장</button>
+            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장
+            </button>
             &nbsp;&nbsp;
-            <button class="resumeIbtn"><a th:href="@{/userResume/{id}(id=${userId})}"><i class="fa-solid fa-rotate-left"></i>취소</a></button>
+            <button class="resumeIbtn"><a th:href="@{/userResume/{id}(id=${userId})}"><i
+                    class="fa-solid fa-rotate-left"></i>취소</a></button>
         </div>
     </form>
 </th:block>
 <script>
-    document.getElementById("saveButton").addEventListener("click", function() {
+    document.getElementById("saveButton").addEventListener("click", function () {
         if (confirm("이력서을 저장하시겠습니까?")) {
             // 사용자가 "확인"을 선택한 경우 폼을 제출합니다.
             document.querySelector("form").submit();

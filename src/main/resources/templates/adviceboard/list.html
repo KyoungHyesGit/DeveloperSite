@@ -15,7 +15,8 @@
         <div class="form-group d-flex" style="align-items: center; margin-bottom: 10px">
             <form action="/adviceboard/list" method="get" class="d-flex" style="align-items: center;">
                 <label for="filterCategory" class="mr-2"><strong>카테고리 필터:</strong></label>
-                <select id="filterCategory" name="filterCategory" class="form-control" style="width: 200px;margin-left: 10px; text-align: center">
+                <select id="filterCategory" name="filterCategory" class="form-control"
+                        style="width: 200px;margin-left: 10px; text-align: center">
                     <option value="all" th:selected="${filterCategory == 'all'}">모든 카테고리</option>
                     <option value="신입" th:selected="${filterCategory == '신입'}">신입</option>
                     <option value="취준" th:selected="${filterCategory == '취준'}">취준</option>
@@ -30,8 +31,9 @@
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px ">카테고리 적용</button>
             </form>
 
-            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:392px">
-                <label for="sort" class="mr-2" style="margin-right: 8px">정렬  </label>
+            <form action="/adviceboard/list" method="get" class="d-flex ml-2"
+                  style="align-items: center;margin-left:392px">
+                <label for="sort" class="mr-2" style="margin-right: 8px">정렬 </label>
                 <select name="sort" id="sort" class="form-control" style="width: 180px;text-align: center">
                     <option value="id,desc" th:selected="${sort == 'id,desc'}">작성일(최신순)</option>
                     <option value="id,asc" th:selected="${sort == 'id,asc'}">작성일(오래된순)</option>
@@ -90,7 +92,7 @@
                     </select>
                     <label for="searchKeyword" style="margin-left: 10px; margin-right: 10px">검색어</label>
                     <input type="text" id="searchKeyword" name="searchKeyword" th:value="${searchKeyword}"/>
-                    <button type="submit" style="margin-left: 3px" >검색</button>
+                    <button type="submit" style="margin-left: 3px">검색</button>
                 </div>
             </form>
 
@@ -132,14 +134,16 @@
     /*    display: inline-block;*/
     /*}*/
 
-    .btn-primary{
+    .btn-primary {
 
     }
+
     .pagination {
         position: sticky;
         bottom: 0;
         background-color: #fff; /* 원하는 배경색 설정 */
     }
+
     .pagination li {
         display: inline;
         margin: 0 5px; /* 페이지 번호 간의 간격 조정 */
@@ -158,7 +162,7 @@
         width: 100%;
     }
 
-    .text-center:hover{
+    .text-center:hover {
         font-weight: bold;
     }
 </style>

@@ -4,7 +4,7 @@
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
 <th:block layout:fragment="content">
-    <h2 class="resumeH2 text-center" >내 이력서</h2>
+    <h2 class="resumeH2 text-center">내 이력서</h2>
     <div class="table_container">
         <button class="create-resume-button" onclick="location.href='/userResume/showCreateResumePage'">
             <i class="fa-regular fa-pen-to-square"></i>&nbsp;&nbsp;이력서 작성하기
@@ -27,7 +27,8 @@
                     </a>
                 </td>
                 <td>
-                    <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}" th:text="${resume.resume_title_1}"></a>
+                    <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"
+                       th:text="${resume.resume_title_1}"></a>
                 </td>
             </tr>
             </tbody>

@@ -15,13 +15,14 @@
                 <h2 th:text="${jobDetail.title}"></h2>
             </div>
             <div class="dt_two">
-                <button th:id="'likeButton_' + ${jobDetail.id}"  th:data-vender-id="${jobDetail.venderResDTO.venderId}"
-                        th:data-job-post-id="${jobDetail.id}" th:data-user-id="${userId}" class="like-button"><i class="fa-solid fa-star" style="color: #c8c8c8; font-size: 30px;"></i>
+                <button th:id="'likeButton_' + ${jobDetail.id}" th:data-vender-id="${jobDetail.venderResDTO.venderId}"
+                        th:data-job-post-id="${jobDetail.id}" th:data-user-id="${userId}" class="like-button"><i
+                        class="fa-solid fa-star" style="color: #c8c8c8; font-size: 30px;"></i>
                 </button>&nbsp;&nbsp;
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         var $button = $('.like-button');
                         var $star = $button.find('i.fa-solid.fa-star'); // 아이콘 요소를 찾습니다
                         var venderId = $button.data('vender-id');
@@ -29,21 +30,33 @@
                         var userId = $button.data('user-id'); // 사용자 ID
 
                         // 페이지 로드 시 찜 상태 확인
-                        $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                        $.get("/api/checkLike", {
+                            userId: userId,
+                            venderId: venderId,
+                            jobPostId: jobPostId
+                        }, function (data, status) {
                             if (status === "success" && data === true) {
                                 // 이미 찜되어 있다면 버튼 색상을 노란색으로 변경
                                 $star.css('color', '#FFD400');
                             }
                         });
 
-                        $button.click(function() {
+                        $button.click(function () {
                             // 이미 찜되어 있는지 확인
-                            $.get("/api/checkLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                            $.get("/api/checkLike", {
+                                userId: userId,
+                                venderId: venderId,
+                                jobPostId: jobPostId
+                            }, function (data, status) {
                                 if (status === "success" && data === true) {
                                     // 이미 찜되어 있다면 찜 취소할 것인지 확인
                                     if (confirm("찜을 취소하시겠습니까?")) {
                                         // 사용자가 확인하면 찜 데이터 삭제
-                                        $.post("/api/removeLike", { userId: userId, venderId: venderId, jobPostId: jobPostId }, function(data, status) {
+                                        $.post("/api/removeLike", {
+                                            userId: userId,
+                                            venderId: venderId,
+                                            jobPostId: jobPostId
+                                        }, function (data, status) {
                                             if (status === "success" && data.message === "success") {
                                                 // 찜 삭제가 성공했으므로 버튼 색상 변경
                                                 $star.css('color', '#c8c8c8');
@@ -81,9 +94,6 @@
                    th:if="${!isAlreadyApplied}">입사지원</a>
                 <a sec:authorize="isAuthenticated()" th:if="${isAlreadyApplied}"
                    th:href="@{/jpApply/jpApplyList/{id}(id=${userId})}" class="job_Dbtn2">지원완료</a>
-
-
-
             </div>
         </div>
         <div>

@@ -82,7 +82,8 @@
             <br/>
         </div>
         <div class="text-center">
-            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장</button>
+            <button type="submit" class="resumeIbtn" id="saveButton"><i class="fa-solid fa-floppy-disk"></i> &nbsp;&nbsp;저장
+            </button>
             &nbsp;&nbsp;
             <a th:href="@{/userResume/showDetailForm/{id}(id=${resume.id})}"><i class="fa-solid fa-rotate-left"></i>돌아가기</a>
         </div>
@@ -102,7 +103,8 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    document.getElementById("saveButton").addEventListener("click", function(event) {
+
+    document.getElementById("saveButton").addEventListener("click", function (event) {
         event.preventDefault(); // 기본 제출 동작을 중지
 
         if (confirm("변경 사항을 저장하시겠습니까?")) {
