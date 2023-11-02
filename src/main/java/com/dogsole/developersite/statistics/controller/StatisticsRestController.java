@@ -26,4 +26,9 @@ public class StatisticsRestController {
         return statisticsService.countUsersByBirthYear();
     }
 
+    @GetMapping("/count-by-birth-5year")
+    public List<PontoResDTO> countUsersByBirth5Year() {
+        return statisticsService.countUsersByBirth5Year();
+    }
+
 }

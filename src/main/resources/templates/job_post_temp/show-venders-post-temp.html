@@ -59,11 +59,11 @@
                 </td>
 
                 <td>
-                    <span th:text="${#dates.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:text="${#temporals.format(postTemp.createDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                 </td>
 
                 <td>
-                    <span th:text="${#dates.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:text="${#temporals.format(postTemp.updateDt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                 </td>
 
 

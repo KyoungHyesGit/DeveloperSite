@@ -23,8 +23,8 @@
                     <li>|</li>
                     <li><a href="/adviceboard/list" class="menuBtn">커뮤니티</a></li>
                     <li class="navgator">
-                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${#strings.isEmpty(userId)}">로그인</a>
-                        <a class="logBtn" id="logoutBtn" href="/logout" th:if="${not #strings.isEmpty(userId)}">로그아웃</a>
+                        <a class="logBtn" id="loginBtn" href="/account/loginpage" th:if="${#strings.isEmpty(loginUserId)}">로그인</a>
+                        <a class="logBtn" id="logoutBtn" href="/logout" th:if="${not #strings.isEmpty(loginUserId)}">로그아웃</a>
                         <a href="/userMypage">마이페이지</a>
                         <a href="/adminPage">관리자페이지</a>
                     </li>

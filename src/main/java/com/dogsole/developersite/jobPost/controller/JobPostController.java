@@ -37,7 +37,9 @@ public class JobPostController {
 
     // 전체공고리스트(main)
     @GetMapping("/jobList")
-    public String allJobPost(Model model, @PageableDefault(size = 10) Pageable pageable){
+    public String allJobPost(Model model,  @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                             @RequestParam(name = "size", required = false, defaultValue = "12") int size){
+        Pageable pageable = PageRequest.of(page, size);
         Page<JobPostResDTO> jobList = jobPostService.getAllPost(pageable);
         model.addAttribute("jobList", jobList);
         return "/job_post/jobList";

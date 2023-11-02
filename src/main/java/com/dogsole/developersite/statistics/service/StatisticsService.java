@@ -34,4 +34,14 @@ public class StatisticsService {
 
         return pontoResDTOs;
     }
+
+    public List<PontoResDTO> countUsersByBirth5Year() {
+        // 엔티티 리스트를 DTO 리스트로 변환
+        List<PontoResDTO> pontoResDTOs = userRepository.countUsersByBirth5Year()
+                .stream()
+                .map(objects -> new PontoResDTO((String) objects[0],(Long) objects[1]))
+                .collect(Collectors.toList());
+
+        return pontoResDTOs;
+    }
 }

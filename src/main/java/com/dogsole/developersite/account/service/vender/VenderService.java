@@ -75,6 +75,20 @@ public class VenderService {
         // 임시테이블에서 본 테이블로 복사
         VenderTempEntity venderTempEntity = venderTempRepository.findById(id).orElseThrow(()->new BusinessException("검색 결과 없음", HttpStatus.NOT_FOUND));;
 
+        VenderEntity venderEntity = venderRepository.findByTempId(id);
+
+        UserEntity userEntity = userRepository.findById(venderTempEntity.getUserId()).get();
+
+        if(venderEntity!=null){
+            venderRepository.delete(venderEntity);
+
+            if(userEntity!=null && userEntity.getVenderId()!=null){
+                userEntity.setVenderId(null);
+            }
+        }
+
+
+
         venderTempEntity.setReqState("R"); //R Refuse
     }
 

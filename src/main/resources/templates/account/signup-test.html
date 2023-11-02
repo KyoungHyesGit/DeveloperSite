@@ -130,79 +130,79 @@
                 </button>
                 <script type="text/javascript">
                     var isCertification = false;
+                    var countdown;
+                    var timerDisplay; // timerDisplay 변수를 전역으로 선언
 
                     function sendNumber() {
                         var sendBtn = document.getElementById("sendBtn");
-                        var timerDisplay = document.getElementById("timer");
+                        timerDisplay = document.getElementById("timer"); // timerDisplay를 설정
 
                         if (sendBtn) {
-                            sendBtn.disabled = true; // 인증 버튼 비활성화
+                            sendBtn.disabled = true;
                         }
                         $("#mail_number").css("display", "block");
                         $.ajax({
                             url: "/mail",
                             type: "post",
                             crossDomain: true,
-                            headers: {'Access-Control-Allow-Origin': 'http://The web site allowed to access'},
+                            headers: { 'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
                             dataType: "json",
-                            data: {"mail": $("#u_email").val()},
+                            data: { "mail": $("#u_email").val() },
                             success: function (data) {
-                                alert("인증번호 발송");
+                                alert("인증번호가 전송되었습니다。");
                                 var message = data.message;
-                                console.log("message= " + message); // 이메일 전송에 성공했습니다.
-                                // 이제 message 변수에 서버에서 보낸 메시지가 들어 있습니다.
+                                console.log("message= " + message);
                                 var confirmationNumber = data.confirmationNumber;
                                 console.log("confirmationNumber= " + confirmationNumber);
 
                                 $("#Confirm").val(confirmationNumber);
                                 isCertification = false;
-                                if (timerDisplay) {
-                                    var minutes = 5; // 타이머 시간(분)
-                                    var seconds = 0; // 초 초기값
-
-                                    var countdown = setInterval(function () {
-                                        if (seconds === 0) {
-                                            minutes--;
-                                            seconds = 59;
-                                        } else {
-                                            seconds--;
-                                        }
-
-                                        timerDisplay.innerHTML = "남은 시간: " + minutes + "분 " + seconds + "초";
-
-                                        if (minutes === 0 && seconds === 0) {
-                                            clearInterval(countdown); // 타이머 중지
-                                            timerDisplay.innerHTML = ""; // 타이머 메시지 제거
-                                            alert("인증 시간이 만료되었습니다.");
-                                            if (sendBtn) {
-                                                sendBtn.disabled = false; // 버튼 활성화
-                                            }
-                                        }
-                                    }, 1000);
-                                }
-
+                                countdown = startTimer(5, 0, timerDisplay); // timerDisplay를 전달
                             },
-
                             error: function (xhr, status, error) {
                                 alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
                                 if (sendBtn) {
-                                    sendBtn.disabled = false; // 실패 시 버튼 활성화
+                                    sendBtn.disabled = false;
                                 }
                             }
                         });
                     }
 
-                    //인증번호 확인
+                    function startTimer(minutes, seconds, timerDisplay) {
+                        return setInterval(function () {
+                            if (seconds === 0) {
+                                minutes--;
+                                seconds = 59;
+                            } else {
+                                seconds--;
+                            }
+
+                            timerDisplay.innerHTML = "인증 유효 시간: " + minutes + "분 " + seconds + "초";
+
+                            if (minutes === 0 && seconds === 0) {
+                                clearInterval(countdown);
+                                timerDisplay.innerHTML = "";
+                                alert("인증 유효 시간이 만료되었습니다。");
+                                var sendBtn = document.getElementById("sendBtn");
+                                if (sendBtn) {
+                                    sendBtn.disabled = false;
+                                }
+                            }
+                        }, 1000);
+                    }
+
                     function confirmNumber() {
                         var enteredNumber = $("#number").val();
                         var confirmationNumber = $("#Confirm").val();
                         const $resultMsg = $('#mail-check-warn');
-                        console.log(confirmationNumber);
+
                         if ((enteredNumber === confirmationNumber) && enteredNumber) {
                             $resultMsg.html('인증 성공');
                             $resultMsg.css('color', 'green');
                             isCertification = true;
                             $("#signupButton").prop("disabled", false);
+                            clearInterval(countdown);
+                            timerDisplay.innerHTML = "";
                         } else {
                             $resultMsg.html('인증번호 불일치');
                             $resultMsg.css('color', 'red');
@@ -210,6 +210,7 @@
                             $("#signupButton").prop("disabled", true);
                         }
                     }
+
                 </script>
                 <br>
                 <span class="err_id">* ex) aaa@aaa.com</span>
