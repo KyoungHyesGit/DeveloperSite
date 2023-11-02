@@ -88,7 +88,7 @@ public class SecurityConfig {
                                     cookie.setDomain("");
 
                                     Cookie loginUserId = new Cookie("loginUserId", userDetails.getUserId().toString());
-                                    loginUserId.setMaxAge(1800);
+                                    loginUserId.setMaxAge(18000);
                                     loginUserId.setPath("/") ;
                                     loginUserId.setDomain("");
 

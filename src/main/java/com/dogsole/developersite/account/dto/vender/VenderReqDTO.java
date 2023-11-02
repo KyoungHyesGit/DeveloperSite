@@ -1,5 +1,6 @@
 package com.dogsole.developersite.account.dto.vender;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -30,4 +31,12 @@ public class VenderReqDTO {
     private String photo;
 
     private String photoUrl;
+
+    private String phone;
+    private String bNo;
+    private String zipcode;
+    private String streetAddr;
+    private String detailAddr;
+    private String extraAddr;
+
 }

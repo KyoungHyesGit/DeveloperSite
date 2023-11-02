@@ -67,20 +67,21 @@
                 <i class="fa-solid fa-file-lines"></i>&nbsp;공고 등록
             </button>
         </a>
-        <a th:if="${venderId != null}">
+        <a>
             <button onclick="window.location.href = '/vender/add'">
                 <i class="fa-solid fa-building"></i>&nbsp;회사 등록 신청
             </button>
         </a>
-        <a th:if="${venderId != null}">
-            <button onclick="window.location.href = '/vender/add'">
-                <i class="fa-solid fa-building-user"></i>&nbsp;회사 정보 수정
+        <a th:if="${venderId != null}" th:href="@{/vender/edit/{id}(id=${venderId})}">
+            <button>
+                <i class="fa-solid fa-building-user"></i>&nbsp;회사 수정 신청
             </button>
         </a>
-
-        <a id="venderEditBtn">
-            <button onclick="updateLinkUrlVender('/vender/edit/','venderEditBtn')"><i class="fa-solid fa-file-lines"></i>&nbsp; 회사 정보 수정 신청</button>
-        </a>
+<!--        <a id="venderEditBtn">-->
+<!--            <button onclick="window.location.href = '/vender/add'">-->
+<!--                <i class="fa-solid fa-building"></i>&nbsp;회사 수정 신청-->
+<!--            </button>-->
+<!--        </a>-->
 
     </div>
 </th:block>

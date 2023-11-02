@@ -7,7 +7,7 @@
 <!--Header 영역을 참조합니다.-->
 <th:block th:replace="fragments/navbar :: navbarFragment"></th:block>
 <th:block layout:fragment="content">
-    <div class="container" style="max-width: 1120px; padding-top: 30px">
+    <div class="container" style="max-width: 1120px; padding-top: 50px">
         <div style="padding-bottom: 10px">
             전체 게시글 수: <span th:text="${list.totalElements}"></span>
         </div>
@@ -15,7 +15,7 @@
         <div class="form-group d-flex" style="align-items: center; margin-bottom: 10px">
             <form action="/adviceboard/list" method="get" class="d-flex" style="align-items: center;">
                 <label for="filterCategory" class="mr-2"><strong>카테고리 필터:</strong></label>
-                <select id="filterCategory" name="filterCategory" class="form-control" style="width: 200px;margin-left: 10px">
+                <select id="filterCategory" name="filterCategory" class="form-control" style="width: 200px;margin-left: 10px; text-align: center">
                     <option value="all" th:selected="${filterCategory == 'all'}">모든 카테고리</option>
                     <option value="신입" th:selected="${filterCategory == '신입'}">신입</option>
                     <option value="취준" th:selected="${filterCategory == '취준'}">취준</option>
@@ -30,9 +30,9 @@
                 <button type="submit" class="btn btn-primary ml-2" style="margin-left: 10px ">카테고리 적용</button>
             </form>
 
-            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:430px">
-                <label for="sort" class="mr-2">정렬 : </label>
-                <select name="sort" id="sort" class="form-control" style="width: 180px;margin-left: 10px">
+            <form action="/adviceboard/list" method="get" class="d-flex ml-2" style="align-items: center;margin-left:392px">
+                <label for="sort" class="mr-2" style="margin-right: 8px">정렬  </label>
+                <select name="sort" id="sort" class="form-control" style="width: 180px;text-align: center">
                     <option value="id,desc" th:selected="${sort == 'id,desc'}">작성일(최신순)</option>
                     <option value="id,asc" th:selected="${sort == 'id,asc'}">작성일(오래된순)</option>
                     <option value="commentCount,desc" th:selected="${sort == 'commentCount,desc'}">댓글(많은순)</option>
@@ -81,16 +81,16 @@
             </tbody>
         </table>
 
-        <div class="form-group d-flex justify-content-between align-items-center">
+        <div class="form-group d-flex justify-content-between align-items-center" style="margin-top: -12px">
             <form th:action="@{/adviceboard/list}" method="get">
                 <div class="d-flex">
-                    <select id="searchType" name="searchType" style="width: 80px">
+                    <select id="searchType" name="searchType" style="width: 80px; text-align: center">
                         <option value="writer">작성자</option>
                         <option value="title">제목</option>
                     </select>
                     <label for="searchKeyword" style="margin-left: 10px; margin-right: 10px">검색어</label>
                     <input type="text" id="searchKeyword" name="searchKeyword" th:value="${searchKeyword}"/>
-                    <button type="submit" style="margin-left: 3px">검색</button>
+                    <button type="submit" style="margin-left: 3px" >검색</button>
                 </div>
             </form>
 
@@ -98,7 +98,7 @@
                 <a href="/adviceboard/write" class="btn btn-primary ml-2">글쓰기</a>
             </div>
         </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
             <div class="col-12 d-flex justify-content-center align-items-center">
                 <ul class="pagination">
                     <li class="page-item" th:if="${list.hasPrevious() and not list.first}"
