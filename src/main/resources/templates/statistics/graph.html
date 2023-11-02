@@ -4,13 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
 <meta charset="UTF-8">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/graph.css">
     <title>Test 2</title>
 </head>
+
 <th:block layout:fragment="content">
-    <body>
+    <body style="margin-top: 70px">
 
     <script th:inline="javascript">
         window.onload =  function() {
@@ -54,6 +56,7 @@
                 }
             });
         }
+
     </script>
     <h2 class="resumeH2 text-center">회원 통계</h2>
     <div class="container">

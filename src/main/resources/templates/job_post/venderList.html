@@ -38,28 +38,31 @@
 
     </div>
     <!--  ---------------------------------------------------페이지네이션------------------------------------------------  -->
-    <div th:if="${venders.totalPages > 1}">
-        <ul class="pagination">
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/job_post/venderList(page=0, size=${venders.size})}" class="page-link">First</a>
-            </li>
-            <li th:if="${venders.hasPrevious}" class="page-item">
-                <a th:href="@{/job_post/venderList(page=${venders.number - 1}, size=${venders.size})}"
-                   class="page-link">Previous</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
-                <a th:href="@{/job_post/venderList(page=${i}, size=${venders.size})}" class="page-link"
-                   th:text="${i + 1}"></a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/job_post/venderList(page=${venders.number + 1}, size=${venders.size})}"
-                   class="page-link">Next</a>
-            </li>
-            <li th:if="${venders.hasNext}" class="page-item">
-                <a th:href="@{/job_post/venderList(page=${venders.totalPages - 1}, size=${venders.size})}"
-                   class="page-link">Last</a>
-            </li>
-        </ul>
+    <div class="col-12 d-flex justify-content-center align-items-center" style="margin-top: 10px">
+
+        <div th:if="${venders.totalPages > 1}">
+            <ul class="pagination">
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/job_post/venderList(page=0, size=${venders.size})}" class="page-link">First</a>
+                </li>
+                <li th:if="${venders.hasPrevious}" class="page-item">
+                    <a th:href="@{/job_post/venderList(page=${venders.number - 1}, size=${venders.size})}"
+                       class="page-link">Previous</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, venders.totalPages - 1)}" class="page-item">
+                    <a th:href="@{/job_post/venderList(page=${i}, size=${venders.size})}" class="page-link"
+                       th:text="${i + 1}"></a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/job_post/venderList(page=${venders.number + 1}, size=${venders.size})}"
+                       class="page-link">Next</a>
+                </li>
+                <li th:if="${venders.hasNext}" class="page-item">
+                    <a th:href="@{/job_post/venderList(page=${venders.totalPages - 1}, size=${venders.size})}"
+                       class="page-link">Last</a>
+                </li>
+            </ul>
+        </div>
     </div>
     </body>
 </th:block>
