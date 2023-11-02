@@ -3,32 +3,29 @@ table {
     border-collapse: collapse;
     width: 80%;
     margin: 20px auto;
-    background-color: #f0f8ff; /* 파란색 계열 배경색 */
-    border: 1px solid #0066cc; /* 파란색 계열 테두리 */
+
+    border: 1px solid #c8c8c8; /* 파란색 계열 테두리 */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
-    border: 1px solid #0066cc; /* 파란색 계열 셀 테두리 */
+    border: 1px solid #a9a9a9; /* 파란색 계열 셀 테두리 */
     padding: 8px;
     text-align: center;
 }
 
 th {
-    background-color: #0066cc; /* 파란색 계열 헤더 배경색 */
-    color: #fff;
+    background-color: #fff;
+    border-bottom: 2px solid #1287CF;
 }
 
-tr:nth-child(even) {
-    background-color: #cceeff; /* 파란색 계열 짝수 행 배경색 */
-}
+td{
+    color: #444343;
 
-tr:nth-child(odd) {
-    background-color: #b3d9ff; /* 파란색 계열 홀수 행 배경색 */
 }
 
 /* 마우스 호버 시 행 강조 효과 */
 tr:hover {
-    background-color: #99ccff; /* 파란색 계열 호버 배경색 */
+    background-color: #f2f2f2; /* 파란색 계열 호버 배경색 */
 }
