@@ -21,6 +21,8 @@
 .resumeH2{
     font-size: 2rem;
     padding-bottom: 1em;
+    font-weight: bold;
+    margin-top: 50px;
 }
 .resumeSection h3 {
     font-size: 1.2rem;    /* 글자 크기 */

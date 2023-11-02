@@ -113,7 +113,7 @@
             <!-- 내용 -->
             <div class="content">
                 <!-- 내용 추가 -->
-                <div th:text="${jobDetail.detail}"></div>
+                <div th:utext="${jobDetail.detail.replaceAll('\n', '<br>')}"></div>
             </div>
         </div>
     </div>
